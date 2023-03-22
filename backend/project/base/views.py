@@ -1,9 +1,39 @@
+            #Django Imports# 
 from django.shortcuts import render
+from django.http import JsonResponse
+from django.core import serializers
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.core.files.storage import FileSystemStorage
+from django.conf import settings
+from django.core.files.base import ContentFile
+from django.core.files import File
+#######################################
+          #Rest Framework Imports#
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+#######################################
+            #Python Imports#
+import requests
+import pandas as pd
 from .models import Product
+import json
+import secrets
+import sys
 
+#######################################
+            #Api Imports#
+#AliExpress
+
+sys.path.insert(0, './topsdk')
+
+from topsdk.client import TopApiClient, TopException
+#Ebay
+from ebaysdk.finding import Connection as Finding
+from ebaysdk.exception import ConnectionError
+
+#######################################
 # Create your views here.
 
 @api_view(['GET'])
@@ -74,3 +104,175 @@ def modifyAPI(request,modify,pk):
         return Response("Deleting " + modify + " ID: " + pk + "API using DELETE")
     else :
         return Response("UnValid Method")
+    
+###############################
+@api_view(['GET'])
+def getProducts(request):
+    products = Product.objects.all()
+    return Response(products)
+
+@api_view(['GET'])
+def getProduct(request, pk):
+    product = Product.objects.get(_id=pk)
+    return Response(product)
+
+@api_view(['GET'])
+def getProductsByStore(request, store):
+    products = Product.objects.filter(Store=store)
+    return Response(products)
+
+@api_view(['GET'])
+def getProductsByCategory(request, category):
+    products = Product.objects.filter(Category=category)
+    return Response(products)
+
+@api_view(['GET'])
+def getProductsBySubCategory(request, subcategory):
+    products = Product.objects.filter(SubCategory=subcategory)
+    return Response(products)
+
+@api_view(['GET'])
+def getProductsByBrand(request, brand):
+    products = Product.objects.filter(Brand=brand)
+    return Response(products)
+
+@api_view(['GET'])
+def getProductsByPrice(request, price):
+    products = Product.objects.filter(Price=price)
+    return Response(products)
+
+@api_view(['GET'])
+def getProductsByRating(request, rating):
+    products = Product.objects.filter(Rating=rating)
+    return Response(products)
+
+@api_view(['GET'])
+def getProductsByDiscount(request, discount):
+    products = Product.objects.filter(Discount=discount)
+    return Response(products)
+
+@api_view(['GET'])
+def productCount(request):
+    productCount = Product.objects.all().count()
+    return Response(productCount)
+
+@api_view(['GET'])
+def productCountFromStore(request, store):
+    productCount = Product.objects.filter(Store=store).count()
+    return Response(productCount)
+
+@api_view(['GET'])
+def productCountFromCategory(request, category):
+    productCount = Product.objects.filter(Category=category).count()
+    return Response(productCount)
+
+@api_view(['GET'])
+def productCountFromSubCategory(request, subcategory):
+    productCount = Product.objects.filter(SubCategory=subcategory).count()
+    return Response(productCount)
+
+###############################
+
+
+###########################
+# Function : callApi
+# Input : request, api , Keyword(Search String)
+# Output : Response (mostly Json)
+# Description : This function is used to call the APIs and return the data in Json format
+###########################
+def callApi_Ebay(request, Keyword):
+    
+        api = Finding(appid=Ebay_API_KEY, config_file=None)
+        api_request = {'keywords': Keyword}
+        try:
+            response = api.execute('findItemsAdvanced', api_request)
+            df = pd.DataFrame() 
+            df['id'] = [item.itemId for item in response.reply.searchResult.item] 
+            df['Name'] = [item.title for item in response.reply.searchResult.item]
+            df['Price(USD)'] = [item.sellingStatus.currentPrice.value for item in response.reply.searchResult.item]
+            df['Category'] = [item.primaryCategory.categoryName for item in response.reply.searchResult.item]
+            df['Rating'] = [item.storeInfo.storeName for item in response.reply.searchResult.item]
+            df['Discount'] = [item.storeInfo.storeName for item in response.reply.searchResult.item]
+            df['Image'] = [item.galleryURL for item in response.reply.searchResult.item]
+            df['URL'] = [item.viewItemURL for item in response.reply.searchResult.item]
+            df['Description'] = [item.title for item in response.reply.searchResult.item]
+            return Response(df.to_json)
+        except e:
+            print(e)
+            return Response("Error")
+def callApi_Rapid_AliExpress(request,Keyword):
+        try: 
+            client = TopApiClient(appkey= secrets.Aliexpress_App_KEY, app_sercet= secrets.Aliexpress_API_KEY,
+                          top_gateway_url='http://api.taobao.com/router/rest', verify_ssl=False)
+            
+            request_dict = {
+            "app_signature": "Marekti",
+            "keywords": Keyword,
+            "page_no": "1",
+            "target_currency": "USD",
+            "target_language": "en",
+            "tracking_id": "Marketi",
+            }
+
+            file_param_dict = {}
+            response = client.execute("aliexpress.affiliate.product.query",request_dict,file_param_dict)
+            json_obj = json.dumps(response, indent=4)
+            print(json_obj)
+            return Response(json_obj)
+        
+        except TopException as e:
+            print(e)
+            return Response("Error")
+def callApi_Rapid_AmazonApi(request,Keyword):
+        try:
+    
+            url = "https://amazon-product-reviews-keywords.p.rapidapi.com/product/search"
+
+            querystring = {"keyword":Keyword}
+
+            headers = {
+                "X-RapidAPI-Key": secrets.RAPID_API_KEY,
+                "X-RapidAPI-Host": "amazon23.p.rapidapi.com"
+            }
+
+            response = requests.request("GET", url, headers=headers, params=querystring)
+            return Response(response.json())
+        except Exception as e:
+            print(e)
+            return Response("Error")
+def callApi_Rapid_Shein(request,Keyword):
+        try:
+            url = "https://unofficial-shein-api.p.rapidapi.com/search"
+
+            querystring = {"query": Keyword}
+
+            headers = {
+                'X-RapidAPI-Key': secrets.Shein_Rapid_API_KEY,
+                'X-RapidAPI-Host': 'unofficial-shein.p.rapidapi.com'
+            }
+
+            response = requests.request("GET", url, headers=headers, params=querystring)
+            return Response(response.json())
+
+        except Exception as e:
+            print(e)
+            return Response("Error")
+def callApi_Rapid_RealTime(request,Keyword):     
+    try:
+        url = "https://unofficial-shein-api.p.rapidapi.com/search"
+
+        querystring = {"query":Keyword}
+
+        headers = {
+            'X-RapidAPI-Key': secrets.REALTIME_RAPID_API_KEY,
+            'X-RapidAPI-Host': 'real-time-product-search.p.rapidapi.com'
+            }
+
+        response = requests.request("GET", url, headers=headers, params=querystring)
+        return Response(response.json())
+        
+    except Exception as e:
+        print(e)
+        return Response("Error")
+
+
