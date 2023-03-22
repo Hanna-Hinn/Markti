@@ -29,6 +29,7 @@ import sys
 sys.path.insert(0, './topsdk')
 
 from topsdk.client import TopApiClient, TopException
+
 #Ebay
 from ebaysdk.finding import Connection as Finding
 from ebaysdk.exception import ConnectionError
@@ -176,13 +177,15 @@ def productCountFromSubCategory(request, subcategory):
 
 ###########################
 # Function : callApi
-# Input : request, api , Keyword(Search String)
+# Input : request , Keyword(Search String)
 # Output : Response (mostly Json)
 # Description : This function is used to call the APIs and return the data in Json format
 ###########################
+
+@api_view(['GET'])
 def callApi_Ebay(request, Keyword):
     
-        api = Finding(appid=Ebay_API_KEY, config_file=None)
+        api = Finding(appid=secrets.Ebay_API_KEY, config_file=None)
         api_request = {'keywords': Keyword}
         try:
             response = api.execute('findItemsAdvanced', api_request)
@@ -197,9 +200,11 @@ def callApi_Ebay(request, Keyword):
             df['URL'] = [item.viewItemURL for item in response.reply.searchResult.item]
             df['Description'] = [item.title for item in response.reply.searchResult.item]
             return Response(df.to_json)
-        except e:
+        except Exception as e:
             print(e)
             return Response("Error")
+        
+@api_view(['GET'])
 def callApi_Rapid_AliExpress(request,Keyword):
         try: 
             client = TopApiClient(appkey= secrets.Aliexpress_App_KEY, app_sercet= secrets.Aliexpress_API_KEY,
@@ -223,6 +228,8 @@ def callApi_Rapid_AliExpress(request,Keyword):
         except TopException as e:
             print(e)
             return Response("Error")
+        
+@api_view(['GET'])
 def callApi_Rapid_AmazonApi(request,Keyword):
         try:
     
@@ -240,6 +247,8 @@ def callApi_Rapid_AmazonApi(request,Keyword):
         except Exception as e:
             print(e)
             return Response("Error")
+        
+@api_view(['GET'])
 def callApi_Rapid_Shein(request,Keyword):
         try:
             url = "https://unofficial-shein-api.p.rapidapi.com/search"
@@ -257,6 +266,8 @@ def callApi_Rapid_Shein(request,Keyword):
         except Exception as e:
             print(e)
             return Response("Error")
+        
+@api_view(['GET'])
 def callApi_Rapid_RealTime(request,Keyword):     
     try:
         url = "https://unofficial-shein-api.p.rapidapi.com/search"

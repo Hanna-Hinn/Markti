@@ -2,11 +2,13 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
+
+
 class Store(models.Model):
     name = models.CharField(max_length=200, null=False, blank=False)
     image = models.ImageField(null=False, blank=False)
     # _id = models.AutoField(primary_key=True, editable=False)
-    
+
     def __str__(self):
         return self.name
 
@@ -39,11 +41,12 @@ class Review(models.Model):
 
 
 class API(models.Model):
+    api = models.ForeignKey(Store, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=200, null=False, blank=False)
     mainURL = models.URLField(max_length=200, null=False, blank=False)
     includeSDK = models.BooleanField(default=False)
     description = models.TextField(null=True, blank=True)
-    
+
     def __str__(self):
         return self.name
 
@@ -57,7 +60,7 @@ class APIMethods(models.Model):
     auth = models.JSONField()
     body = models.JSONField()
     mainAPI = models.ForeignKey(API, on_delete=models.SET_NULL, null=True)
-    
+
     def __str__(self):
         return "API : " + str(self.mainAPI) + "// Method : " + str(self.name)
 
@@ -69,6 +72,6 @@ class Ticket(models.Model):
     createdAt = models.DateTimeField(auto_now_add=True)
     userCreated = models.CharField(max_length=200, null=True, blank=True)
     status = models.CharField(max_length=200, null=True, blank=True)
-    
+
     def __str__(self):
         return self.name
