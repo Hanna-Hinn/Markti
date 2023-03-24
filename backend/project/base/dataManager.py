@@ -15,7 +15,7 @@ class dataManager:
         self.sorted_data = []
         self.sorting_in_progress = False
     
-    def dog_finsihed(self):
+    def dog_finished(self):
         # when the watchdog is done it calls this function
         # this function sends back a flag true if finshed 
         # if not it returns false

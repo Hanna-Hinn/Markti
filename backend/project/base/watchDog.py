@@ -1,5 +1,5 @@
 import threading
-import dataManager as DataManager
+from .dataManager import dog_finished, data_SendToDataManager
 from views import apiDec
 
 class watchDog:
@@ -30,7 +30,7 @@ class watchDog:
         for t in thread_list:
             t.join()
         
-        DataManager.dog_finished()
+        dog_finished()
 
 
 ###########################
@@ -44,4 +44,4 @@ class watchDog:
 ###########################
     def run_func_and_send_to_dm(self, func):
         func()
-        DataManager.sendtoDataManager()
+        data_SendToDataManager()

@@ -17,16 +17,18 @@ class StoreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = '__all__'        
+            
+
+class APIMethodsSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = APIMethods
+        fields = '__all__'   
         
 class APISerializer(serializers.ModelSerializer):
     class Meta:
         model = API
-        fields = '__all__'     
-
-class APIMethodsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = APIMethods
-        fields = '__all__'   
+        fields = '__all__' 
 
 
 class TicketSerializer(serializers.ModelSerializer):

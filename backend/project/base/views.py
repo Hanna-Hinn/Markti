@@ -32,7 +32,7 @@ from ebaysdk.exception import ConnectionError
             #Data Imports#
 from .secrets import *
 from .models import Product
-from .serializer import ProductSerializer
+from .serializer import *
 
 #######################################
 # Create your views here.
