@@ -21,17 +21,13 @@ from .models import Product
 import json
 from .secrets import *
 
-
 #######################################
             #Api Imports#
 #AliExpress
-
-
 from topsdk.client import TopApiClient, TopException
-
 #Ebay
-# from ebaysdk.finding import Connection as Finding
-# from ebaysdk.exception import ConnectionError
+from ebaysdk.finding import Connection as Finding
+from ebaysdk.exception import ConnectionError
 
 #######################################
 # Create your views here.
@@ -176,37 +172,38 @@ def productCountFromSubCategory(request, subcategory):
 
 ###########################
 # Function : callApi
-# Input : request , Keyword(Search String)
+# Input : request , keyword(Search String)
 # Output : Response (mostly Json)
 # Description : This function is used to call the APIs and return the data in Json format
 ###########################
 
-# @api_view(['GET'])
-# def callApi_Ebay(request, Keyword):
+# pip install ebaysdk
+@api_view(['GET'])
+def callApi_Ebay(request, keyword):
     
-#         api = Finding(appid=secrets.Ebay_API_KEY, config_file=None)
-#         api_request = {'keywords': Keyword}
-#         try:
-#             response = api.execute('findItemsAdvanced', api_request)
-#             df = pd.DataFrame() 
-#             df['id'] = [item.itemId for item in response.reply.searchResult.item] 
-#             df['Name'] = [item.title for item in response.reply.searchResult.item]
-#             df['Price(USD)'] = [item.sellingStatus.currentPrice.value for item in response.reply.searchResult.item]
-#             df['Category'] = [item.primaryCategory.categoryName for item in response.reply.searchResult.item]
-#             df['Rating'] = [item.storeInfo.storeName for item in response.reply.searchResult.item]
-#             df['Discount'] = [item.storeInfo.storeName for item in response.reply.searchResult.item]
-#             df['Image'] = [item.galleryURL for item in response.reply.searchResult.item]
-#             df['URL'] = [item.viewItemURL for item in response.reply.searchResult.item]
-#             df['Description'] = [item.title for item in response.reply.searchResult.item]
-#             return Response(df.to_json)
-#         except Exception as e:
-#             print(e)
-#             return Response("Error")
+        api = Finding(appid= Ebay_API_KEY , config_file=None)
+        api_request = {'keywords': keyword}
+        try:
+            response = api.execute('findItemsAdvanced', api_request)
+            # df = pd.DataFrame() 
+            # df['id'] = [item.itemId for item in response.reply.searchResult.item] 
+            # df['Name'] = [item.title for item in response.reply.searchResult.item]
+            # df['Price(USD)'] = [item.sellingStatus.currentPrice.value for item in response.reply.searchResult.item]
+            # df['Category'] = [item.primaryCategory.categoryName for item in response.reply.searchResult.item]
+            # df['Rating'] = [item.storeInfo.storeName for item in response.reply.searchResult.item]
+            # df['Discount'] = [item.storeInfo.storeName for item in response.reply.searchResult.item]
+            # df['Image'] = [item.galleryURL for item in response.reply.searchResult.item]
+            # df['URL'] = [item.viewItemURL for item in response.reply.searchResult.item]
+            # df['Description'] = [item.title for item in response.reply.searchResult.item]
+            return Response(response.json)
+        except Exception as e:
+            print(e)
+            return Response(e)
         
 @api_view(['GET'])
 def callApi_Rapid_AliExpress(request,keyword):
         try: 
-            client = TopApiClient(appkey= AlIEXPRESS_APP_KEY, app_sercet= AlIEXPRESS_API_KEY,
+            client = TopApiClient(appkey= AlIEXPRESS_APP_KEY , app_sercet= AlIEXPRESS_API_KEY  ,
                           top_gateway_url='http://api.taobao.com/router/rest', verify_ssl=False)
             
             request_dict = {
@@ -230,12 +227,12 @@ def callApi_Rapid_AliExpress(request,keyword):
             return Response("Error")
         
 @api_view(['GET'])
-def callApi_Rapid_AmazonApi(request,Keyword):
+def callApi_Rapid_AmazonApi(request,keyword):
         try:
     
             url = "https://amazon-product-reviews-keywords.p.rapidapi.com/product/search"
 
-            querystring = {"keyword":Keyword}
+            querystring = {"keyword":keyword}
 
             headers = {
                 "X-RapidAPI-Key": RAPID_API_KEY,
@@ -249,11 +246,11 @@ def callApi_Rapid_AmazonApi(request,Keyword):
             return Response("Error")
         
 @api_view(['GET'])
-def callApi_Rapid_Shein(request,Keyword):
+def callApi_Rapid_Shein(request,keyword):
         try:
             url = "https://unofficial-shein-api.p.rapidapi.com/search"
 
-            querystring = {"query": Keyword}
+            querystring = {"query": keyword}
 
             headers = {
                 'X-RapidAPI-Key': RAPID_API_KEY,
@@ -268,11 +265,11 @@ def callApi_Rapid_Shein(request,Keyword):
             return Response("Error")
         
 @api_view(['GET'])
-def callApi_Rapid_RealTime(request,Keyword):     
+def callApi_Rapid_RealTime(request,keyword):     
     try:
         url = "https://unofficial-shein-api.p.rapidapi.com/search"
 
-        querystring = {"query":Keyword}
+        querystring = {"query":keyword}
 
         headers = {
             'X-RapidAPI-Key': RAPID_API_KEY,

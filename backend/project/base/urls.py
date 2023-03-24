@@ -14,6 +14,6 @@ urlpatterns = [
     path('apis/<str:modify>/<int:pk>', views.modifyAPI, name="modifyAPI"),
     # 3/22/2023 edit 
     
-    path('apis/aliexpress/<str:keyword>', views.callApi_Rapid_AliExpress, name="aliexpress")
-    
+    path('apis/aliexpress/<str:keyword>', views.callApi_Rapid_AliExpress, name="aliexpress"),
+    path('apis/ebay/<str:keyword>', views.callApi_Ebay, name="ebay"),
 ]
