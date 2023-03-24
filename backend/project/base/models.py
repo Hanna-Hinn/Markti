@@ -23,7 +23,10 @@ class Product(models.Model):
     numReviews = models.IntegerField(null=True, blank=True, default=0)
     category = models.CharField(max_length=200, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
-    Store = models.ForeignKey(Store, on_delete=models.SET_NULL, null=True)
+    brand = models.CharField(max_length=200, null=True, blank=True)
+    subCategory = models.CharField(max_length=200, null=True, blank=True)
+    store = models.ForeignKey(Store, on_delete=models.SET_NULL, null=True)
+    discount = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
         return self.productName
@@ -48,6 +51,12 @@ class API(models.Model):
 
     def __str__(self):
         return self.name
+    
+    @property
+    def methods(self):
+        return APIMethods.objects.get(mainAPI=self)
+        
+    
 
 
 class APIMethods(models.Model):

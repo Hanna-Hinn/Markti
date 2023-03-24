@@ -20,6 +20,8 @@ import pandas as pd
 from .models import Product
 import json
 from .secrets import *
+from .models import *
+from .serializer import *
 
 #######################################
             #Api Imports#
@@ -60,12 +62,17 @@ def createTicket(request):
 
 @api_view(['GET'])
 def getTickets(request):
-    return Response("I Fetch all Tickets")
+    tickets = Ticket.objects.all()
+    serializer = TicketSerializer(tickets, many =True)
+    return Response(serializer.data)
 
 
 @api_view(['GET'])
 def getTicket(request, pk):
-    return Response("I Fetch Ticket with ID = " + str(pk))
+    ticket = Ticket.objects.get(pk=pk)
+    serializer = TicketSerializer(ticket)
+    return Response(serializer.data)
+
 
 @api_view(['POST','PUT','DELETE'])
 def modifyTicket(request,modify,pk):
@@ -80,7 +87,9 @@ def modifyTicket(request,modify,pk):
     
 @api_view(['GET'])
 def getAPIs(request):
-    return Response("I Fetch all APIs")
+    apis = API.objects.all()
+    serializer = APISerializer(apis, many=True)
+    return Response(serializer.data)
 
 @api_view(['POST'])
 def createAPI(request):
@@ -88,7 +97,9 @@ def createAPI(request):
 
 @api_view(['GET'])
 def getAPI(request, pk):
-    return Response("I Fetch API with ID = " + str(pk))
+    api = API.objects.get(pk=pk)
+    serializer = APISerializer(api)
+    return Response(serializer.data)
 
 @api_view(['POST','PUT','DELETE'])
 def modifyAPI(request,modify,pk):
@@ -105,47 +116,56 @@ def modifyAPI(request,modify,pk):
 @api_view(['GET'])
 def getProducts(request):
     products = Product.objects.all()
-    return Response(products)
+    serializer = ProductSerializer(products,many = True)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 def getProduct(request, pk):
-    product = Product.objects.get(_id=pk)
-    return Response(product)
+    product = Product.objects.get(pk=pk)
+    serializer = ProductSerializer(product)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 def getProductsByStore(request, store):
-    products = Product.objects.filter(Store=store)
-    return Response(products)
+    products = Product.objects.filter(store=store)
+    serializer = ProductSerializer(products, many= True)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 def getProductsByCategory(request, category):
-    products = Product.objects.filter(Category=category)
-    return Response(products)
+    products = Product.objects.filter(category=category)
+    serializer = ProductSerializer(products, many= True)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 def getProductsBySubCategory(request, subcategory):
-    products = Product.objects.filter(SubCategory=subcategory)
-    return Response(products)
+    products = Product.objects.filter(subCategory=subcategory)
+    serializer = ProductSerializer(products, many= True)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 def getProductsByBrand(request, brand):
-    products = Product.objects.filter(Brand=brand)
-    return Response(products)
+    products = Product.objects.filter(brand=brand)
+    serializer = ProductSerializer(products, many= True)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 def getProductsByPrice(request, price):
-    products = Product.objects.filter(Price=price)
-    return Response(products)
+    products = Product.objects.filter(price=price)
+    serializer = ProductSerializer(products, many= True)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 def getProductsByRating(request, rating):
-    products = Product.objects.filter(Rating=rating)
-    return Response(products)
+    products = Product.objects.filter(rating=rating)
+    serializer = ProductSerializer(products, many= True)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 def getProductsByDiscount(request, discount):
-    products = Product.objects.filter(Discount=discount)
-    return Response(products)
+    products = Product.objects.filter(discount=discount)
+    serializer = ProductSerializer(products, many= True)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 def productCount(request):
@@ -154,17 +174,17 @@ def productCount(request):
 
 @api_view(['GET'])
 def productCountFromStore(request, store):
-    productCount = Product.objects.filter(Store=store).count()
+    productCount = Product.objects.filter(store=store).count()
     return Response(productCount)
 
 @api_view(['GET'])
 def productCountFromCategory(request, category):
-    productCount = Product.objects.filter(Category=category).count()
+    productCount = Product.objects.filter(category=category).count()
     return Response(productCount)
 
 @api_view(['GET'])
 def productCountFromSubCategory(request, subcategory):
-    productCount = Product.objects.filter(SubCategory=subcategory).count()
+    productCount = Product.objects.filter(subCategory=subcategory).count()
     return Response(productCount)
 
 ###############################
@@ -181,7 +201,7 @@ def productCountFromSubCategory(request, subcategory):
 @api_view(['GET'])
 def callApi_Ebay(request, keyword):
     
-        api = Finding(appid= Ebay_API_KEY , config_file=None)
+        api = Finding(appid= EBAY_API_KEY , config_file=None)
         api_request = {'keywords': keyword}
         try:
             response = api.execute('findItemsAdvanced', api_request)
