@@ -6,9 +6,8 @@ from django.contrib.auth.models import User
 
 class Store(models.Model):
     name = models.CharField(max_length=200, null=False, blank=False)
-    image = models.ImageField(null=False, blank=False)
+    image = models.ImageField(null=True, blank=True)
     # _id = models.AutoField(primary_key=True, editable=False)
-
     def __str__(self):
         return self.name
 
@@ -55,10 +54,10 @@ class APIMethods(models.Model):
     name = models.CharField(max_length=200, null=False, blank=False)
     url = models.URLField(max_length=200, null=False, blank=False)
     method = models.CharField(max_length=200, null=True, blank=True)
-    header = models.JSONField()
-    params = models.JSONField()
-    auth = models.JSONField()
-    body = models.JSONField()
+    header = models.JSONField(null=True, blank=True)
+    params = models.JSONField(null=True, blank=True)
+    auth = models.JSONField(null=True, blank=True)
+    body = models.JSONField(null=True, blank=True)
     mainAPI = models.ForeignKey(API, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
