@@ -17,11 +17,8 @@ from rest_framework.response import Response
             #Python Imports#
 import requests
 import pandas as pd
-from .models import Product
 import json
-from .secrets import *
-from .models import *
-from .serializer import *
+
 
 #######################################
             #Api Imports#
@@ -30,6 +27,12 @@ from topsdk.client import TopApiClient, TopException
 #Ebay
 from ebaysdk.finding import Connection as Finding
 from ebaysdk.exception import ConnectionError
+
+#######################################
+            #Data Imports#
+from .secrets import *
+from .models import Product
+from .serializer import ProductSerializer
 
 #######################################
 # Create your views here.
@@ -194,7 +197,10 @@ def productCountFromSubCategory(request, subcategory):
 # Function : callApi
 # Input : request , keyword(Search String)
 # Output : Response (mostly Json)
-# Description : This function is used to call the APIs and return the data in Json format
+# Description :
+# ----------------------------
+#  This function is used to call the APIs and return the data in Json format
+# ----------------------------
 ###########################
 
 # pip install ebaysdk
@@ -296,11 +302,21 @@ def callApi_Rapid_RealTime(request,keyword):
             'X-RapidAPI-Host': 'real-time-product-search.p.rapidapi.com'
             }
 
-        response = requests.request("GET", url, headers=headers, params=querystring)
+        response = requests.request("GET", url, headers=headers, params=querystring) 
         return Response(response.json())
         
     except Exception as e:
         print(e)
         return Response("Error")
+
+apiDec = {
+    "AliExpress":callApi_Rapid_AliExpress,
+    "Ebay":callApi_Ebay,
+    "Amazon":callApi_Rapid_AmazonApi,
+    "RealTime" : callApi_Rapid_RealTime,
+    "callApi_Rapid_Shein" : callApi_Rapid_Shein,
+}
+    
+
 
 
