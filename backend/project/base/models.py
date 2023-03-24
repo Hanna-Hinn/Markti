@@ -41,7 +41,7 @@ class Review(models.Model):
 
 
 class API(models.Model):
-    api = models.ForeignKey(Store, on_delete=models.SET_NULL, null=True)
+    store = models.ForeignKey(Store, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=200, null=False, blank=False)
     mainURL = models.URLField(max_length=200, null=False, blank=False)
     includeSDK = models.BooleanField(default=False)
