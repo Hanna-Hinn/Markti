@@ -1,0 +1,141 @@
+html {
+    background-color: #f9f9f9;
+}
+
+.home i:first-child{
+ margin-left: 650px; 
+ font-size: 150px;
+ margin-top: 120px;  
+}
+
+.input-field {
+    text-align: center;
+    background-color: rgb(245, 241, 241);
+    height: 70px;
+    width: 450px;
+    color: black;
+    border-radius: 30px;
+    border-right: azure;
+    border-top: azure;
+    border-bottom: azure;
+    border-left: azure;
+    padding-right: 60px;
+    margin-left: 480px;
+    margin-top: 15px;
+    font-size: 20px;
+    cursor: text;
+}
+
+.input-field:hover {
+    background-color: rgb(243, 237, 230);
+    
+}
+
+.search-icon i {
+    position: absolute;
+    border-radius: 50px;
+    color: blue;
+}
+
+.search-icon {
+    display: inline;
+    width: 100%;
+    font-size: 35px;
+    margin-bottom: 10px; 
+}
+.fa-search {
+    position: absolute;
+    left: 1.5%;
+    top: 20.4%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    padding-left: 835px;
+    padding-top: 350px;
+    color: silver;
+    min-width: 50px;
+    text-align: center;
+}
+
+.filters{
+    margin-top: 80px; 
+}
+
+.filters h1,button{
+    display: inline;    
+}
+
+.filters h1{
+    background-color: silver;
+    border: 2px solid silver;
+    font-size: 25px;       
+    margin-left: 350px;        
+}
+
+.filters button{
+    font-weight: bold;
+    background-color: white;
+    margin-left: 20px;
+    border: 2px solid silver;
+    border-radius: 50px;
+    width: 150px;
+    height: 30px;
+    margin-top: 20px;
+}
+.filters button:hover{
+cursor: pointer;
+background-color: beige;
+}
+
+
+.box-filter{
+  margin-left: 845px; 
+  margin-top: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border: 1px solid silver;
+  border-radius: 50px;
+  width: 140px;
+  height: 20px;
+  text-align: center;
+  background-color: white;
+  
+}
+.box-filter:nth-child(2n){
+margin-left: 700px;
+margin-top: -40px;
+}
+.box-filter:nth-child(5n){
+    margin-left: 555px;
+    margin-top: -42px;
+}
+.box-filter:nth-child(6n){
+    margin-left: 410px;
+    margin-top: -42px;
+}
+.box-filter span{    
+    padding-left: 10px;        
+    font-weight: bold;
+}
+
+.box-filter i{
+    font-size: 20px;
+    margin-left: 20px;
+    margin-top: -7px;
+    padding-top: 5px;
+    border: 1px solid black;
+    border-radius: 50%;
+    width: 40px;
+    height: 25px;    
+}
+.box-filter i:hover{
+    background-color: rgb(218, 218, 183);
+    cursor: pointer;
+}
+
+.box-filter .ali3{
+    margin-left: -5px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+

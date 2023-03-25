@@ -1,0 +1,67 @@
+.footer{
+    margin-top: 150px;
+    padding-bottom: 150px;
+  color:#f0f9ff;
+  background-color:#282d32;
+}
+
+.footer .text-head{
+padding-top: 10px;
+}
+.footer .text-head h1{
+display: inline;
+padding-left: 130px;
+font-size: 20px;
+font-weight: bold;
+}
+.footer .text-head h1:nth-child(2){
+    display: inline;
+    padding-left: 380px;
+}
+.footer .text-head h1:nth-child(4){
+    display: inline;
+    padding-left: 250px;
+}
+
+.footer .col1{
+margin-left: 90px;
+margin-top: 30px;
+}
+.footer .col1 span{
+    display: block;
+    color: gray;
+}
+.footer .col2{
+    margin-left: 580px;
+    margin-top: -40px;
+}
+.footer .col2 a{
+    text-decoration: none;
+    color: gray;
+    display: block;
+    padding-bottom: 15px;
+}
+
+.footer .col3{
+    margin-left: 820px;
+    margin-top: -150px;
+}
+.footer .col3 a{
+    text-decoration: none;
+    color: gray;
+    display: block;
+    padding-bottom: 15px;
+}
+
+.footer .col4{
+    margin-left: 1150px;
+    margin-top: -189px;
+}
+.footer .col4 a{
+    text-decoration: none;
+    color: gray;
+    display: inline;
+    padding-bottom: 15px;
+    padding-left: 10px;
+    font-size: 25px;
+}
