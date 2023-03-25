@@ -3,7 +3,7 @@ function main(){
     let flag2 = false    
     let flag3 = false
     function btnClick(){    
-           if(flag1==false){
+           if(flag1===false){
             let filter = document.querySelector(".search-icon")        
             let boxbtn = `<nav class="box-filter"> <span>Ali Baba</span> 
             <i class="fa fa-times" aria-hidden="true"></i>
@@ -22,7 +22,7 @@ function main(){
     }   
     
     function btnClick2(){  
-        if(flag2 == false){
+        if(flag2 === false){
             let filter = document.querySelector(".search-icon")
         let boxbtn = `<nav class="box-filter"> <span>amzone</span> 
         <i class="fa fa-times" aria-hidden="true"></i>
@@ -41,7 +41,7 @@ function main(){
     }
     
     function btnClick3(){ 
-        if(flag3 == false){
+        if(flag3 === false){
             let filter = document.querySelector(".search-icon")
             let boxbtn = `<nav class="box-filter"> <span class="ali3">Ali express</span> 
             <i class="fa fa-times" aria-hidden="true"></i>
