@@ -1,13 +1,14 @@
 import './App.css';
 import main from './main';
 import './main.css';
-import footer from './footer';
-import './footer.css'
+import footer from './components/footer';
+import './components/footer.css'
 function App() {
-  return <nav>
+  return <div>
   {main()}
   {footer()}
-  </nav>;
+  <main/>
+  </div>;
     
 }
 

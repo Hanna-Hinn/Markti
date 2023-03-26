@@ -79,8 +79,8 @@ return <nav class="home"><i class="fa fa-home" aria-hidden="true"></i>
 <nav class="filters">
 <h1>Stores:</h1>
 <button class="btn1" onClick={btnClick}>Ali baba</button>
-<button class="btn2" onClick={btnClick2}>amzone</button>
-<button class="btn3" onClick={btnClick3}>Ali express</button>
+<button class="btn2" onClick={btnClick2}>amazon</button>
+<button class="btn3" onClick={btnClick3}>Ali Express</button>
 </nav>
 
 </nav>

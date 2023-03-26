@@ -1,5 +1,7 @@
+
+
 function footer(){
-return <nav className="footer">
+return <div className="footer">
 
 <nav className="text-head">
 <h1>SiteLogo</h1>
@@ -34,6 +36,6 @@ return <nav className="footer">
 <a href="#"><i class="fa fa-telegram" aria-hidden="true"></i></a>
 </nav>
 
-</nav>
+</div>
 }
 export default footer;
