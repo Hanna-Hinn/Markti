@@ -65,3 +65,6 @@ margin-top: 30px;
     padding-left: 10px;
     font-size: 25px;
 }
+.footer a:hover{
+color:aqua;
+}
