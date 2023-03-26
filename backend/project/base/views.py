@@ -231,7 +231,7 @@ def callApi_Ebay(request, keyword):
 @api_view(['GET'])
 def callApi_Rapid_AliExpress(request,keyword):
         try: 
-            client = TopApiClient(appkey= AlIEXPRESS_APP_KEY , app_sercet= AlIEXPRESS_API_KEY  ,
+            client = TopApiClient(appkey= ALIEXPRESS_APP_KEY , app_sercet= AlIEXPRESS_API_KEY  ,
                           top_gateway_url='http://api.taobao.com/router/rest', verify_ssl=False)
             
             request_dict = {

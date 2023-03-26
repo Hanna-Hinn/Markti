@@ -63,4 +63,3 @@ class AliExpressProductSerializer(serializers.Serializer):
 class AliExpressListSerializer(serializers.ListSerializer):
     child = AliExpressProductSerializer()
 
-class EbayProduct
