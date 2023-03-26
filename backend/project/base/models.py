@@ -8,6 +8,7 @@ class Store(models.Model):
     name = models.CharField(max_length=200, null=False, blank=False)
     image = models.ImageField(null=True, blank=True)
     # _id = models.AutoField(primary_key=True, editable=False)
+
     def __str__(self):
         return self.name
 
@@ -27,6 +28,7 @@ class Product(models.Model):
     subCategory = models.CharField(max_length=200, null=True, blank=True)
     store = models.ForeignKey(Store, on_delete=models.SET_NULL, null=True)
     discount = models.CharField(max_length=200, null=True, blank=True)
+    productURL = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
         return self.productName
@@ -51,12 +53,10 @@ class API(models.Model):
 
     def __str__(self):
         return self.name
-    
+
     @property
     def methods(self):
         return APIMethods.objects.get(mainAPI=self)
-        
-    
 
 
 class APIMethods(models.Model):

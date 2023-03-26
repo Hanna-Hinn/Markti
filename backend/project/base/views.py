@@ -221,7 +221,9 @@ def callApi_Ebay(request, keyword):
             # df['Image'] = [item.galleryURL for item in response.reply.searchResult.item]
             # df['URL'] = [item.viewItemURL for item in response.reply.searchResult.item]
             # df['Description'] = [item.title for item in response.reply.searchResult.item]
-            return Response(response.json)
+            json_response = json.dumps(response.dict())
+            products = response.get('searchResult').get('item')
+            return Response(products)
         except Exception as e:
             print(e)
             return Response(e)
@@ -245,8 +247,8 @@ def callApi_Rapid_AliExpress(request,keyword):
             response = client.execute("aliexpress.affiliate.product.query",request_dict,file_param_dict)
             # json_obj = json.dumps(response, indent=4)
             products = response.get('resp_result').get('result').get('products')
-            json_obj = json.dumps(products, indent=1)
-            return Response(json_obj)
+            serializer = AliExpressProductSerializer(products,many=True)
+            return Response(serializer.data)
         
         except TopException as e:
             print(e)
@@ -293,7 +295,7 @@ def callApi_Rapid_Shein(request,keyword):
 @api_view(['GET'])
 def callApi_Rapid_RealTime(request,keyword):     
     try:
-        url = "https://unofficial-shein-api.p.rapidapi.com/search"
+        url = "https://real-time-product-search.p.rapidapi.com/search"
 
         querystring = {"query":keyword}
 
