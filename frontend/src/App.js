@@ -1,15 +1,23 @@
 import './App.css';
-import main from './main';
+import HomeScreen from './screen/HomeScreen';
 import './main.css';
-import footer from './components/footer';
+import Footer from './components/footer';
 import './components/footer.css'
 function App() {
-  return <div>
-  {main()}
-  {footer()}
-  <main/>
-  </div>;
+  return( 
+    <div>
     
+  <header />
+
+  <main>
+  <HomeScreen />
+  </main>
+
+  <Footer />
+
+  </div>
+
+  );   
 }
 
 export default App;

@@ -50,7 +50,7 @@ html {
     transform: translateY(-50%);
     pointer-events: none;
     padding-left: 835px;
-    padding-top: 350px;
+    padding-top: 380px;
     color: silver;
     min-width: 50px;
     text-align: center;
@@ -58,28 +58,33 @@ html {
 
 .filters{
     margin-top: 80px; 
+    display: -webkit-inline-box;
+    column-gap: 7px;
+    width: 50%;
+   
 }
 
-.filters h1,button{
-    display: inline;    
-}
-
-.filters h1{
+.filters span{
     background-color: silver;
     border: 2px solid silver;
     font-size: 25px;       
-    margin-left: 350px;        
+    margin-left: 350px; 
+    cursor: pointer;       
+}
+.filters span:hover{
+    color: azure;
 }
 
 .filters button{
     font-weight: bold;
     background-color: white;
-    margin-left: 20px;
     border: 2px solid silver;
     border-radius: 50px;
     width: 150px;
     height: 30px;
-    margin-top: 20px;
+    margin-top: 9px;
+    margin-right: 5px;
+    
 }
 .filters button:hover{
 cursor: pointer;
@@ -113,8 +118,10 @@ margin-top: -40px;
     margin-top: -42px;
 }
 .box-filter span{    
-    padding-left: 10px;        
+    padding-left: 11px;        
     font-weight: bold;
+    margin-left: -19px;
+    font-size: 12px;   
 }
 
 .box-filter i{

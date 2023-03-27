@@ -1,7 +1,7 @@
-
-
-function footer(){
-return <div className="footer">
+import React from "react";
+function Footer(){
+return (
+    <footer className="footer">
 
 <nav className="text-head">
 <h1>SiteLogo</h1>
@@ -36,6 +36,8 @@ return <div className="footer">
 <a href="#"><i class="fa fa-telegram" aria-hidden="true"></i></a>
 </nav>
 
-</div>
+</footer>
+
+);
 }
-export default footer;
+export default Footer;
