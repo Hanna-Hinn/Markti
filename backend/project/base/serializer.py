@@ -39,17 +39,24 @@ class APISerializer(serializers.ModelSerializer):
         model2_queryset = APIMethods.objects.filter(mainAPI=obj)
         serializer = APIMethodsSerializer(model2_queryset, many=True)
         return serializer.data
+    
+    def delete(self, validated_data):
+        instance = self.instance
+        instance.delete()
 
 
 class TicketSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticket
         fields = '__all__'
+        
+    def delete(self, validated_data):
+        instance = self.instance
+        instance.delete()
 
 
 class AliExpressProductSerializer(serializers.Serializer):
     product_id = serializers.IntegerField()
-    evaluate_rate = serializers.CharField(max_length=100)
     first_level_category_name = serializers.CharField(max_length=100)
     original_price = serializers.CharField(max_length=100)
     original_price_currency = serializers.CharField(max_length=100)
@@ -58,7 +65,79 @@ class AliExpressProductSerializer(serializers.Serializer):
     product_title = serializers.CharField(max_length=100)
     promotion_link = serializers.CharField(max_length=300)
     second_level_category_name = serializers.CharField(max_length=100)
-    
-class AliExpressListSerializer(serializers.ListSerializer):
-    child = AliExpressProductSerializer()
 
+
+class EbayProductSerializer(serializers.Serializer):
+    itemId = serializers.IntegerField()
+    title = serializers.CharField()
+    categoryName = serializers.SerializerMethodField()
+    galleryURL = serializers.CharField(max_length=200)
+    viewItemURL = serializers.CharField(max_length=200)
+    value = serializers.SerializerMethodField()
+    sellingState = serializers.SerializerMethodField()
+    watchCount = serializers.SerializerMethodField()
+    topRatedListing = serializers.CharField(max_length=100)
+
+    def get_categoryName(self, obj):
+        return obj['primaryCategory']['categoryName']
+
+    def get_value(self, obj):
+        return obj['sellingStatus']['currentPrice']['value']
+
+    def get_sellingState(self, obj):
+        return obj['sellingStatus']['sellingState']
+
+    def get_watchCount(self, obj):
+        return obj['listingInfo']['watchCount']
+
+
+class AmazonRapidProductSerializer(serializers.Serializer):
+    asin = serializers.CharField(max_length=50)
+    current_price = serializers.SerializerMethodField()
+    total_reviews = serializers.SerializerMethodField()
+    rating = serializers.SerializerMethodField()
+    url = serializers.CharField(max_length=200)
+    amazonChoice = serializers.CharField(max_length=50)
+    bestSeller = serializers.CharField(max_length=50)
+    amazonPrime = serializers.CharField(max_length=50)
+    title = serializers.CharField(max_length=200)
+    thumbnail = serializers.CharField(max_length=200)
+
+    def get_current_price(self, obj):
+        return obj['price']['current_price']
+
+    def get_total_reviews(self, obj):
+        return obj['reviews']['total_reviews']
+
+    def get_rating(self, obj):
+        return obj['reviews']['rating']
+
+
+class SheinRapidProductSerializer(serializers.Serializer):
+    goods_sn = serializers.CharField(max_length=50)
+    goods_img = serializers.CharField(max_length=200)
+    goods_name = serializers.CharField(max_length=100)
+    usdAmountWithSymbol = serializers.SerializerMethodField()
+    comment_num = serializers.IntegerField()
+    comment_rank_average = serializers.CharField(max_length=50)
+
+    def get_usdAmountWithSymbol(self, obj):
+        return obj['retailPrice']['usdAmountWithSymbol']
+
+
+class RealTimeProductSerializer(serializers.Serializer):
+    product_id = serializers.CharField(max_length=50)
+    product_title = serializers.CharField(max_length=100)
+    product_description = serializers.CharField(max_length=250)
+    product_page_url = serializers.CharField(max_length=200)
+    product_num_reviews = serializers.IntegerField()
+    product_photo_url = serializers.SerializerMethodField()
+    product_rating = serializers.CharField(max_length=50)
+    product_page_url = serializers.CharField(max_length=200)
+    price_range = serializers.SerializerMethodField()
+
+    def get_product_photo_url(self, obj):
+        return obj['product_photos'][0]
+
+    def get_price_range(self, obj):
+        return obj['typical_price_range']

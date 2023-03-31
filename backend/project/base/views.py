@@ -1,23 +1,13 @@
-            #Django Imports# 
-from django.shortcuts import render
-from django.http import JsonResponse
-from django.core import serializers
-from django.http import HttpResponse
-from django.views.decorators.csrf import csrf_exempt
-from django.core.files.storage import FileSystemStorage
-from django.conf import settings
-from django.core.files.base import ContentFile
-from django.core.files import File
+
 #######################################
           #Rest Framework Imports#
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import status
 
 #######################################
             #Python Imports#
 import requests
-import pandas as pd
-import json
 
 
 #######################################
@@ -33,6 +23,7 @@ from ebaysdk.exception import ConnectionError
 from .secrets import *
 from .models import Product
 from .serializer import *
+from .stores_api import call_Ebay
 
 #######################################
 # Create your views here.
@@ -56,11 +47,22 @@ def getRoutes(request):
 
 @api_view(['GET'])
 def search(request):
-    return Response("I am Searching")
+    search = request.query_params.get('keyword')
+    products = call_Ebay(search)
+    # serialized_data = RealTimeProductSerializer(data = products, many=True)
+    # serialized_data.is_valid(raise_exception=True)
+    # deserialized_data = ProductSerializer(data=serialized_data.validated_data, many=True)
+    # deserialized_data.is_valid(raise_exception=True)
+    print(type(products))
+    return Response(products)
 
 @api_view(['POST'])
 def createTicket(request):
-    return Response("I Create Ticket")
+    serializer = TicketSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -77,16 +79,24 @@ def getTicket(request, pk):
     return Response(serializer.data)
 
 
-@api_view(['POST','PUT','DELETE'])
-def modifyTicket(request,modify,pk):
-    if request.method == "POST":
-        return Response("Modifying " + modify + " ID: " + pk + "Ticket using POST")
-    elif request.method == "PUT":
-        return Response("Updating " + modify + " ID: " + pk + "Ticket using PUT")
-    elif request.method == "DELETE":
-        return Response("Deleting " + modify + " ID: " + pk + "Ticket using DELETE")
-    else :
-        return Response("UnValid Method")
+@api_view(['PATCH','DELETE'])
+def modifyTicket(request,modify,pk):    
+    try:
+        instance = Ticket.objects.get(pk=pk)
+        if(request.method == "PATCH" and modify == "update"):
+            serializer = TicketSerializer(instance, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        elif request.method == "DELETE" and modify=="delete":
+            instance.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+    except Ticket.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
     
 @api_view(['GET'])
 def getAPIs(request):
@@ -96,7 +106,12 @@ def getAPIs(request):
 
 @api_view(['POST'])
 def createAPI(request):
-    return Response("I Create APIs")
+    serializer = APISerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 
 @api_view(['GET'])
 def getAPI(request, pk):
@@ -104,16 +119,24 @@ def getAPI(request, pk):
     serializer = APISerializer(api)
     return Response(serializer.data)
 
-@api_view(['POST','PUT','DELETE'])
-def modifyAPI(request,modify,pk):
-    if request.method == "POST":
-        return Response("Modifying " + modify + " ID: " + pk + "API using POST")
-    elif request.method == "PUT":
-        return Response("Updating " + modify + " ID: " + pk + "API using PUT")
-    elif request.method == "DELETE":
-        return Response("Deleting " + modify + " ID: " + pk + "API using DELETE")
-    else :
-        return Response("UnValid Method")
+@api_view(['PATCH','DELETE'])
+def modifyAPI(request,modify,pk):    
+    try:
+        instance = API.objects.get(pk=pk)
+        if(request.method == "PATCH"):
+            serializer = APISerializer(instance, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        elif request.method == "DELETE":
+            instance.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+    except API.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
     
 ###############################
 @api_view(['GET'])
@@ -211,19 +234,10 @@ def callApi_Ebay(request, keyword):
         api_request = {'keywords': keyword}
         try:
             response = api.execute('findItemsAdvanced', api_request)
-            # df = pd.DataFrame() 
-            # df['id'] = [item.itemId for item in response.reply.searchResult.item] 
-            # df['Name'] = [item.title for item in response.reply.searchResult.item]
-            # df['Price(USD)'] = [item.sellingStatus.currentPrice.value for item in response.reply.searchResult.item]
-            # df['Category'] = [item.primaryCategory.categoryName for item in response.reply.searchResult.item]
-            # df['Rating'] = [item.storeInfo.storeName for item in response.reply.searchResult.item]
-            # df['Discount'] = [item.storeInfo.storeName for item in response.reply.searchResult.item]
-            # df['Image'] = [item.galleryURL for item in response.reply.searchResult.item]
-            # df['URL'] = [item.viewItemURL for item in response.reply.searchResult.item]
-            # df['Description'] = [item.title for item in response.reply.searchResult.item]
-            json_response = json.dumps(response.dict())
-            products = response.get('searchResult').get('item')
-            return Response(products)
+            json_response = response.dict()
+            products = json_response.get('searchResult').get('item')
+            serializer = EbayProductSerializer(products,many=True)
+            return Response(serializer.data)
         except Exception as e:
             print(e)
             return Response(e)
@@ -245,7 +259,6 @@ def callApi_Rapid_AliExpress(request,keyword):
 
             file_param_dict = {}
             response = client.execute("aliexpress.affiliate.product.query",request_dict,file_param_dict)
-            # json_obj = json.dumps(response, indent=4)
             products = response.get('resp_result').get('result').get('products')
             serializer = AliExpressProductSerializer(products,many=True)
             return Response(serializer.data)
@@ -258,9 +271,9 @@ def callApi_Rapid_AliExpress(request,keyword):
 def callApi_Rapid_AmazonApi(request,keyword):
         try:
     
-            url = "https://amazon-product-reviews-keywords.p.rapidapi.com/product/search"
+            url = "https://amazon23.p.rapidapi.com/product-search"
 
-            querystring = {"keyword":keyword}
+            querystring = {"query":keyword}
 
             headers = {
                 "X-RapidAPI-Key": RAPID_API_KEY,
@@ -268,7 +281,9 @@ def callApi_Rapid_AmazonApi(request,keyword):
             }
 
             response = requests.request("GET", url, headers=headers, params=querystring)
-            return Response(response.json())
+            products = response.json().get('result')
+            serializer = AmazonRapidProductSerializer(products,many=True)
+            return Response(serializer.data)
         except Exception as e:
             print(e)
             return Response("Error")
@@ -276,9 +291,9 @@ def callApi_Rapid_AmazonApi(request,keyword):
 @api_view(['GET'])
 def callApi_Rapid_Shein(request,keyword):
         try:
-            url = "https://unofficial-shein-api.p.rapidapi.com/search"
+            url = "https://unofficial-shein.p.rapidapi.com/products/search"
 
-            querystring = {"query": keyword}
+            querystring = {"keywords":keyword,"language":"en","country":"US","currency":"USD"}
 
             headers = {
                 'X-RapidAPI-Key': RAPID_API_KEY,
@@ -286,7 +301,9 @@ def callApi_Rapid_Shein(request,keyword):
             }
 
             response = requests.request("GET", url, headers=headers, params=querystring)
-            return Response(response.json())
+            products = response.json().get('info').get("products")
+            serializer = SheinRapidProductSerializer(products,many=True)
+            return Response(serializer.data)
 
         except Exception as e:
             print(e)
@@ -297,7 +314,7 @@ def callApi_Rapid_RealTime(request,keyword):
     try:
         url = "https://real-time-product-search.p.rapidapi.com/search"
 
-        querystring = {"query":keyword}
+        querystring = {"q":keyword,"country":"us","language":"en"}
 
         headers = {
             'X-RapidAPI-Key': RAPID_API_KEY,
@@ -305,7 +322,9 @@ def callApi_Rapid_RealTime(request,keyword):
             }
 
         response = requests.request("GET", url, headers=headers, params=querystring) 
-        return Response(response.json())
+        products = response.json().get('data')
+        serializer = RealTimeProductSerializer(products,many=True)
+        return Response(serializer.data)
         
     except Exception as e:
         print(e)
