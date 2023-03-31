@@ -317,7 +317,7 @@ def callApi_Rapid_RealTime(request,keyword):
         querystring = {"q":keyword,"country":"us","language":"en"}
 
         headers = {
-            'X-RapidAPI-Key': RAPID_API_KEY,
+            'X-RapidAPI-Key': "5d35771659msh1de8eff53abd5afp14756fjsn875eab81aa56",
             'X-RapidAPI-Host': 'real-time-product-search.p.rapidapi.com'
             }
 
