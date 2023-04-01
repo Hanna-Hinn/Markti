@@ -1,29 +1,20 @@
 
 #######################################
           #Rest Framework Imports#
+import json
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
 #######################################
             #Python Imports#
-import requests
-
-
-#######################################
-            #Api Imports#
-#AliExpress
-from topsdk.client import TopApiClient, TopException
-#Ebay
-from ebaysdk.finding import Connection as Finding
-from ebaysdk.exception import ConnectionError
-
 #######################################
             #Data Imports#
-from .secrets import *
-from .models import Product
+
 from .serializer import *
 from .stores_api import call_Ebay
+from . import launcher 
+
 
 #######################################
 # Create your views here.
@@ -215,129 +206,18 @@ def productCountFromSubCategory(request, subcategory):
 
 ###############################
 
+@api_view(['Get'])
+def start_launcher(request):
+    # make list with fakestore  
+    storeList = ["FakeStore"]
+    launcher.variables.keyWord = request.query_params.get('keyword')
+    finalResultJason =json.dumps(launcher.launch(storeList))
+    return Response(finalResultJason)
 
-###########################
-# Function : callApi
-# Input : request , keyword(Search String)
-# Output : Response (mostly Json)
-# Description :
-# ----------------------------
-#  This function is used to call the APIs and return the data in Json format
-# ----------------------------
-###########################
-
-# pip install ebaysdk
-@api_view(['GET'])
-def callApi_Ebay(request, keyword):
-    
-        api = Finding(appid= EBAY_API_KEY , config_file=None)
-        api_request = {'keywords': keyword}
-        try:
-            response = api.execute('findItemsAdvanced', api_request)
-            json_response = response.dict()
-            products = json_response.get('searchResult').get('item')
-            serializer = EbayProductSerializer(products,many=True)
-            return Response(serializer.data)
-        except Exception as e:
-            print(e)
-            return Response(e)
-        
-@api_view(['GET'])
-def callApi_Rapid_AliExpress(request,keyword):
-        try: 
-            client = TopApiClient(appkey= ALIEXPRESS_APP_KEY , app_sercet= ALIEXPRESS_API_KEY  ,
-                          top_gateway_url='http://api.taobao.com/router/rest', verify_ssl=False)
-            
-            request_dict = {
-            "app_signature": "Marekti",
-            "keywords": keyword,
-            "page_no": "1",
-            "target_currency": "USD",
-            "target_language": "en",
-            "tracking_id": "Marketi",
-            }
-
-            file_param_dict = {}
-            response = client.execute("aliexpress.affiliate.product.query",request_dict,file_param_dict)
-            products = response.get('resp_result').get('result').get('products')
-            serializer = AliExpressProductSerializer(products,many=True)
-            return Response(serializer.data)
-        
-        except TopException as e:
-            print(e)
-            return Response("Error")
-        
-@api_view(['GET'])
-def callApi_Rapid_AmazonApi(request,keyword):
-        try:
-    
-            url = "https://amazon23.p.rapidapi.com/product-search"
-
-            querystring = {"query":keyword}
-
-            headers = {
-                "X-RapidAPI-Key": RAPID_API_KEY,
-                "X-RapidAPI-Host": "amazon23.p.rapidapi.com"
-            }
-
-            response = requests.request("GET", url, headers=headers, params=querystring)
-            products = response.json().get('result')
-            serializer = AmazonRapidProductSerializer(products,many=True)
-            return Response(serializer.data)
-        except Exception as e:
-            print(e)
-            return Response("Error")
-        
-@api_view(['GET'])
-def callApi_Rapid_Shein(request,keyword):
-        try:
-            url = "https://unofficial-shein.p.rapidapi.com/products/search"
-
-            querystring = {"keywords":keyword,"language":"en","country":"US","currency":"USD"}
-
-            headers = {
-                'X-RapidAPI-Key': RAPID_API_KEY,
-                'X-RapidAPI-Host': 'unofficial-shein.p.rapidapi.com'
-            }
-
-            response = requests.request("GET", url, headers=headers, params=querystring)
-            products = response.json().get('info').get("products")
-            serializer = SheinRapidProductSerializer(products,many=True)
-            return Response(serializer.data)
-
-        except Exception as e:
-            print(e)
-            return Response("Error")
-        
-@api_view(['GET'])
-def callApi_Rapid_RealTime(request,keyword):     
-    try:
-        url = "https://real-time-product-search.p.rapidapi.com/search"
-
-        querystring = {"q":keyword,"country":"us","language":"en"}
-
-        headers = {
-            'X-RapidAPI-Key': "5d35771659msh1de8eff53abd5afp14756fjsn875eab81aa56",
-            'X-RapidAPI-Host': 'real-time-product-search.p.rapidapi.com'
-            }
-
-        response = requests.request("GET", url, headers=headers, params=querystring) 
-        products = response.json().get('data')
-        serializer = RealTimeProductSerializer(products,many=True)
-        return Response(serializer.data)
-        
-    except Exception as e:
-        print(e)
-        return Response("Error")
-
-apiDec = {
-    "AliExpress":callApi_Rapid_AliExpress,
-    "Ebay":callApi_Ebay,
-    "Amazon":callApi_Rapid_AmazonApi,
-    "RealTime" : callApi_Rapid_RealTime,
-    "callApi_Rapid_Shein" : callApi_Rapid_Shein,
-}
-    
-
-
-
+# API_Dectionary = {
+#         "Rapid_Amazon" :        callApi_Rapid_AmazonApi, 
+#         "Rapid_AliExpress":     callApi_Rapid_AliExpress, 
+#         "Ebay":                 callApi_Ebay, 
+#         "FakeStore":            callApi_FakeStore ,
+#         "Rapid_Shein":          callApi_Rapid_SheinAPI
+#         }

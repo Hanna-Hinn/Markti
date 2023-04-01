@@ -1,47 +1,42 @@
-import threading
-from .dataManager import dog_finished, data_SendToDataManager
-from views import apiDec
+import threading as th
+from . import variables
 
-class watchDog:
- 
- ###########################
-# Function : start_watchdog
-# Input :    string_list(shop filters)
-# Output :   None
-# Description : 
-# ----------------------------
-#   This function is used to start the watchdog thread  
-#   It takes a list of strings and checks if the string is in the apiDec dictionary
-#   If it is it creates a thread and runs the function
-#   It then joins the threads
-#   It then calls the dog_finished function
-# ----------------------------
-###########################
+def Start(functionlist):
 
-    def start_watchdog(self, string_list):
-        thread_list = []
-        for string in string_list:
-            if string in apiDec:
-                func = apiDec[string]
-                t = threading.Thread(target=self.run_func_and_send_to_dm, args=(func,))
-                thread_list.append(t)
-                t.start()
-        
-        for t in thread_list:
-            t.join()
-        
-        dog_finished()
+    # clear the results list so if you spam the search button it will not return the results from the previous search
+    variables.results.clear()
+    # create a list to store the threads
+    threads = []
+    # loop through the function list
+    for fname in functionlist:
+        # check if the function is in variables.API_Dectionary
+        if fname in variables.API_Dectionary:
+            # create a thread for the function
+            def myThread():
+                # run the function and store the result
+                result = variables.API_Dectionary[fname]()
+                print("eeeeeeeeeee")
+                print(result)
+                with variables.results_lock:
+                    for i in result:
+                      variables.results.append(i)
+                    result.clear()
+            
+            # start the thread
+            t = th.Thread(target=myThread)
+            t.start()
+            # add the thread to the list
+            threads.append(t)
+        else:
+            # return an error if the function is not in variables.API_Dectionary
+            return f"Error: {fname} is not in variables.API_Dectionary"
 
+    # wait for all the threads to finish
+    for t in threads:
+        t.join()
 
-###########################
-# Function : run_func_and_send_to_dm
-# Input :    func(function to run)
-# Output :   None
-# Description : 
-# ----------------------------
-#   This function is used to run a function and send the data to the dataManager
-# ----------------------------
-###########################
-    def run_func_and_send_to_dm(self, func):
-        func()
-        data_SendToDataManager()
+    # set finished to True
+
+    variables.finished = True
+    
+            
