@@ -1,8 +1,53 @@
-
-import time
-
-
 from . import variables
+from .Objects import Product
+import time
+import json
+
+import json
+
+def objectifyThread():
+   
+    nubmerOfObjectified = 0
+    while True:
+        time.sleep(1)
+        if variables.dataQueue.empty():
+            pass
+        else: 
+            currentData = variables.dataQueue.get()
+  
+            print (type(currentData))
+        
+            var_map = {
+                "id": "product_id",
+                "title": "product_title",
+                "category": "product_category",
+                "image": "product_image",
+                "url": "product_url",
+                "price": "product_price",
+                "topRatedListing": "product_rating"
+            }
+            for item in currentData:
+                for key, value in item.items():# value of the item is the value of the attribute
+
+                    product = Product()
+
+                    if key in variables.attributeDict:
+                        var_name = var_map.get(key)
+                        if var_name:
+                            setattr(product, var_name, value)
+                        
+                    variables.informationList.append(product)
+
+            nubmerOfObjectified +=1 # this adds one to the number of objectified
+            variables.InformationQueue.put(variables.informationList)
+            variables.informationList.clear()
+
+
+            # check if the number of objectified is equal to the requested amount
+            if nubmerOfObjectified == variables.requestedApiAmount:
+                break
+ 
+
 
 def myMainThread(): 
 ###########################
@@ -12,47 +57,36 @@ def myMainThread():
 
 # Description :
 # ----------------------------
-# This function will start the Main Thread.
-# Starts watchDog and waits for it to finish.
-# The Main Thread will sort the results from the watchDog.
-# The function will keep waiting for data until the watchDog has finished.
-
+# This function is the main thread of the program.
+# It will sort the results and print them.
+# until the number of sorted results is equal to the number of requested apis.
 # ----------------------------
-
-# Future Changes :
-# ----------------------------
-# 1. Change the print statements to return statements.
-# 2. Make it so that the function returns the sorted results.
-# 3. Make it use queues instead of locks.
-# 4. check for performance issuse in time.sleep
-# ----------------------------
-
 ###########################
-    # start the watchDog
-    sortedResults = []
 
+    sortedResults = []
+    numberOfSorted = 0
     while True:
 
-        # wait to receive data # check for performance issuse
+        # wait to receive data 
         time.sleep(1)
 
-        # sort the results 
-        with variables.results_lock:
-            if variables.results != []:
-                print("Recived", variables.results)
-                print("Sorting...")
-                # this by default sorts by the first element in the list using TimSort algorithm 
-                sortedResults = sorted(sortedResults + variables.results) 
-                variables.results.clear()
-                print("Sorted :", sortedResults)
-        # check if __finished sorting
-        if variables.finished:
-            # print the sorted results
-            print("finshed")
-            variables.results = sortedResults
-            break
+        #wait for the informationQueue to have at least one item in it.
+        if variables.InformationQueue.empty():
+            pass
         else:
-            # print the sorting progress
-            print("Waiting....")
+            # sort the results 
+            with variables.results_lock:
+                if variables.results != []:
+                    print("Recived", variables.results)
+                    print("Sorting...")
+                    # sort the results according to the price
+                    sortedResults = sorted(sortedResults + variables.results, key=lambda x: x.price)
+                    variables.results.clear()
+                    print("Sorted :", sortedResults)
+                    numberOfSorted +=1
+        
+        if numberOfSorted == variables.requestedApiAmount:
+            #kill thread and print the results 
+            return sortedResults
 
-
+            

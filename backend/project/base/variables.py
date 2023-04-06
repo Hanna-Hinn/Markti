@@ -3,10 +3,10 @@
 ######################################
                 #Python Imports#
 
-import threading as th
+
 import requests
 from rest_framework.response import Response
-
+import queue
 #######################################
                 #Data Imports#
 
@@ -15,6 +15,7 @@ from . import secrets
                 #Class Imports#
                 
 from .serializer import *
+from .stores_api import call_Ebay
 #######################################
                 #Api Imports#
 
@@ -27,9 +28,13 @@ from ebaysdk.finding import Connection as Finding
 
 results= [] # this is a list that will store the results from the API calls in the watchDog.py file
 
-results_lock = th.Lock() # this is a lock that will be used to lock the results list used in the watchDog.py file
 
-finished = False # this is a boolean that will be used to tell the dataManager.py file that the watchDog.py file has finished
+requestedApiAmount = 0
+
+
+dataQueue = queue.Queue()
+informationList = []
+InformationQueue = queue.Queue()
 
 keyWord ="" # this is a string that will be used to store the keyword that the user has entered
 
@@ -43,19 +48,10 @@ keyWord ="" # this is a string that will be used to store the keyword that the u
 # ----------------------------
 ###########################
 
-def callApi_Ebay():
+def callApi_Ebay(keyword):
     
-        api = Finding(appid= secrets.EBAY_API_KEY , config_file=None)
-        api_request = {'keywords': keyWord}
-        try:
-            response = api.execute('findItemsAdvanced', api_request)
-            json_response = response.dict()
-            products = json_response.get('searchResult').get('item')
-            serializer = EbayProductSerializer(products,many=True)
-            return serializer.data
-        except Exception as e:
-            print(e)
-            return e
+        products = call_Ebay(keyword)
+        return Response(products)
         
 
 def callApi_Rapid_AliExpress(keyword):
@@ -169,5 +165,21 @@ API_Dectionary = {
         "FakeStore":            callApi_FakeStore ,
         "Rapid_Shein":          callApi_Rapid_SheinAPI
         }
+
+# Attribute Dictionary  used to map the attributes of the API to the attributes of the database
+attributeDict = {
+    #for Ebay
+    "itemId": "id",
+    "title": "title",
+    "categoryName": "category",
+    "galleryURL": "image",
+    "viewItemURL": "url",
+    "value": "price",
+    "sellingState": "state",
+    "watchCount": "watchCount",
+    "topRatedListing": "rate"
+    #
+}
+
 
 ############################################################################################################

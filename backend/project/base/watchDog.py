@@ -1,8 +1,10 @@
 import threading as th
 from . import variables
 
-def Start(functionlist):
 
+
+def Start(functionlist):
+    print("watchdog started")
     # clear the results list so if you spam the search button it will not return the results from the previous search
     variables.results.clear()
     # create a list to store the threads
@@ -14,13 +16,11 @@ def Start(functionlist):
             # create a thread for the function
             def myThread():
                 # run the function and store the result
-                result = variables.API_Dectionary[fname]()
-                print("eeeeeeeeeee")
-                print(result)
-                with variables.results_lock:
-                    for i in result:
-                      variables.results.append(i)
-                    result.clear()
+                print("function started: ",fname, variables.keyWord)
+                result = variables.API_Dectionary[fname](variables.keyWord)
+                #print(result)
+           
+                variables.dataQueue.put(result)
             
             # start the thread
             t = th.Thread(target=myThread)
@@ -30,13 +30,13 @@ def Start(functionlist):
         else:
             # return an error if the function is not in variables.API_Dectionary
             return f"Error: {fname} is not in variables.API_Dectionary"
+        
+    # set the requestedApiAmount to the length of the function list
+    variables.requestedApiAmount = len(functionlist)
 
     # wait for all the threads to finish
     for t in threads:
         t.join()
+        print("function finished: ",fname, variables.keyWord ,"queue size: ", variables.dataQueue.qsize() )
 
-    # set finished to True
-
-    variables.finished = True
-    
             
