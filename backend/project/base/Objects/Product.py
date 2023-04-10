@@ -1,77 +1,18 @@
 class Product:
-    def __init__(self, name, price, rating, description, images, link, website):
-        self._name = name
-        self._price = price
-        self._rating = rating
-        self._description = description
-        self._images = images
-        self._link = link
-        self._website = website
 
-    @property
-    def name(self):
-        return self._name
+ 
+    def __init__(self, product_id=None, product_title=None, product_category=None, product_image=None, product_url=None, product_price=None, product_rating=None):
+        self.product_id = product_id
+        self.product_title = product_title
+        self.product_category = product_category
+        self.product_image = product_image
+        self.product_url = product_url
+        self.product_price = product_price
+        self.product_rating = product_rating
 
-    @property
-    def price(self):
-        return self._price
-
-    @property
-    def rating(self):
-        return self._rating
-
-    @property
-    def description(self):
-        return self._description
-
-    @property
-    def images(self):
-        return self._images
-
-    @property
-    def link(self):
-        return self._link
-
-    @property
-    def website(self):
-        return self._website
-
-    @name.setter
-    def name(self, name):
-        self._name = name
-
-    @price.setter
-    def price(self, price):
-        if not isinstance(price, (int, float)):
-            raise TypeError("Price must be a number")
-        if price < 0:
-            raise ValueError("Price must be non-negative")
-        self._price = price
+    def __str__(self):
+        return f"Product ID: {self.product_id}, Product Title: {self.product_title}, Product Category: {self.product_category}, Product Image: {self.product_image}, Product URL: {self.product_url}, Product Price: {self.product_price}, Product Rating: {self.product_rating}"
     
-    @rating.setter
-    def rating(self, rating):
-        if not isinstance(rating, (int, float)):
-            raise TypeError("Rating must be a number")
-        if rating < 0 or rating > 5:
-            raise ValueError("Rating must be between 0 and 5")
-        self._rating = rating
-    
-    @description.setter
-    def description(self, description):
-        if not isinstance(description, str):
-            raise TypeError("Description must be a string")
-        if len(description) > 1000:
-            raise ValueError("Description is too long")
-        self._description = description
-    
-    @images.setter
-    def images(self, images):
-        self._images = images
-    
-    @link.setter
-    def link(self, link):
-        self._link = link
-    
-    @website.setter
-    def website(self, website):
-        self._website = website
+    def __lt__(self, other):
+        # Compare products based on their prices
+        return self.product_price < other.product_price

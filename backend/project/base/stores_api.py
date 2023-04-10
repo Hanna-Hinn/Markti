@@ -1,5 +1,6 @@
 #######################################
 # Python Imports#
+import keyword
 import requests
 
 #######################################
@@ -8,7 +9,7 @@ import requests
 from topsdk.client import TopApiClient, TopException
 # Ebay
 from ebaysdk.finding import Connection as Finding
-from ebaysdk.exception import ConnectionError
+
 #######################################
 # Data Imports#
 from .secrets import *
@@ -23,10 +24,15 @@ def call_Ebay(keyword):
         response = api.execute('findItemsAdvanced', api_request)
         json_response = response.dict()
         products = json_response.get('searchResult').get('item')
-        serializer = EbayProductSerializer(products, many=True)
-        return serializer.data
+        try:
+            serializer = EbayProductSerializer(products, many=True)
+            return serializer.data 
+        except Exception as e:
+            print("Error in serializer",e) 
     except Exception as e:
-        return e
+        print("ERROR IN CALL_EBAY FUNCTION IN STORES_API",e)
+        
+
 
 
 def callApi_Rapid_AliExpress(keyword):

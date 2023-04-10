@@ -16,10 +16,14 @@ def launch(storelist,keword):
     object_thread = Thread(target=dataManager.objectifyThread)
     object_thread.start()
     # start the watchDog
-    watchDog.Start(storelist)
-    # wait for the objectification to finsh
+    watchDog_thread= Thread(target=watchDog.Start(storelist))
+    watchDog_thread.start()
+    print("here1")
+    #wait for the objectify thread to finish
+    watchDog_thread.join()
+    print("here2")
     object_thread.join()
-    # wait for the main thread to finish before returning results
+    print("here3")
     main_thread.join()
-    
+    print("here4")
     return variables.results

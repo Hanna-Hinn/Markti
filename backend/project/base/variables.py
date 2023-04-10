@@ -49,9 +49,10 @@ keyWord ="" # this is a string that will be used to store the keyword that the u
 ###########################
 
 def callApi_Ebay(keyword):
-    
+   
         products = call_Ebay(keyword)
-        return Response(products)
+
+        return products
         
 
 def callApi_Rapid_AliExpress(keyword):

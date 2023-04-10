@@ -17,6 +17,5 @@ urlpatterns = [
     path('apis/<str:modify>/<int:pk>', views.modifyAPI, name="modifyAPI"),
     
     path('start/', views.start_launcher, name="start_launcher"),
-    
-    
+
 ]

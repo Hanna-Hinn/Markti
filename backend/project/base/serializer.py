@@ -9,10 +9,10 @@ class StoreSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class ProductSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Product
-        fields = '__all__'
+# class ProductSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Product
+#         fields = '__all__'
 
 
 class ReviewSerializer(serializers.ModelSerializer):
@@ -68,6 +68,7 @@ class AliExpressProductSerializer(serializers.Serializer):
 
 
 class EbayProductSerializer(serializers.Serializer):
+    
     itemId = serializers.IntegerField()
     title = serializers.CharField()
     categoryName = serializers.SerializerMethodField()
@@ -75,7 +76,7 @@ class EbayProductSerializer(serializers.Serializer):
     viewItemURL = serializers.CharField(max_length=200)
     value = serializers.SerializerMethodField()
     sellingState = serializers.SerializerMethodField()
-    watchCount = serializers.SerializerMethodField()
+   # watchCount = serializers.SerializerMethodField() # This is not working because of the way the data is structured
     topRatedListing = serializers.CharField(max_length=100)
 
     def get_categoryName(self, obj):
@@ -141,3 +142,12 @@ class RealTimeProductSerializer(serializers.Serializer):
 
     def get_price_range(self, obj):
         return obj['typical_price_range']
+#################### Fadis eddition
+class ProductSerializer(serializers.Serializer):
+    product_id = serializers.CharField()
+    product_title = serializers.CharField()
+    product_category = serializers.CharField()
+    product_image = serializers.URLField()
+    product_url = serializers.URLField()
+    product_price = serializers.DecimalField(max_digits=10, decimal_places=2)
+    product_rating = serializers.BooleanField()

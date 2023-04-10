@@ -210,9 +210,9 @@ def productCountFromSubCategory(request, subcategory):
 def start_launcher(request):
     # make list with fakestore  
     storeList = ["Ebay"]
-
-    finalResultJason =json.dumps(launcher.launch(storeList, request.query_params.get('keyword')))
-    return Response(finalResultJason)
+    res =launcher.launch(storeList, request.query_params.get('keyword'))
+    serializer = ProductSerializer(res, many=True)
+    return Response( serializer.data )
 
 # API_Dectionary = {
 #         "Rapid_Amazon" :        callApi_Rapid_AmazonApi, 
@@ -221,5 +221,3 @@ def start_launcher(request):
 #         "FakeStore":            callApi_FakeStore ,
 #         "Rapid_Shein":          callApi_Rapid_SheinAPI
 #         }
-
-
