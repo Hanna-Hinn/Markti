@@ -150,4 +150,13 @@ class ProductSerializer(serializers.Serializer):
     product_image = serializers.URLField()
     product_url = serializers.URLField()
     product_price = serializers.DecimalField(max_digits=10, decimal_places=2)
-    product_rating = serializers.BooleanField()
+
+    #in frontend, we check if ratiing is char or int EBAY RETURNS IF THE SELLER IS NOT TOP RATED
+    product_rating = serializers.CharField() 
+    
+    ################ note for why it is char
+   # The eBay API does not provide the rating of an item directly. 
+   # The "topRatedListing" field or parameter in the eBay API SDK is 
+   # used to filter or retrieveitems that are eligible for eBay's 
+   # Top Rated Plus program based on specific criteria such
+   # as fast shipping, accurate item descriptions, and excellent customer service.

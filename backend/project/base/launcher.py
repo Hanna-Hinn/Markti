@@ -7,8 +7,14 @@ from . import variables
 
 
 def launch(storelist,keword):
-   
+    
+    # clear the variables
+    variables.results.clear()
+    variables.dataQueue.queue.clear()
+    variables.informationList.clear()
+    variables.InformationQueue.queue.clear()
     variables.keyWord = keword
+
     # start the main thread
     main_thread = Thread(target=dataManager.myMainThread)
     main_thread.start()

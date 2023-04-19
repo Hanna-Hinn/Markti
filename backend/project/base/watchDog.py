@@ -8,6 +8,8 @@ def Start(storeList):
 
     # clear the results list so if you spam the search button it will not return the results from the previous search
     variables.results.clear()
+
+    
     # create a list to store the threads
     threads = []
     # loop through the function list

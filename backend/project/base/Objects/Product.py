@@ -13,6 +13,4 @@ class Product:
     def __str__(self):
         return f"Product ID: {self.product_id}, Product Title: {self.product_title}, Product Category: {self.product_category}, Product Image: {self.product_image}, Product URL: {self.product_url}, Product Price: {self.product_price}, Product Rating: {self.product_rating}"
     
-    def __lt__(self, other):
-        # Compare products based on their prices
-        return self.product_price < other.product_price
+  

@@ -182,5 +182,7 @@ attributeDict = {
     #
 }
 
-
+def sortResults(results):
+    sortedResults = sorted(results, key=lambda k: k['price']) 
+    return sortedResults
 ############################################################################################################
