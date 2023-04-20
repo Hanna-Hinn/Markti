@@ -22,9 +22,9 @@ def Start(storeList):
                 # run the function and store the result
                 print("function started: ",storeName, "Keyword:",variables.keyWord)
                 result = variables.API_Dectionary[storeName](variables.keyWord)
-
+                # send the store name and the result to the dataQueue
            
-                variables.dataQueue.put(result)
+                variables.dataQueue.put([storeName,result])
             
             # start the thread
             t = th.Thread(target=myThread)

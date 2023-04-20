@@ -150,7 +150,10 @@ class ProductSerializer(serializers.Serializer):
     product_image = serializers.URLField()
     product_url = serializers.URLField()
     product_price = serializers.DecimalField(max_digits=10, decimal_places=2)
-
+    product_store = serializers.CharField()
+    # make sure to add the store image can be found in store images
+    product_store_image = serializers.URLField()
+    
     #in frontend, we check if ratiing is char or int EBAY RETURNS IF THE SELLER IS NOT TOP RATED
     product_rating = serializers.CharField() 
     

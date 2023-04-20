@@ -1,7 +1,7 @@
 from . import variables
 from .Objects.Product import Product
 import time
-
+import os
 
 
 
@@ -23,7 +23,11 @@ def objectifyThread():
         if variables.dataQueue.empty():
             pass
         else: 
-            itemList = variables.dataQueue.get()
+            # get the store name from the dataQueue sent as [storeName,result]
+            data = variables.dataQueue.get()
+            storeName =  data [0]
+          
+            itemList = data [1]
            
 
             attributeDict = {
@@ -53,10 +57,12 @@ def objectifyThread():
                             if key == attribute:
                                 for attributeKey,attributeResult in attributeValue.items():
                                    
-
+                                    
                                     # Set attribute on the Product object
                                     setattr(product, str(attributeResult), str(value))
-                                    
+                                    setattr(product, "product_store", storeName)
+                                    path = os.path.join("backend", "project", "base", "StoreImages", storeName + ".jpg")
+                                    setattr(product, "product_store_image", path)
                                    
                     # print(product)
 
@@ -116,6 +122,7 @@ def myMainThread():
                 print("Recived",len(variables.results),"results")
                 print("Sorting...")
                 # sort the results according to the price
+                # why is this important? because the price is the only thing that is the same for all the apis
                 for result in variables.results:
                     if result.product_price == None: # if the price is None then set it to 0
                         result.product_price = 0
@@ -128,10 +135,8 @@ def myMainThread():
                 sortedResults = sortedResults  + variables.results
                 
                 sortedResults = sorted(sortedResults, key=lambda x: x.product_price)
-
-                for result in sortedResults:
-                    #print pice
-                    print(result.product_price)
+                
+        
            
                 numberOfSorted +=1
         
