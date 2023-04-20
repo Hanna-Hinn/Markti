@@ -31,7 +31,7 @@ results= [] # this is a list that will store the results from the API calls in t
 
 requestedApiAmount = 0
 
-
+finshedresult =[]
 dataQueue = queue.Queue()
 informationList = []
 InformationQueue = queue.Queue()
@@ -182,7 +182,5 @@ attributeDict = {
     #
 }
 
-def sortResults(results):
-    sortedResults = sorted(results, key=lambda k: k['price']) 
-    return sortedResults
+
 ############################################################################################################

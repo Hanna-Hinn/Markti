@@ -4,6 +4,7 @@ from . import watchDog
 
 from . import dataManager
 from . import variables 
+from . import pagenationManager
 
 
 def launch(storelist,keword):
@@ -24,12 +25,14 @@ def launch(storelist,keword):
     # start the watchDog
     watchDog_thread= Thread(target=watchDog.Start(storelist))
     watchDog_thread.start()
-    print("here1")
+    
     #wait for the objectify thread to finish
     watchDog_thread.join()
-    print("here2")
+    
     object_thread.join()
-    print("here3")
+    
     main_thread.join()
-    print("here4")
-    return variables.results
+    
+    
+    return pagenationManager.paginate(1)
+

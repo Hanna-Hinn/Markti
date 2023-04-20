@@ -1,7 +1,7 @@
 
 #######################################
           #Rest Framework Imports#
-import json
+
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -14,7 +14,7 @@ from rest_framework import status
 from .serializer import *
 from .stores_api import call_Ebay
 from . import launcher 
-
+from . import pagenationManager
 
 #######################################
 # Create your views here.
@@ -214,6 +214,8 @@ def start_launcher(request):
     serializer = ProductSerializer(res, many=True)
     return Response( serializer.data )
 
+
+
 # API_Dectionary = {
 #         "Rapid_Amazon" :        callApi_Rapid_AmazonApi, 
 #         "Rapid_AliExpress":     callApi_Rapid_AliExpress, 
@@ -221,3 +223,19 @@ def start_launcher(request):
 #         "FakeStore":            callApi_FakeStore ,
 #         "Rapid_Shein":          callApi_Rapid_SheinAPI
 #         }
+###############################
+
+@api_view(['Get']) 
+def get_Numberof_Pages(request):# to return number of pages for FRONTEND
+    return pagenationManager.get_total_pages()
+
+@api_view(['Get']) 
+def get_Page(request):# to return the data page for FRONTEND
+    return pagenationManager.paginate(request.query_params.get('page'))
+
+
+
+
+
+
+   
