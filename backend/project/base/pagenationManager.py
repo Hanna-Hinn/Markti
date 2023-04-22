@@ -1,7 +1,7 @@
 from . import variables
 
 
-def get_total_pages(page_size=10):
+def get_total_pages(page_size=100):
     """
     Function :
     Get the total number of pages and total number of records in the data.
@@ -24,7 +24,7 @@ def get_total_pages(page_size=10):
     return total_pages, total_records
 
 
-def paginate(page_number=1, page_size=10):
+def paginate(page_number=1, page_size=100):
  
 
     """

@@ -11,10 +11,13 @@ def objectifyThread():
     This function takes the data from the dataQueue and objectifies it into a Product object
     and then adds it to the informationList
 
+
     Args:
+    -----
         None
 
     Returns:
+    --------
         None
     """
     nubmerOfObjectified = 0
@@ -31,6 +34,7 @@ def objectifyThread():
            
 
             attributeDict = {
+                # AS IN THE SERIALIZER
                     #for Ebay
                     "itemId": {"id": "product_id"},
                     "title": {"title": "product_title"},
@@ -51,6 +55,24 @@ def objectifyThread():
                     "title": {"title": "product_title"},
                     "thumbnail": {"image": "product_image"},
                     #
+                    #for AliExpress
+                    "product_id": {"id": "product_id"},
+                    "first_level_category_name": {"category": "product_category"},
+                    "original_price": {"price": "product_price"},
+                    "product_detail_url": {"url": "product_url"},
+                    "product_main_image_url": {"image": "product_image"},
+                    "product_title": {"title": "product_title"},
+                    "promotion_link": {"promotion_link": "product_promotion_link"},
+                    #
+                    #for Shein   
+
+                    "goods_sn": {"id": "product_id"},
+                    "goods_img": {"image": "product_image"},
+                    "goods_name": {"title": "product_title"},
+                    "usdAmountWithSymbol": {"price": "product_price"},
+                    "comment_num": {"total_reviews": "product_rating"},
+                   
+
                 }
         
             print("Objectifying...")

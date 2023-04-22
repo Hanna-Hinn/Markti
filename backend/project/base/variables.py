@@ -160,27 +160,14 @@ def callApi_FakeStore():
 ###################################################
 
 API_Dectionary = {
-        "Rapid_Amazon" :        callApi_Rapid_AmazonApi, 
-        "Rapid_AliExpress":     callApi_Rapid_AliExpress, 
-        "Ebay":                 callApi_Ebay, 
-        "FakeStore":            callApi_FakeStore ,
-        "Rapid_Shein":          callApi_Rapid_SheinAPI
+        "Amazon" :        callApi_Rapid_AmazonApi, 
+        "AliExpress":     callApi_Rapid_AliExpress, 
+        "Ebay":           callApi_Ebay, 
+        "FakeStore":      callApi_FakeStore ,
+        "Shein":          callApi_Rapid_SheinAPI
         }
 
-# Attribute Dictionary  used to map the attributes of the API to the attributes of the database
-attributeDict = {
-    #for Ebay
-    "itemId": "id",
-    "title": "title",
-    "categoryName": "category",
-    "galleryURL": "image",
-    "viewItemURL": "url",
-    "value": "price",
-    "sellingState": "state",
-    "watchCount": "watchCount",
-    "topRatedListing": "rate"
-    #
-}
+
 
 
 ############################################################################################################

@@ -18,6 +18,7 @@ from .serializer import *
 
 
 def call_Ebay(keyword):
+   
     api = Finding(appid=EBAY_API_KEY, config_file=None)
     api_request = {'keywords': keyword}
     try:
@@ -61,6 +62,7 @@ def callApi_Rapid_AliExpress(keyword):
 
 
 def callApi_Rapid_AmazonApi(keyword):
+   
     try:
 
         url = "https://amazon23.p.rapidapi.com/product-search"

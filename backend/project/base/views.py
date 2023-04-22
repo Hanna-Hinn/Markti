@@ -12,7 +12,7 @@ from rest_framework import status
             #Data Imports#
 
 from .serializer import *
-from .stores_api import call_Ebay
+from .stores_api import *
 from . import launcher 
 from . import pagenationManager
 
@@ -39,7 +39,8 @@ def getRoutes(request):
 @api_view(['GET'])
 def search(request):
     search = request.query_params.get('keyword')
-    products = call_Ebay(search)
+    products = callApi_Rapid_AmazonApi(search)
+   # products = call_Ebay(search)
     # serialized_data = RealTimeProductSerializer(data = products, many=True)
     # serialized_data.is_valid(raise_exception=True)
     # deserialized_data = ProductSerializer(data=serialized_data.validated_data, many=True)
@@ -208,29 +209,43 @@ def productCountFromSubCategory(request, subcategory):
 
 @api_view(['Get'])
 def start_launcher(request):
+    """
+    This function is to start the launcher
+    Stores are passed as a list of strings (Store Names)
+    
+    """
     # make list with fakestore  
-    storeList = ["Ebay"]
-    res =launcher.launch(storeList, request.query_params.get('keyword'))
+    
+    storeList = request.query_params.get('storeList').split(',')
+    keyword = request.query_params.get('keyword')
+    
+    res =launcher.launch(storeList, keyword)
     serializer = ProductSerializer(res, many=True)
     return Response( serializer.data )
 
 
 
 # API_Dectionary = {
-#         "Rapid_Amazon" :        callApi_Rapid_AmazonApi, 
-#         "Rapid_AliExpress":     callApi_Rapid_AliExpress, 
+#         "Amazon" :        callApi_Rapid_AmazonApi, 
+#         "AliExpress":     callApi_Rapid_AliExpress, 
 #         "Ebay":                 callApi_Ebay, 
 #         "FakeStore":            callApi_FakeStore ,
-#         "Rapid_Shein":          callApi_Rapid_SheinAPI
+#         "Shein":          callApi_Rapid_SheinAPI
 #         }
 ###############################
 
 @api_view(['Get']) 
 def get_Numberof_Pages(request):# to return number of pages for FRONTEND
+    """
+    This function is to return the number of pages
+    """
     return pagenationManager.get_total_pages()
 
 @api_view(['Get']) 
 def get_Page(request):# to return the data page for FRONTEND
+    """
+    This function is to return the data page
+    """
     return pagenationManager.paginate(request.query_params.get('page'))
 
 
