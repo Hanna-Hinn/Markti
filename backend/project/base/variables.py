@@ -1,12 +1,14 @@
 
 
+
+
 ######################################
                 #Python Imports#
 
 
 import requests
 from rest_framework.response import Response
-import queue
+
 #######################################
                 #Data Imports#
 
@@ -24,20 +26,7 @@ from topsdk.client import TopApiClient, TopException
 #Ebay
 from ebaysdk.finding import Connection as Finding
 #######################################
-                #Variables#
-
-results= [] # this is a list that will store the results from the API calls in the watchDog.py file
-
-
-requestedApiAmount = 0
-
-finshedresult =[]
-dataQueue = queue.Queue()
-informationList = []
-InformationQueue = queue.Queue()
-
-keyWord ="" # this is a string that will be used to store the keyword that the user has entered
-
+    
 ###########################
 # Function : callApi
 # Input : request , keyword(Search String)

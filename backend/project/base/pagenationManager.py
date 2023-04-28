@@ -1,7 +1,7 @@
 from . import variables
 
 
-def get_total_pages(page_size=100):
+def get_total_pages(sortedList,page_size=100):
     """
     Function :
     Get the total number of pages and total number of records in the data.
@@ -12,9 +12,9 @@ def get_total_pages(page_size=100):
     Returns:
         tuple: (total_pages, total_records) - Total number of pages and total number of records.
     """
-    data = variables.finshedresult
+    data = sortedList
     if not isinstance(data, list):
-        raise ValueError("Data must be a list.")
+        raise ValueError("Data must be a list it is : ", type(data))
     if not isinstance(page_size, int) or page_size < 1:
         raise ValueError("Page size must be a positive integer.")
 
@@ -24,7 +24,7 @@ def get_total_pages(page_size=100):
     return total_pages, total_records
 
 
-def paginate(page_number=1, page_size=100):
+def paginate(sortedList,page_number=1, page_size=100):
  
 
     """
@@ -38,8 +38,9 @@ def paginate(page_number=1, page_size=100):
     Returns:
         list: Data records for the requested page.
     """
-    total_pages, total_records = get_total_pages(page_size)
-    data = variables.finshedresult
+    total_pages, total_records = get_total_pages(sortedList,page_size)
+    data = sortedList
+    
     if page_number > total_pages:
         raise ValueError("Page number exceeds total number of pages.")
 
@@ -47,3 +48,5 @@ def paginate(page_number=1, page_size=100):
     end = min(start + page_size, total_records)
 
     return data[start:end]
+
+

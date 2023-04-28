@@ -1,33 +1,31 @@
-from . import variables
+
 from .Objects.Product import Product
+from .Objects.VariablesDTO import VariablesDTO
 import time
 import os
 
 
 
-def objectifyThread():
+def objectifyThread(var_dto: VariablesDTO):
     """
     Function 
     This function takes the data from the dataQueue and objectifies it into a Product object
     and then adds it to the informationList
-
-
     Args:
     -----
         None
-
     Returns:
     --------
         None
     """
-    nubmerOfObjectified = 0
+ 
     while True:
         time.sleep(1)
-        if variables.dataQueue.empty():
+        if var_dto.dataQueue.empty():
             pass
         else: 
             # get the store name from the dataQueue sent as [storeName,result]
-            data = variables.dataQueue.get()
+            data = var_dto.dataQueue.get()
             storeName =  data [0]
           
             itemList = data [1]
@@ -94,25 +92,25 @@ def objectifyThread():
                                     # Set attribute on the Product object
                                     setattr(product, str(attributeResult), str(value))
                                     setattr(product, "product_store", storeName)
-                                    path = os.path.join("backend", "project", "base", "StoreImages", storeName + ".png")
+                                    path = os.path.join("backend", "project", "static","StoreImages", storeName + ".png")
                                     setattr(product, "product_store_image", path)
                                    
                     
 
                     # Append the Product object to the queue
-                    variables.informationList.append(product)
+                    var_dto.informationList.append(product)
                 
              
             except Exception as e:
                 print("Error in objectifyThread", e)
 
-            nubmerOfObjectified +=1 # this adds one to the number of objectified
-            variables.InformationQueue.put(variables.informationList)
+            var_dto.nubmerOfObjectified +=1 # this adds one to the number of objectified
+            var_dto.informationQueue.put(var_dto.informationList)
             
 
 
             # check if the number of objectified is equal to the requested amount
-            if nubmerOfObjectified == variables.requestedApiAmount:
+            if var_dto.nubmerOfObjectified == var_dto.requestedApiAmount:
                 print("finshed objectifying")
                 
                 break
@@ -120,7 +118,7 @@ def objectifyThread():
  
 
 
-def myMainThread(): 
+def myMainThread(var_dto: VariablesDTO): 
     """
     Function 
         this function is the main thread that will be running in the background
@@ -129,14 +127,12 @@ def myMainThread():
         and will be used by the pagenationManager to display the results
     Args:
         None
-
     Returns:
         None
     """
  
     print("Starting main thread")
-    sortedResults = []
-    numberOfSorted = 0
+  
     while True:
 
         
@@ -145,17 +141,17 @@ def myMainThread():
         time.sleep(1)
 
         #wait for the informationQueue to have at least one item in it.
-        if variables.InformationQueue.empty():
+        if var_dto.informationQueue.empty():
             print("Waiting for informationQueue to have at least one item in it.")
         else:
             # sort the results 
-            variables.results = variables.InformationQueue.get()
-            if variables.results != []:
-                print("Recived",len(variables.results),"results")
+            var_dto.results = var_dto.informationQueue.get()
+            if var_dto.results != []:
+                print("Recived",len(var_dto.results),"results")
                 print("Sorting...")
                 # sort the results according to the price
                 # why is this important? because the price is the only thing that is the same for all the apis
-                for result in variables.results:
+                for result in var_dto.results:
                     if result.product_price == None: # if the price is None then set it to 0
                         result.product_price = 0
                     else:
@@ -164,18 +160,17 @@ def myMainThread():
                 # add dummy results to the sortedResults list
                
 
-                sortedResults = sortedResults  + variables.results
+                var_dto.sortedResults = var_dto.sortedResults  + var_dto.results
                 
-                sortedResults = sorted(sortedResults, key=lambda x: x.product_price)
+                var_dto.sortedResults = sorted(var_dto.sortedResults, key=lambda x: x.product_price)
                 
         
            
-                numberOfSorted +=1
+                var_dto.numberOfSorted +=1
         
-        if numberOfSorted == variables.requestedApiAmount:
+        if var_dto.numberOfSorted == var_dto.requestedApiAmount and var_dto.requestedApiAmount !=0:
             #kill thread and print the results 
-            variables.finshedresult = sortedResults
+            var_dto.finshedresult = var_dto.sortedResults
             print("finshed sorting")
             print("finshed main thread")
             break
-
