@@ -39,13 +39,14 @@ def launch(storelist, keyword):
     watchDog_thread= Thread(target=watchDog.start, args=(var_dto,))
     
     main_thread.start()
-    watchDog_thread.start()
+    
     object_thread.start()
+    watchDog_thread.start()
     
     #wait for the objectify thread to finish
-    object_thread.join()
-    
-    main_thread.join()
     watchDog_thread.join()
+    object_thread.join()
+    main_thread.join()
+   
     
     return pagenationManager.paginate(var_dto.sortedResults, 1)

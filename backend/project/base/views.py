@@ -251,6 +251,4 @@ def get_Page(request):# to return the data page for FRONTEND
 
 
 
-
-
    

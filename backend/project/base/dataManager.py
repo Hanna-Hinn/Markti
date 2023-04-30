@@ -174,3 +174,27 @@ def myMainThread(var_dto: VariablesDTO):
             print("finshed sorting")
             print("finshed main thread")
             break
+
+
+def sortAlphabit(resultList, ascending: bool):
+    """
+    Function
+        this function sorts the results according to the product title
+    Args:
+        resultList: list of results
+        ascending: bool
+    Returns:
+        resultList: list of results
+    """
+    for result in resultList:
+        if result.product_title == None:
+            result.product_title = ""
+    if ascending:
+        resultList = sorted(resultList, key=lambda x: x.product_title)
+    else:
+        resultList = sorted(resultList, key=lambda x: x.product_title, reverse=True)
+    return resultList
+
+
+
+
