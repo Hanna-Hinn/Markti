@@ -66,9 +66,7 @@ class AliExpressProductSerializer(serializers.Serializer):
     promotion_link = serializers.CharField(max_length=300)
     second_level_category_name = serializers.CharField(max_length=100)
 
-
 class EbayProductSerializer(serializers.Serializer):
-    
     itemId = serializers.IntegerField()
     title = serializers.CharField()
     categoryName = serializers.SerializerMethodField()
@@ -76,8 +74,9 @@ class EbayProductSerializer(serializers.Serializer):
     viewItemURL = serializers.CharField(max_length=200)
     value = serializers.SerializerMethodField()
     sellingState = serializers.SerializerMethodField()
-   # watchCount = serializers.SerializerMethodField() # This is not working because of the way the data is structured
     topRatedListing = serializers.CharField(max_length=100)
+    #description = serializers.CharField(max_length=250)
+
 
     def get_categoryName(self, obj):
         return obj['primaryCategory']['categoryName']
@@ -103,6 +102,7 @@ class AmazonRapidProductSerializer(serializers.Serializer):
     amazonPrime = serializers.CharField(max_length=50)
     title = serializers.CharField(max_length=200)
     thumbnail = serializers.CharField(max_length=200)
+   # description = serializers.CharField(max_length=250)
 
     def get_current_price(self, obj):
         return obj['price']['current_price']
@@ -121,6 +121,12 @@ class SheinRapidProductSerializer(serializers.Serializer):
     usdAmountWithSymbol = serializers.SerializerMethodField()
     comment_num = serializers.IntegerField()
     comment_rank_average = serializers.CharField(max_length=50)
+    rating = serializers.CharField(max_length=50)
+    price = serializers.CharField(max_length=50)
+    #description = serializers.CharField(max_length=250)
+
+
+
 
     def get_usdAmountWithSymbol(self, obj):
         return obj['retailPrice']['usdAmountWithSymbol']
@@ -129,13 +135,14 @@ class SheinRapidProductSerializer(serializers.Serializer):
 class RealTimeProductSerializer(serializers.Serializer):
     product_id = serializers.CharField(max_length=50)
     product_title = serializers.CharField(max_length=100)
-    product_description = serializers.CharField(max_length=250)
+   
     product_page_url = serializers.CharField(max_length=200)
-    product_num_reviews = serializers.IntegerField()
+   # product_num_reviews = serializers.IntegerField()
     product_photo_url = serializers.SerializerMethodField()
     product_rating = serializers.CharField(max_length=50)
-    product_page_url = serializers.CharField(max_length=200)
+ 
     price_range = serializers.SerializerMethodField()
+    #product_description = serializers.CharField(max_length=250)
 
     def get_product_photo_url(self, obj):
         return obj['product_photos'][0]
@@ -156,6 +163,8 @@ class ProductSerializer(serializers.Serializer):
     
     #in frontend, we check if ratiing is char or int EBAY RETURNS IF THE SELLER IS NOT TOP RATED
     product_rating = serializers.CharField() 
+
+    #product_description = serializers.CharField()
     
     ################ note for why it is char
    # The eBay API does not provide the rating of an item directly. 

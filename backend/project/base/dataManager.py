@@ -32,71 +32,60 @@ def objectifyThread(var_dto: VariablesDTO):
            
 
             attributeDict = {
-                # AS IN THE SERIALIZER
-                    #for Ebay
-                    "itemId": {"id": "product_id"},
-                    "title": {"title": "product_title"},
-                    "categoryName": {"category": "product_category"},
-                    "galleryURL": {"image": "product_image"},
-                    "viewItemURL": {"url": "product_url"},
-                    "value": {"price": "product_price"},
-                    "topRatedListing": {"topRatedListing": "product_rating"},
-                    #for Amazon
-                    "asin": {"id": "product_id"},
-                    "current_price": {"price": "product_price"},
-                    "total_reviews": {"total_reviews": "product_rating"},
-                    "rating": {"rating": "product_rating"},
-                    "url": {"url": "product_url"},
-                    "amazonChoice": {"amazonChoice": "product_amazonChoice"},
-                    "bestSeller": {"bestSeller": "product_bestSeller"},
-                    "amazonPrime": {"amazonPrime": "product_amazonPrime"},
-                    "title": {"title": "product_title"},
-                    "thumbnail": {"image": "product_image"},
-                    #
-                    #for AliExpress
-                    "product_id": {"id": "product_id"},
-                    "first_level_category_name": {"category": "product_category"},
-                    "original_price": {"price": "product_price"},
-                    "product_detail_url": {"url": "product_url"},
-                    "product_main_image_url": {"image": "product_image"},
-                    "product_title": {"title": "product_title"},
-                    "promotion_link": {"promotion_link": "product_promotion_link"},
-                    #
-                    #for Shein   
+                "itemId": "product_id",
+                "title": "product_title",
+                "categoryName": "product_category",
+                "galleryURL": "product_image",
+                "viewItemURL": "product_url",
+                "value": "product_price",
+                "topRatedListing": "product_rating",
+                "asin": "product_id",
+                "current_price": "product_price",
+                "total_reviews": "product_rating",
+                "rating": "product_rating",
+                "url": "product_url",
+                "amazonChoice": "product_amazonChoice",
+                "bestSeller": "product_bestSeller",
+                "amazonPrime": "product_amazonPrime",
+                "thumbnail": "product_image",
+                "product_id": "product_id",
+                "first_level_category_name": "product_category",
+                "original_price": "product_price",
+                "product_detail_url": "product_url",
+                "product_main_image_url": "product_image",
+                "product_title": "product_title",
+                "promotion_link": "product_promotion_link",
+                "goods_sn": "product_id",
+                "goods_img": "product_image",
+                "goods_name": "product_title",
+                "usdAmountWithSymbol": "product_price",
+                "comment_num": "product_rating",
+                "description": "product_description",
+                "product_description": "product_description",
+                "product_page_url": "product_url",
+                "product_price": "product_price",
+                "product_rating": "product_rating",
+                "product_title": "product_title",
+                "product_url": "product_url",
+                "product_image": "product_image",
+       
+            }
 
-                    "goods_sn": {"id": "product_id"},
-                    "goods_img": {"image": "product_image"},
-                    "goods_name": {"title": "product_title"},
-                    "usdAmountWithSymbol": {"price": "product_price"},
-                    "comment_num": {"total_reviews": "product_rating"},
-                   
-
-                }
-        
             print("Objectifying...")
-        # THIS IS COMPLECATED ASK ME LATER
+            # THIS IS COMPLICATED ASK ME LATER
             try:
                 for item in itemList:
                     # Create a Product object
                     product = Product()
-                    # Nested dictionary iteration
                     for key, value in item.items():
-                 
-                        
-                        # Iterate over attributeDict dictionary
-                        for attribute, attributeValue in attributeDict.items():
-                            if key == attribute:
-                                for attributeKey,attributeResult in attributeValue.items():
-                                   
-                                    
-                                    # Set attribute on the Product object
-                                    setattr(product, str(attributeResult), str(value))
-                                    setattr(product, "product_store", storeName)
-                                    path = os.path.join("backend", "project", "static","StoreImages", storeName + ".png")
-                                    setattr(product, "product_store_image", path)
-                                   
-                    
+                        attributeResult = attributeDict.get(key)
+                        if attributeResult:
+                            setattr(product, attributeResult, str(value))
+                            setattr(product, "product_store", storeName)
+                            path = os.path.join("backend", "project", "static", "StoreImages", storeName + ".png")
+                            setattr(product, "product_store_image", path)
 
+                        
                     # Append the Product object to the queue
                     var_dto.informationList.append(product)
                 
@@ -196,5 +185,45 @@ def sortAlphabit(resultList, ascending: bool):
     return resultList
 
 
+# function that sorts according to the rating
+def sortRating(resultList, ascending: bool):
+    """
+    Function
+        this function sorts the results according to the product rating
+    Args:
+        resultList: list of results
+        ascending: bool
+    Returns:
+        resultList: list of results
+    """
+    for result in resultList:
+        if result.product_rating == None:
+            result.product_rating = 0
+        else:
+            result.product_rating = float(result.product_rating)
+    if ascending:
+        resultList = sorted(resultList, key=lambda x: x.product_rating)
+    else:
+        resultList = sorted(resultList, key=lambda x: x.product_rating, reverse=True)
+    return resultList
 
-
+def sortPrice(resultList, ascending: bool):
+    """
+    Function
+        this function sorts the results according to the product price
+    Args:
+        resultList: list of results
+        ascending: bool
+    Returns:
+        resultList: list of results
+    """
+    for result in resultList:
+        if result.product_price == None:
+            result.product_price = 0
+        else:
+            result.product_price = float(result.product_price)
+    if ascending:
+        resultList = sorted(resultList, key=lambda x: x.product_price)
+    else:
+        resultList = sorted(resultList, key=lambda x: x.product_price, reverse=True)
+    return resultList

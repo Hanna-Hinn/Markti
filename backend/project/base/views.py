@@ -248,7 +248,3 @@ def get_Page(request):# to return the data page for FRONTEND
     """
     return pagenationManager.paginate(request.query_params.get('page'))
 
-
-
-
-   
