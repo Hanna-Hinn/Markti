@@ -92,7 +92,7 @@ def objectifyThread(var_dto: VariablesDTO):
                                     # Set attribute on the Product object
                                     setattr(product, str(attributeResult), str(value))
                                     setattr(product, "product_store", storeName)
-                                    path = os.path.join("backend", "project", "static","StoreImages", storeName + ".png")
+                                    path = "http://127.0.0.1:8000/static/images/"+ storeName +".png"
                                     setattr(product, "product_store_image", path)
                                    
                     

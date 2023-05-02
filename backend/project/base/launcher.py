@@ -17,35 +17,35 @@ def launch(storelist, keyword):
         list of store names
     keyword : str
         the keyword that the user entered
-    
+
     Returns
     -------
     list
         list of objects
     """
-    
+
     var_dto = VariablesDTO()
-    
+
     var_dto.keyword = keyword
     var_dto.storeList = storelist
-    
+
     # start the main thread
     main_thread = Thread(target=dataManager.myMainThread, args=(var_dto,))
-    
-    #start the objectify 
+
+    # start the objectify
     object_thread = Thread(target=dataManager.objectifyThread, args=(var_dto,))
-    
-    #start the watchDog
-    watchDog_thread= Thread(target=watchDog.start, args=(var_dto,))
-    
+
+    # start the watchDog
+    watchDog_thread = Thread(target=watchDog.start, args=(var_dto,))
+
     main_thread.start()
     watchDog_thread.start()
     object_thread.start()
-    
-    #wait for the objectify thread to finish
+
+    # wait for the objectify thread to finish
     object_thread.join()
-    
+
     main_thread.join()
     watchDog_thread.join()
-    
-    return pagenationManager.paginate(var_dto.sortedResults, 1)
+
+    return var_dto.sortedResults
