@@ -144,6 +144,7 @@ def myMainThread(var_dto: VariablesDTO):
         if var_dto.informationQueue.empty():
             print("Waiting for informationQueue to have at least one item in it.")
         else:
+            var_dto.sortedResults = []
             # sort the results 
             var_dto.results = var_dto.informationQueue.get()
             if var_dto.results != []:
