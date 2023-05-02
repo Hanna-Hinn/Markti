@@ -24,7 +24,7 @@ def get_total_pages(sortedList,page_size=10):
     return total_pages, total_records
 
 
-def paginate(sortedList,page_number=1, page_size=10):
+def paginate(sortedList,page_number=1, page_size=100):
  
 
     """

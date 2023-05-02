@@ -121,7 +121,7 @@ def myMainThread(var_dto: VariablesDTO):
     """
  
     print("Starting main thread")
-  
+    x=1
     while True:
 
         
@@ -135,7 +135,16 @@ def myMainThread(var_dto: VariablesDTO):
         else:
             # sort the results 
             var_dto.results = var_dto.informationQueue.get()
+
+           
+
             if var_dto.results != []:
+               
+                if x==2:
+                    for i in var_dto.results:
+                        print(i.product_id)
+
+                x +=1
                 print("Recived",len(var_dto.results),"results")
                 print("Sorting...")
                 # sort the results according to the price
