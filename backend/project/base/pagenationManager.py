@@ -1,7 +1,7 @@
 from . import variables
 
 
-def get_total_pages(sortedList,page_size=10):
+def get_total_pages(sortedList, page_size=10):
     """
     Function :
     Get the total number of pages and total number of records in the data.
@@ -19,14 +19,13 @@ def get_total_pages(sortedList,page_size=10):
         raise ValueError("Page size must be a positive integer.")
 
     total_records = len(data)
-    total_pages = (total_records + page_size - 1) // page_size  # integer division with ceiling
+    # integer division with ceiling
+    total_pages = (total_records + page_size - 1) // page_size
 
     return total_pages, total_records
 
 
-def paginate(sortedList,page_number=1, page_size=100):
- 
-
+def paginate(sortedList, page_number=1, page_size=100):
     """
     Function :
     Retrieve a page of data based on the given page number and page size.
@@ -38,9 +37,9 @@ def paginate(sortedList,page_number=1, page_size=100):
     Returns:
         list: Data records for the requested page.
     """
-    total_pages, total_records = get_total_pages(sortedList,page_size)
+    total_pages, total_records = get_total_pages(sortedList, page_size)
     data = sortedList
-    
+
     if page_number > total_pages:
         raise ValueError("Page number exceeds total number of pages.")
 
@@ -48,7 +47,3 @@ def paginate(sortedList,page_number=1, page_size=100):
     end = min(start + page_size, total_records)
 
     return data[start:end]
-
-    
-
-
