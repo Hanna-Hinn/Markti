@@ -17,13 +17,13 @@ def start(var_dto: VariablesDTO):
     -------
     None
     """
-    print("watchdog started")
+   # print("watchdog started")
 
 
     
     # loop through the function list
-    # print storlsit
-    print("keyword:",var_dto.keyword,"\n")
+    
+    #print("keyword:",var_dto.keyword,"\n")
    
     for storeName in var_dto.storeList:
         # check if the function is in variables.API_Dectionary
@@ -58,6 +58,6 @@ def start(var_dto: VariablesDTO):
     for t in var_dto.threads:
         t.join()
         
-        print("\n","function finished: ",t.name ,"\n","queue size: ", var_dto.dataQueue.qsize() )
+        #print("\n","function finished: ",t.name ,"\n","queue size: ", var_dto.dataQueue.qsize() )
 
-    print("\n","watchdog finished")
+    #print("\n","watchdog finished")

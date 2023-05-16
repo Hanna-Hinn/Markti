@@ -62,8 +62,7 @@ def sortPrice(resultList, ascending: bool):
         resultList = sorted(resultList, key=lambda x: x.product_price, reverse=True)
 
 
-    for item in resultList:
-        print(item)        
+           
     return resultList
 
 def checkSortType(sortType, resultList,sortAscending):

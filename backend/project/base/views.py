@@ -46,7 +46,7 @@ def search(request):
     # serialized_data.is_valid(raise_exception=True)
     # deserialized_data = ProductSerializer(data=serialized_data.validated_data, many=True)
     # deserialized_data.is_valid(raise_exception=True)
-    print(type(products))
+   
     return Response(products)
 
 @api_view(['POST'])
@@ -219,7 +219,7 @@ def start_launcher(request):
     storeList = request.query_params.get('storeList').split(',')
     keyword = request.query_params.get('keyword')
     sortType= request.query_params.get('sortType')
-    sortAscending=request.query_params.get('sortAscendinge')
+    sortAscending=request.query_params.get('sortAscending')
 
      #res,
     res =launcher.launch(storeList, keyword, sortType,sortAscending)

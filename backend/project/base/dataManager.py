@@ -71,7 +71,7 @@ def objectifyThread(var_dto: VariablesDTO):
 
             }
 
-            print("Objectifying...")
+            #print("Objectifying...")
             # THIS IS COMPLICATED ASK ME LATER
             try:
                 for item in itemList:
@@ -97,7 +97,7 @@ def objectifyThread(var_dto: VariablesDTO):
 
             # check if the number of objectified is equal to the requested amount
             if var_dto.nubmerOfObjectified == var_dto.requestedApiAmount:
-                print("finshed objectifying")
+               # print("finshed objectifying")
 
                 break
 
@@ -115,7 +115,7 @@ def myMainThread(var_dto: VariablesDTO):
         None
     """
 
-    print("Starting main thread")
+    
     x = 1
     while True:
 
@@ -124,7 +124,8 @@ def myMainThread(var_dto: VariablesDTO):
 
         # wait for the informationQueue to have at least one item in it.
         if var_dto.informationQueue.empty():
-            print("Waiting for informationQueue to have at least one item in it.")
+            pass
+           # print("Waiting for informationQueue to have at least one item in it.")
         else:
             var_dto.sortedResults = []
             # sort the results
@@ -132,13 +133,11 @@ def myMainThread(var_dto: VariablesDTO):
 
             if var_dto.results != []:
 
-                if x == 2:
-                    for i in var_dto.results:
-                        print(i.product_id)
+               
 
                 x += 1
-                print("Recived", len(var_dto.results), "results")
-                print("Sorting...")
+           
+       
                 # sort the results according to the price
                 # why is this important? because the price is the only thing that is the same for all the apis
                 for result in var_dto.results:
@@ -165,8 +164,7 @@ def myMainThread(var_dto: VariablesDTO):
         if var_dto.numberOfSorted == var_dto.requestedApiAmount and var_dto.requestedApiAmount !=0:
             #kill thread and print the results 
             var_dto.finshedresult = var_dto.sortedResults
-            print("finshed sorting")
-            print("finshed main thread")
+        
             break
 
 
