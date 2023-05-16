@@ -5,7 +5,7 @@ from . import pagenationManager
 from .Objects.VariablesDTO import VariablesDTO
 
 
-def launch(storelist, keyword,sortType,sortAscending):
+def launch(storelist, keyword,sortType,sortAscending,currencyType):
     """
     This function is used to start all the main thread (the thread responsible for sorting the results)
     and the watchDog thread (the thread responsible for starting the threads for each store)
@@ -30,6 +30,7 @@ def launch(storelist, keyword,sortType,sortAscending):
     var_dto.storeList = storelist
     var_dto.sortAscending=sortAscending
     var_dto.sortType = sortType
+    var_dto.currencyType = currencyType
     
     # start the main thread
     main_thread = Thread(target=dataManager.myMainThread, args=(var_dto,))
@@ -49,5 +50,7 @@ def launch(storelist, keyword,sortType,sortAscending):
     watchDog_thread.join()
     object_thread.join()
     main_thread.join()
+
+ 
 
     return var_dto.sortedResults
