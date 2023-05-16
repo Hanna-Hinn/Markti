@@ -7,7 +7,6 @@ import time
 import os
 
 
-
 def objectifyThread(var_dto: VariablesDTO):
     """
     Function 
@@ -20,18 +19,17 @@ def objectifyThread(var_dto: VariablesDTO):
     --------
         None
     """
- 
+
     while True:
         time.sleep(1)
         if var_dto.dataQueue.empty():
             pass
-        else: 
+        else:
             # get the store name from the dataQueue sent as [storeName,result]
             data = var_dto.dataQueue.get()
-            storeName =  data [0]
-          
-            itemList = data [1]
-           
+            storeName = data[0]
+
+            itemList = data[1]
 
             attributeDict = {
                 "itemId": "product_id",
@@ -70,7 +68,7 @@ def objectifyThread(var_dto: VariablesDTO):
                 "product_title": "product_title",
                 "product_url": "product_url",
                 "product_image": "product_image",
-       
+
             }
 
             print("Objectifying...")
@@ -84,32 +82,27 @@ def objectifyThread(var_dto: VariablesDTO):
                         if attributeResult:
                             setattr(product, attributeResult, str(value))
                             setattr(product, "product_store", storeName)
-                            path = os.path.join("backend", "project", "static", "StoreImages", storeName + ".png")
+                            path = "http://127.0.0.1:8000/static/images/" + storeName + ".png"
                             setattr(product, "product_store_image", path)
 
-                        
+
                     # Append the Product object to the queue
                     var_dto.informationList.append(product)
-                
-             
+
             except Exception as e:
                 print("Error in objectifyThread", e)
 
-            var_dto.nubmerOfObjectified +=1 # this adds one to the number of objectified
+            var_dto.nubmerOfObjectified += 1  # this adds one to the number of objectified
             var_dto.informationQueue.put(var_dto.informationList)
-            
-
 
             # check if the number of objectified is equal to the requested amount
             if var_dto.nubmerOfObjectified == var_dto.requestedApiAmount:
                 print("finshed objectifying")
-                
+
                 break
-                
- 
 
 
-def myMainThread(var_dto: VariablesDTO): 
+def myMainThread(var_dto: VariablesDTO):
     """
     Function 
         this function is the main thread that will be running in the background
@@ -121,41 +114,39 @@ def myMainThread(var_dto: VariablesDTO):
     Returns:
         None
     """
- 
+
     print("Starting main thread")
-    x=1
+    x = 1
     while True:
 
-        
-
-        # wait to receive data 
+        # wait to receive data
         time.sleep(1)
 
-        #wait for the informationQueue to have at least one item in it.
+        # wait for the informationQueue to have at least one item in it.
         if var_dto.informationQueue.empty():
             print("Waiting for informationQueue to have at least one item in it.")
         else:
-            # sort the results 
+            var_dto.sortedResults = []
+            # sort the results
             var_dto.results = var_dto.informationQueue.get()
 
-           
-
             if var_dto.results != []:
-               
-                if x==2:
+
+                if x == 2:
                     for i in var_dto.results:
                         print(i.product_id)
 
-                x +=1
-                print("Recived",len(var_dto.results),"results")
+                x += 1
+                print("Recived", len(var_dto.results), "results")
                 print("Sorting...")
                 # sort the results according to the price
                 # why is this important? because the price is the only thing that is the same for all the apis
                 for result in var_dto.results:
-                    if result.product_price == None: # if the price is None then set it to 0
+                    if result.product_price == None:  # if the price is None then set it to 0
                         result.product_price = 0
                     else:
-                        result.product_price = float(result.product_price) # convert the price to a float
+                        # convert the price to a float
+                        result.product_price = float(result.product_price)
                 # sort the results
                 # add dummy results to the sortedResults list
                
@@ -178,3 +169,66 @@ def myMainThread(var_dto: VariablesDTO):
             print("finshed main thread")
             break
 
+
+def sortAlphabit(resultList, ascending: bool):
+    """
+    Function
+        this function sorts the results according to the product title
+    Args:
+        resultList: list of results
+        ascending: bool
+    Returns:
+        resultList: list of results
+    """
+    for result in resultList:
+        if result.product_title == None:
+            result.product_title = ""
+    if ascending:
+        resultList = sorted(resultList, key=lambda x: x.product_title)
+    else:
+        resultList = sorted(resultList, key=lambda x: x.product_title, reverse=True)
+    return resultList
+
+
+# function that sorts according to the rating
+def sortRating(resultList, ascending: bool):
+    """
+    Function
+        this function sorts the results according to the product rating
+    Args:
+        resultList: list of results
+        ascending: bool
+    Returns:
+        resultList: list of results
+    """
+    for result in resultList:
+        if result.product_rating == None:
+            result.product_rating = 0
+        else:
+            result.product_rating = float(result.product_rating)
+    if ascending:
+        resultList = sorted(resultList, key=lambda x: x.product_rating)
+    else:
+        resultList = sorted(resultList, key=lambda x: x.product_rating, reverse=True)
+    return resultList
+
+def sortPrice(resultList, ascending: bool):
+    """
+    Function
+        this function sorts the results according to the product price
+    Args:
+        resultList: list of results
+        ascending: bool
+    Returns:
+        resultList: list of results
+    """
+    for result in resultList:
+        if result.product_price == None:
+            result.product_price = 0
+        else:
+            result.product_price = float(result.product_price)
+    if ascending:
+        resultList = sorted(resultList, key=lambda x: x.product_price)
+    else:
+        resultList = sorted(resultList, key=lambda x: x.product_price, reverse=True)
+    return resultList
