@@ -24,7 +24,7 @@ class VariablesDTO:
         self.keyword=""
         self.sortType = ""
 
-        self.sortAscending=True
+        self.sortAscending= None
         self.currencyType = "USD"
         
        

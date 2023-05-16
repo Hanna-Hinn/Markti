@@ -28,8 +28,9 @@ def launch(storelist, keyword,sortType,sortAscending,currencyType):
 
     var_dto.keyword = keyword
     var_dto.storeList = storelist
-    var_dto.sortAscending=sortAscending
+    var_dto.sortAscending=eval(sortAscending)
     var_dto.sortType = sortType
+   
     var_dto.currencyType = currencyType
     
     # start the main thread

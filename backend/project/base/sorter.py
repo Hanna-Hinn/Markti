@@ -12,7 +12,7 @@ def sortAlphabit(resultList, ascending: bool):
     for result in resultList:
         if result.product_title == None:
             result.product_title = ""
-    if ascending:
+    if ascending == True:
         resultList = sorted(resultList, key=lambda x: x.product_title)
     else:
         resultList = sorted(resultList, key=lambda x: x.product_title, reverse=True)
@@ -35,13 +35,14 @@ def sortRating(resultList, ascending: bool):
             result.product_rating = 0
         else:
             result.product_rating = float(result.product_rating)
-    if ascending:
+    if ascending == True:
         resultList = sorted(resultList, key=lambda x: x.product_rating)
     else:
         resultList = sorted(resultList, key=lambda x: x.product_rating, reverse=True)
     return resultList
 
 def sortPrice(resultList, ascending: bool):
+    
     """
     Function
         this function sorts the results according to the product price
@@ -56,16 +57,22 @@ def sortPrice(resultList, ascending: bool):
             result.product_price = 0
         else:
             result.product_price = float(result.product_price)
+
+   
     if ascending:
         resultList = sorted(resultList, key=lambda x: x.product_price)
     else:
         resultList = sorted(resultList, key=lambda x: x.product_price, reverse=True)
-
+      
+        # print results
+      
 
            
     return resultList
 
 def checkSortType(sortType, resultList,sortAscending):
+    
+
     if(sortType == "price"):
         sortType = sortPrice(resultList,sortAscending)
     elif(sortType == "rating"):

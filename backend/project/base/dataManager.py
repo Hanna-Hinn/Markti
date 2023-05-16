@@ -8,7 +8,7 @@ import time
 
 
 
-def objectifyThread(var_dto: VariablesDTO):
+def     objectifyThread(var_dto: VariablesDTO):
     """
     Function 
     This function takes the data from the dataQueue and objectifies it into a Product object
@@ -152,7 +152,7 @@ def myMainThread(var_dto: VariablesDTO):
                
                 
                 var_dto.sortedResults = var_dto.sortedResults  + var_dto.results
-
+               
                 var_dto.sortedResults=  sorter.checkSortType(var_dto.sortType, var_dto.sortedResults,var_dto.sortAscending)
 
                 
@@ -166,7 +166,7 @@ def myMainThread(var_dto: VariablesDTO):
         
         if var_dto.numberOfSorted == var_dto.requestedApiAmount and var_dto.requestedApiAmount !=0:
             #kill thread and print the results 
-      
+           
             currencyConverter.convertCurrency(var_dto.sortedResults,var_dto.currencyType)
         
             break
