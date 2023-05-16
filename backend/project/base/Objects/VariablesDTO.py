@@ -1,8 +1,12 @@
 import queue
 
 class VariablesDTO:
-    def __init__(self,dataQueue=None,resultList=None,requestedApiAmount=None,informationList=None,informationQueue=None,sortedResults=None,numberOfSorted=None,nubmerOfObjectified=None,keyword=None,storeList=None,threads=None):
+    def __init__(self,dataQueue=None,resultList=None,requestedApiAmount=None
+                 ,informationList=None,informationQueue=None,sortedResults=None,
+                 numberOfSorted=None,nubmerOfObjectified=None,keyword=None,storeList=None
+                 ,threads=None,sortType=None,sortAscending=None):
        
+
         self.dataQueue = queue.Queue()
         self.informationQueue = queue.Queue()
         
@@ -11,11 +15,16 @@ class VariablesDTO:
         self.informationList = []
         self.sortedResults = []
 
+        self.storeList = set()
+
         self.requestedApiAmount = 0
         self.numberOfSorted = 0
         self.nubmerOfObjectified = 0
+
         self.keyword=""
+        self.sortType = ""
+
+        self.sortAscending=True
         
-        self.storeList = set()
        
         

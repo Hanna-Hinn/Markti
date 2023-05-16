@@ -1,7 +1,7 @@
 from . import variables
 
 
-def get_total_pages(sortedList,page_size=10):
+def get_total_pages(sortedList,page_size):
     """
     Function :
     Get the total number of pages and total number of records in the data.
@@ -24,7 +24,7 @@ def get_total_pages(sortedList,page_size=10):
     return total_pages, total_records
 
 
-def paginate(sortedList,page_number=1, page_size=100):
+def paginate(sortedList,page_number=1, page_size=150):
  
 
     """
@@ -39,6 +39,7 @@ def paginate(sortedList,page_number=1, page_size=100):
         list: Data records for the requested page.
     """
     total_pages, total_records = get_total_pages(sortedList,page_size)
+    
     data = sortedList
     
     if page_number > total_pages:

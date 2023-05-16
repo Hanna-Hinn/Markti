@@ -2,6 +2,7 @@
 #######################################
           #Rest Framework Imports#
 
+import json
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -206,7 +207,6 @@ def productCountFromSubCategory(request, subcategory):
     return Response(productCount)
 
 ###############################
-
 @api_view(['Get'])
 def start_launcher(request):
     """
@@ -218,10 +218,15 @@ def start_launcher(request):
     
     storeList = request.query_params.get('storeList').split(',')
     keyword = request.query_params.get('keyword')
+    sortType= request.query_params.get('sortType')
+    sortAscending=request.query_params.get('sortAscendinge')
+
+     #res,
+    res =launcher.launch(storeList, keyword, sortType,sortAscending)
     
-    res =launcher.launch(storeList, keyword)
     serializer = ProductSerializer(res, many=True)
-    return Response( serializer.data )
+
+    return Response( serializer.data)
 
 
 
