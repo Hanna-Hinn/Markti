@@ -25,6 +25,13 @@ def call_Ebay(keyword):
         response = api.execute('findItemsAdvanced', api_request)
         json_response = response.dict()
         products = json_response.get('searchResult').get('item')
+        # check if the response code is 200
+        if(statusCheck(response)):
+            return statusCheck(response)
+    
+        
+
+        
         try:
             serializer = EbayProductSerializer(products, many=True)
             return serializer.data 
@@ -53,7 +60,10 @@ def callApi_Rapid_AliExpress(keyword):
         file_param_dict = {}
         response = client.execute(
             "aliexpress.affiliate.product.query", request_dict, file_param_dict)
+        if(statusCheck(response)):
+            return statusCheck(response)
         products = response.get('resp_result').get('result').get('products')
+       
         serializer = AliExpressProductSerializer(products, many=True)
         return serializer.data
 
@@ -76,6 +86,11 @@ def callApi_Rapid_AmazonApi(keyword):
 
         response = requests.request(
             "GET", url, headers=headers, params=querystring)
+        
+        if(statusCheck(response)):
+            print("status check")
+            return statusCheck(response)
+        
         products = response.json().get('result')
         serializer = AmazonRapidProductSerializer(products, many=True)
         return serializer.data
@@ -97,6 +112,10 @@ def callApi_Rapid_Shein(keyword):
 
         response = requests.request(
             "GET", url, headers=headers, params=querystring)
+        
+        print(response.status_code)
+        
+        
         products = response.json().get('info').get("products")
         serializer = SheinRapidProductSerializer(products, many=True)
         return serializer.data
@@ -118,6 +137,10 @@ def callApi_Rapid_RealTime(keyword):
 
         response = requests.request(
             "GET", url, headers=headers, params=querystring)
+        
+        if(statusCheck(response)):
+            return statusCheck(response)
+        
         products = response.json().get('data')
         serializer = RealTimeProductSerializer(products, many=True)
         return serializer.data
@@ -132,5 +155,13 @@ apiDec = {
     "Ebay": call_Ebay,
     "Amazon": callApi_Rapid_AmazonApi,
     "RealTime": callApi_Rapid_RealTime,
-    "callApi_Rapid_Shein": callApi_Rapid_Shein,
+    "Shein": callApi_Rapid_Shein,
 }
+
+
+def statusCheck(response):
+     print(response.status_code)
+     if response.status_code != 200:
+            print("Error: " + str(response.status_code))
+
+            return "Error: " + str(response.status_code)

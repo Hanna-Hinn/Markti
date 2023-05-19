@@ -28,6 +28,8 @@ def     objectifyThread(var_dto: VariablesDTO):
         else:
             # get the store name from the dataQueue sent as [storeName,result]
             data = var_dto.dataQueue.get()
+         
+            
             storeName = data[0]
 
             itemList = data[1]
@@ -75,7 +77,14 @@ def     objectifyThread(var_dto: VariablesDTO):
             #print("Objectifying...")
             # THIS IS COMPLICATED ASK ME LATER
             try:
+               
+             
                 for item in itemList:
+                 
+                    # Error in objectifyThread 'Response' object is not iterable fix
+                    if type(item) == str:
+                        continue
+
                     # Create a Product object
                     product = Product()
                     for key, value in item.items():
@@ -85,7 +94,7 @@ def     objectifyThread(var_dto: VariablesDTO):
                             setattr(product, "product_store", storeName)
                             path = "http://127.0.0.1:8000/static/images/" + storeName + ".png"
                             setattr(product, "product_store_image", path)
-
+                    
 
                     # Append the Product object to the queue
                     var_dto.informationList.append(product)
@@ -98,7 +107,7 @@ def     objectifyThread(var_dto: VariablesDTO):
 
             # check if the number of objectified is equal to the requested amount
             if var_dto.nubmerOfObjectified == var_dto.requestedApiAmount:
-               # print("finshed objectifying")
+                print("finshed objectifying")
 
                 break
 
@@ -126,11 +135,15 @@ def myMainThread(var_dto: VariablesDTO):
         # wait for the informationQueue to have at least one item in it.
         if var_dto.informationQueue.empty():
             pass
-           # print("Waiting for informationQueue to have at least one item in it.")
+            #print("Waiting for informationQueue to have at least one item in it.")
         else:
             var_dto.sortedResults = []
             # sort the results
             var_dto.results = var_dto.informationQueue.get()
+
+            # check if the var_dto.error is true
+           
+
 
             if var_dto.results != []:
 

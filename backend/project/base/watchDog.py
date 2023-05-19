@@ -34,10 +34,16 @@ def start(var_dto: VariablesDTO):
                 func = variables.API_Dectionary[store]
                 
                 # run the function and store the result
+                print("keyword:",var_dto.keyword,"\n")
                 result = func(var_dto.keyword)
                 
                 # send the store name and the result to the dataQueue
-                var_dto.dataQueue.put([store, result])
+                # if the result is not a string (error) then send the result
+                if(type(result) != str):
+                 var_dto.dataQueue.put([store, result])
+                else:
+                 var_dto.dataQueue.put([store, "error"])
+                
 
             # start a thread for each store name
             t = th.Thread(target=myThread, args=(storeName,))
@@ -58,6 +64,6 @@ def start(var_dto: VariablesDTO):
     for t in var_dto.threads:
         t.join()
         
-        #print("\n","function finished: ",t.name ,"\n","queue size: ", var_dto.dataQueue.qsize() )
+        print("\n","function finished: ",t.name ,"\n","queue size: ", var_dto.dataQueue.qsize() )
 
-    #print("\n","watchdog finished")
+    print("\n","watchdog finished")

@@ -89,7 +89,7 @@ def callApi_Rapid_AmazonApi(keyword):
             return e
         
 
-def callApi_Rapid_SheinAPI(request,keyword):
+def callApi_Rapid_SheinAPI(keyword):
         try:
             url = "https://unofficial-shein.p.rapidapi.com/products/search"
 

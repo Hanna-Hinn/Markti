@@ -4,7 +4,7 @@ class VariablesDTO:
     def __init__(self,dataQueue=None,resultList=None,requestedApiAmount=None
                  ,informationList=None,informationQueue=None,sortedResults=None,
                  numberOfSorted=None,nubmerOfObjectified=None,keyword=None,storeList=None
-                 ,threads=None,sortType=None,sortAscending=None,currencyType=None):
+                 ,threads=None,sortType=None,sortAscending=None,currencyType=None,error=None):
        
 
         self.dataQueue = queue.Queue()
@@ -23,6 +23,7 @@ class VariablesDTO:
 
         self.keyword=""
         self.sortType = ""
+        self.error = False
 
         self.sortAscending= None
         self.currencyType = "USD"

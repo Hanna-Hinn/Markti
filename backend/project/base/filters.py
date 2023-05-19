@@ -12,6 +12,9 @@ def filterStore(productList, store):
     
     return productList,productList.filter(product_store=store)
 
+def filterPriceRange(productList, minPrice, maxPrice):
+    """Filter the list of products to only include products within a price range"""
+    return productList,productList.filter(product_price=(minPrice, maxPrice))
 
 
 
