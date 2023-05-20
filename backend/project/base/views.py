@@ -254,3 +254,15 @@ def get_Page(request):# to return the data page for FRONTEND
     """
     return pagenationManager.paginate(request.query_params.get('page'))
 
+
+# make a view that takes the product list and return the number of pages
+@api_view(['Get'])
+def get_Numberof_Pages_from_list(request):# to return number of pages for FRONTEND
+    """
+    This function is to return the number of pages
+    """
+
+    productList = request.query_params.get('productList')
+    pageNumber = request.query_params.get('pageNumber')
+    return pagenationManager.paginate(productList,pageNumber,20),pagenationManager.get_total_pages_from_list(productList)
+

@@ -168,10 +168,7 @@ def myMainThread(var_dto: VariablesDTO):
                
                 var_dto.sortedResults=  sorter.checkSortType(var_dto.sortType, var_dto.sortedResults,var_dto.sortAscending)
 
-                
-               
 
-                
                 
         
            
