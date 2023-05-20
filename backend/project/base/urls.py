@@ -20,5 +20,6 @@ urlpatterns = [
     path('apis/<str:modify>/<int:pk>', views.modifyAPI, name="modifyAPI"),
 
     path('start/', views.start_launcher, name="start_launcher"),
+    path('page/', views.get_Number_of_Pages_from_list, name="GetPageNumber"),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
