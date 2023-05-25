@@ -288,7 +288,7 @@ def get_Number_of_Pages_from_list(request):
     This function is to return the number of pages
     """
 
-    productList = request.data['productList']
+    productList = request.data
 
     pageNumber = int(request.query_params.get('pageNumber'))
-    return pagenationManager.paginate(productList, pageNumber, 20), pagenationManager.get_total_pages_from_list(productList)
+    return Response(pagenationManager.paginate(productList, pageNumber, 20))
