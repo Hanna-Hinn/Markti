@@ -48,6 +48,7 @@ def start(var_dto: VariablesDTO):
             # start a thread for each store name
             t = th.Thread(target=myThread, args=(storeName,))
             t.name = storeName
+           
             t.start()
             # add the thread to the list
             var_dto.threads.append(t)
