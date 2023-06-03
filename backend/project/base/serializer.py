@@ -59,12 +59,15 @@ class AliExpressProductSerializer(serializers.Serializer):
     product_id = serializers.IntegerField()
     first_level_category_name = serializers.CharField(max_length=100)
     original_price = serializers.CharField(max_length=100)
-    original_price_currency = serializers.CharField(max_length=100)
     product_detail_url = serializers.CharField(max_length=300)
     product_main_image_url = serializers.CharField(max_length=300)
     product_title = serializers.CharField(max_length=100)
     promotion_link = serializers.CharField(max_length=300)
-    second_level_category_name = serializers.CharField(max_length=100)
+    evaluate_rate = serializers.CharField(max_length=100)
+
+
+
+
 
 class EbayProductSerializer(serializers.Serializer):
     itemId = serializers.IntegerField()
@@ -75,8 +78,12 @@ class EbayProductSerializer(serializers.Serializer):
     value = serializers.SerializerMethodField()
     sellingState = serializers.SerializerMethodField()
     topRatedListing = serializers.CharField(max_length=100)
+    
+   
+
     #description = serializers.CharField(max_length=250)
 
+    
 
     def get_categoryName(self, obj):
         return obj['primaryCategory']['categoryName']
@@ -95,11 +102,10 @@ class AmazonRapidProductSerializer(serializers.Serializer):
     asin = serializers.CharField(max_length=50)
     current_price = serializers.SerializerMethodField()
     total_reviews = serializers.SerializerMethodField()
-    rating = serializers.SerializerMethodField()
+    rating = serializers.SerializerMethodField() # in numbers
     url = serializers.CharField(max_length=200)
-    amazonChoice = serializers.CharField(max_length=50)
+    amazonChoice = serializers.CharField(max_length=50) # 
     bestSeller = serializers.CharField(max_length=50)
-    amazonPrime = serializers.CharField(max_length=50)
     title = serializers.CharField(max_length=200)
     thumbnail = serializers.CharField(max_length=200)
    # description = serializers.CharField(max_length=250)
@@ -112,7 +118,8 @@ class AmazonRapidProductSerializer(serializers.Serializer):
 
     def get_rating(self, obj):
         return obj['reviews']['rating']
-
+    
+  
 
 class SheinRapidProductSerializer(serializers.Serializer):
     goods_sn = serializers.CharField(max_length=50)
@@ -153,7 +160,7 @@ class RealTimeProductSerializer(serializers.Serializer):
 class ProductSerializer(serializers.Serializer):
     product_id = serializers.CharField()
     product_title = serializers.CharField()
-    product_category = serializers.CharField()
+ 
     product_image = serializers.URLField()
     product_url = serializers.URLField()
     product_price = serializers.DecimalField(max_digits=10, decimal_places=2)
@@ -163,6 +170,9 @@ class ProductSerializer(serializers.Serializer):
     
     #in frontend, we check if ratiing is char or int EBAY RETURNS IF THE SELLER IS NOT TOP RATED
     product_rating = serializers.CharField() 
+
+    product_trusted = serializers.CharField()
+
 
     #product_description = serializers.CharField()
     

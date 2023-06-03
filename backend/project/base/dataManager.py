@@ -37,27 +37,30 @@ def     objectifyThread(var_dto: VariablesDTO):
             attributeDict = {
                 "itemId": "product_id",
                 "title": "product_title",
-                "categoryName": "product_category",
+              
                 "galleryURL": "product_image",
                 "viewItemURL": "product_url",
                 "value": "product_price",
-                "topRatedListing": "product_rating",
+                "topRatedListing": "product_trusted",
+                "rating": "product_rating",
+
                 "asin": "product_id",
                 "current_price": "product_price",
                 "total_reviews": "product_rating",
-                "rating": "product_rating",
+              
                 "url": "product_url",
-                "amazonChoice": "product_amazonChoice",
-                "bestSeller": "product_bestSeller",
-                "amazonPrime": "product_amazonPrime",
+                "amazonChoice": "product_trusted",
+              
+
+
                 "thumbnail": "product_image",
                 "product_id": "product_id",
-                "first_level_category_name": "product_category",
+                
                 "original_price": "product_price",
-                "product_detail_url": "product_url",
+                "promotion_link": "product_url",
                 "product_main_image_url": "product_image",
                 "product_title": "product_title",
-                "promotion_link": "product_promotion_link",
+              
                 "goods_sn": "product_id",
                 "goods_img": "product_image",
                 "goods_name": "product_title",
@@ -71,6 +74,10 @@ def     objectifyThread(var_dto: VariablesDTO):
                 "product_title": "product_title",
                 "product_url": "product_url",
                 "product_image": "product_image",
+
+                "evaluate_rate": "product_rating",
+                "store_rating": "product_trusted",
+                
 
             }
 

@@ -18,29 +18,26 @@ from .serializer import *
 
 
 def call_Ebay(keyword):
-   
     api = Finding(appid=EBAY_API_KEY, config_file=None)
     api_request = {'keywords': keyword}
+    
     try:
         response = api.execute('findItemsAdvanced', api_request)
         json_response = response.dict()
         products = json_response.get('searchResult').get('item')
-        # check if the response code is 200
-        if(statusCheck(response)):
-            return statusCheck(response)
-    
         
-
+        # check if the response code is 200
+        if statusCheck(response):
+            return statusCheck(response)
         
         try:
             serializer = EbayProductSerializer(products, many=True)
             return serializer.data 
         except Exception as e:
-            print("Error in serializer",e) 
-    except Exception as e:
-        print("ERROR IN CALL_EBAY FUNCTION IN STORES_API",e)
+            print("Error in serializer", e) 
+    except ConnectionError as e:
+        print("ERROR IN CALL_EBAY FUNCTION IN STORES_API", e)
         
-
 
 
 def callApi_Rapid_AliExpress(keyword):

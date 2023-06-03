@@ -5,7 +5,7 @@ class VariablesDTO:
                  ,informationList=None,informationQueue=None,sortedResults=None,
                  numberOfSorted=None,nubmerOfObjectified=None,keyword=None,storeList=None
                  ,threads=None,sortType=None,sortAscending=None,currencyType=None,error=None
-                 ,numberAmazon=None,numberEbay=None,numberAliExpress=None
+                 
                 
                  ):
        
@@ -30,9 +30,7 @@ class VariablesDTO:
 
         self.sortAscending= None
         self.currencyType = "USD"
-        self.numberAmazon=0
-        self.numberEbay=0
-        self.numberAliExpress=0
-        
+
+
        
         
