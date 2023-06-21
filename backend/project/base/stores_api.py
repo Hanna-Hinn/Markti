@@ -40,7 +40,7 @@ def call_Ebay(keyword):
         
 
 
-def callApi_Rapid_AliExpress(keyword):
+def callApi_AliExpress(keyword):
     try:
         client = TopApiClient(appkey=ALIEXPRESS_APP_KEY, app_sercet=ALIEXPRESS_API_KEY,
                               top_gateway_url='http://api.taobao.com/router/rest', verify_ssl=False)
@@ -57,68 +57,91 @@ def callApi_Rapid_AliExpress(keyword):
         file_param_dict = {}
         response = client.execute(
             "aliexpress.affiliate.product.query", request_dict, file_param_dict)
-        if(statusCheck(response)):
-            return statusCheck(response)
+
+        if 'error_response' in response:
+            error_message = response['error_response'].get('sub_msg') or response['error_response'].get('msg')
+            raise Exception(f"AliExpress API Error: {error_message}")
+
         products = response.get('resp_result').get('result').get('products')
-       
         serializer = AliExpressProductSerializer(products, many=True)
         return serializer.data
 
     except TopException as e:
-        return e
+        return f"AliExpress API Error: {str(e)}"
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+
 
 
 def callApi_Rapid_AmazonApi(keyword):
-   
+    print("ee")
     try:
-
         url = "https://amazon23.p.rapidapi.com/product-search"
 
-        querystring = {"query": keyword}
+        page = 1  # Starting page number
+        limit = 20  # Number of results per page
 
-        headers = {
-            "X-RapidAPI-Key": RAPID_API_KEY,
-            "X-RapidAPI-Host": "amazon23.p.rapidapi.com"
-        }
+        all_products = []  # List to store all products
 
-        response = requests.request(
-            "GET", url, headers=headers, params=querystring)
-        
-        if(statusCheck(response)):
-            print("status check")
-            return statusCheck(response)
-        
-        products = response.json().get('result')
-        serializer = AmazonRapidProductSerializer(products, many=True)
+        def fetch_products(page):
+            querystring = {"query": keyword, "page": page, "limit": limit}
+
+            headers = {
+                "X-RapidAPI-Key": RAPID_API_KEY,
+                "X-RapidAPI-Host": "amazon23.p.rapidapi.com"
+            }
+
+            response = requests.get(url, headers=headers, params=querystring)
+
+            if statusCheck(response):
+                print("status check")
+                return statusCheck(response)
+
+            products = response.json().get('result')
+
+            if not products:
+                return  # No more products available
+
+            all_products.extend(products)
+
+            fetch_products(page + 1)  # Fetch next page recursively
+
+        fetch_products(page)
+
+        serializer = AmazonRapidProductSerializer(all_products, many=True)
+        print(serializer.data)
         return serializer.data
+
     except Exception as e:
         return e
-
 
 def callApi_Rapid_Shein(keyword):
     try:
         url = "https://unofficial-shein.p.rapidapi.com/products/search"
 
-        querystring = {"keywords": keyword, "language": "en",
-                       "country": "US", "currency": "USD"}
+        querystring = {"keywords": keyword, "language": "en", "country": "US", "currency": "USD"}
 
         headers = {
             'X-RapidAPI-Key': RAPID_API_KEY,
             'X-RapidAPI-Host': 'unofficial-shein.p.rapidapi.com'
         }
 
-        response = requests.request(
-            "GET", url, headers=headers, params=querystring)
+        response = requests.get(url, headers=headers, params=querystring)
         
-        print(response.status_code)
+        if response.status_code == 200:
+            products = response.json().get('info').get("products")
+            serializer = SheinRapidProductSerializer(products, many=True)
+            return serializer.data
+        else:
+            return f"Error: {response.status_code}"
         
-        
-        products = response.json().get('info').get("products")
-        serializer = SheinRapidProductSerializer(products, many=True)
-        return serializer.data
-
+    except requests.exceptions.RequestException as e:
+        return f"Request error: {e}"
+    except ValueError as e:
+        return f"Error parsing JSON response: {e}"
     except Exception as e:
-        return e
+        return f"Unknown error occurred: {e}"
 
 
 def callApi_Rapid_RealTime(keyword):
@@ -148,7 +171,7 @@ def callApi_Rapid_RealTime(keyword):
 
 
 apiDec = {
-    "AliExpress": callApi_Rapid_AliExpress,
+    "AliExpress": callApi_AliExpress,
     "Ebay": call_Ebay,
     "Amazon": callApi_Rapid_AmazonApi,
     "RealTime": callApi_Rapid_RealTime,
