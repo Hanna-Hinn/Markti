@@ -16,9 +16,11 @@ class Store(models.Model):
 class Product(models.Model):
     productName = models.CharField(max_length=200, null=False, blank=False)
     storeProductID = models.CharField(max_length=200, null=True, blank=True)
-    productPrice = models.DecimalField( max_digits=7, decimal_places=2, null=True, blank=True)
+    productPrice = models.DecimalField(
+        max_digits=7, decimal_places=2, null=True, blank=True)
     productImageURL = models.URLField(max_length=500, null=True, blank=True)
-    rating = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
+    rating = models.DecimalField(
+        max_digits=7, decimal_places=2, null=True, blank=True)
     numReviews = models.IntegerField(null=True, blank=True, default=0)
     category = models.CharField(max_length=200, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
@@ -74,6 +76,7 @@ class APIMethods(models.Model):
 class Ticket(models.Model):
     name = models.CharField(max_length=200, null=True, blank=True)
     type = models.CharField(max_length=200, null=True, blank=True)
+    rating = models.CharField(max_length=200, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     createdAt = models.DateTimeField(auto_now_add=True)
     userCreated = models.CharField(max_length=200, null=True, blank=True)
