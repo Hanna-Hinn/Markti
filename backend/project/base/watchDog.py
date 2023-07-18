@@ -12,19 +12,17 @@ def start(var_dto: VariablesDTO):
     ----------
     storeList : list
         list of store names
-    
+
     Returns
     -------
     None
     """
    # print("watchdog started")
 
-
-    
     # loop through the function list
-    
-    #print("keyword:",var_dto.keyword,"\n")
-   
+
+    # print("keyword:",var_dto.keyword,"\n")
+
     for storeName in var_dto.storeList:
         # check if the function is in variables.API_Dectionary
         if storeName in variables.API_Dectionary:
@@ -32,23 +30,22 @@ def start(var_dto: VariablesDTO):
             def myThread(store):
                 # get the corresponding function based on store name
                 func = variables.API_Dectionary[store]
-                
+
                 # run the function and store the result
-                print("keyword:",var_dto.keyword,"\n")
+                print("keyword:", var_dto.keyword, "\n")
                 result = func(var_dto.keyword)
-                
+
                 # send the store name and the result to the dataQueue
                 # if the result is not a string (error) then send the result
-                if(type(result) != str):
-                 var_dto.dataQueue.put([store, result])
+                if (type(result) != str):
+                    var_dto.dataQueue.put([store, result])
                 else:
-                 var_dto.dataQueue.put([store, "error"])
-                
+                    var_dto.dataQueue.put([store, "error"])
 
             # start a thread for each store name
             t = th.Thread(target=myThread, args=(storeName,))
             t.name = storeName
-           
+
             t.start()
             # add the thread to the list
             var_dto.threads.append(t)
@@ -56,15 +53,13 @@ def start(var_dto: VariablesDTO):
             # return an error if the function is not in variables.API_Dectionary
             return f"Error: {storeName} is not in variables.API_Dectionary"
 
-
-        
     # set the requestedApiAmount to the length of the function list
     var_dto.requestedApiAmount = len(var_dto.storeList)
 
     # wait for all the threads to finish
     for t in var_dto.threads:
         t.join()
-        
-        print("\n","function finished: ",t.name ,"\n","queue size: ", var_dto.dataQueue.qsize() )
+        print("\n", "function finished: ", t.name, "\n",
+              "queue size: ", var_dto.dataQueue.qsize())
 
-    print("\n","watchdog finished")
+    print("\n", "watchdog finished")

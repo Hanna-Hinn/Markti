@@ -29,9 +29,9 @@ def objectifyThread(var_dto: VariablesDTO):
             data = var_dto.dataQueue.get()
 
             storeName = data[0]
-
+            
             itemList = data[1]
-
+            
             attributeDict = {
                 "itemId": "product_id",
                 "title": "product_title",

@@ -65,8 +65,8 @@ def callApi_Rapid_AliExpress(keyword):
         return serializer.data
 
     except TopException as e:
-        print(e)
-        return Response("Error")
+        print("test", e)
+        # return Response("Error")
 
 
 def callApi_Rapid_AmazonApi(keyword):
