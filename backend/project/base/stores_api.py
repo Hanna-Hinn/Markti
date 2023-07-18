@@ -38,39 +38,52 @@ def call_Ebay(keyword):
     except ConnectionError as e:
         print("ERROR IN CALL_EBAY FUNCTION IN STORES_API", e)
         
-
-
 def callApi_AliExpress(keyword):
     try:
-        client = TopApiClient(appkey=ALIEXPRESS_APP_KEY, app_sercet=ALIEXPRESS_API_KEY,
-                              top_gateway_url='http://api.taobao.com/router/rest', verify_ssl=False)
+        client = TopApiClient(
+            appkey=ALIEXPRESS_APP_KEY,
+            app_secret=ALIEXPRESS_API_KEY,
+            top_gateway_url='http://api.taobao.com/router/rest',
+            verify_ssl=False
+        )
 
-        request_dict = {
-            "app_signature": "Marekti",
-            "keywords": keyword,
-            "page_no": "1",
-            "target_currency": "USD",
-            "target_language": "en",
-            "tracking_id": "Marketi",
-        }
+        page_number = 1
+        all_products = []
 
-        file_param_dict = {}
-        response = client.execute(
-            "aliexpress.affiliate.product.query", request_dict, file_param_dict)
+        while True:
+            request_dict = {
+                "app_signature": "Marekti",
+                "keywords": keyword,
+                "page_no": str(page_number),
+                "target_currency": "USD",
+                "target_language": "en",
+                "tracking_id": "Marketi",
+            }
 
-        if 'error_response' in response:
-            error_message = response['error_response'].get('sub_msg') or response['error_response'].get('msg')
-            raise Exception(f"AliExpress API Error: {error_message}")
+            file_param_dict = {}
+            response = client.execute(
+                "aliexpress.affiliate.product.query", request_dict, file_param_dict)
 
-        products = response.get('resp_result').get('result').get('products')
-        serializer = AliExpressProductSerializer(products, many=True)
+            if 'error_response' in response:
+                error_message = response['error_response'].get('sub_msg') or response['error_response'].get('msg')
+                raise Exception(f"AliExpress API Error: {error_message}")
+
+            current_page_products = response.get('resp_result').get('result').get('products')
+
+            if not current_page_products:
+                # No more products on this page, break the loop
+                break
+
+            all_products.extend(current_page_products)
+            page_number += 1
+
+        serializer = AliExpressProductSerializer(all_products, many=True)
         return serializer.data
 
     except TopException as e:
         return f"AliExpress API Error: {str(e)}"
     except Exception as e:
         return f"Error: {str(e)}"
-
 
 
 

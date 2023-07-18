@@ -60,14 +60,24 @@ def callApi_Rapid_AliExpress(keyword):
         file_param_dict = {}
         response = client.execute(
             "aliexpress.affiliate.product.query", request_dict, file_param_dict)
-        products = response.get('resp_result').get('result').get('products')
-        serializer = AliExpressProductSerializer(products, many=True)
-        return serializer.data
+
+        # Check if the response is None
+        if response is not None:
+            resp_result = response.get('resp_result')
+            if resp_result is not None:
+                result = resp_result.get('result')
+                if result is not None:
+                    products = result.get('products', [])
+                    serializer = AliExpressProductSerializer(products, many=True)
+                    return serializer.data
+
+        # If response is None or any required attribute is missing, return an empty list
+        return []
 
     except TopException as e:
         print("test", e)
         # return Response("Error")
-
+   
 
 def callApi_Rapid_AmazonApi(keyword):
     try:
@@ -87,6 +97,7 @@ def callApi_Rapid_AmazonApi(keyword):
         serializer = AmazonRapidProductSerializer(products, many=True)
         return serializer.data
     except Exception as e:
+        
         return e
 
 

@@ -19,18 +19,25 @@ def objectifyThread(var_dto: VariablesDTO):
     --------
         None
     """
-
+   
+    
     while True:
+        
         time.sleep(1)
+        if var_dto.error == "ALL APIS ARE EMPTY" and var_dto.requestedApiAmount == 0:
+            break
+       
         if var_dto.dataQueue.empty():
             pass
         else:
             # get the store name from the dataQueue sent as [storeName,result]
             data = var_dto.dataQueue.get()
+            
 
             storeName = data[0]
             
             itemList = data[1]
+
             
             attributeDict = {
                 "itemId": "product_id",
@@ -84,6 +91,7 @@ def objectifyThread(var_dto: VariablesDTO):
             try:
                 for item in itemList:
 
+
                     # Error in objectifyThread 'Response' object is not iterable fix
                     if type(item) == str:
                         continue
@@ -102,6 +110,7 @@ def objectifyThread(var_dto: VariablesDTO):
                     var_dto.informationList.append(product)
 
             except Exception as e:
+                var_dto.error = e
                 print("Error in objectify Thread", e)
 
             var_dto.nubmerOfObjectified += 1  # this adds one to the number of objectified
@@ -126,14 +135,19 @@ def myMainThread(var_dto: VariablesDTO):
     Returns:
         None
     """
+   
+    x=0
 
-    x = 1
     while True:
 
         # wait to receive data
         time.sleep(1)
 
         # wait for the informationQueue to have at least one item in it.
+        if var_dto.error == "ALL APIS ARE EMPTY" and var_dto.requestedApiAmount == 0:
+            break
+       
+
         if var_dto.informationQueue.empty():
             pass
             # print("Waiting for informationQueue to have at least one item in it.")
@@ -165,8 +179,11 @@ def myMainThread(var_dto: VariablesDTO):
                     var_dto.sortType, var_dto.sortedResults, var_dto.sortAscending)
 
                 var_dto.numberOfSorted += 1
+            else:
+                var_dto.numberOfSorted += 1
 
-        if var_dto.numberOfSorted == var_dto.requestedApiAmount and var_dto.requestedApiAmount != 0:
+
+        if var_dto.numberOfSorted == var_dto.requestedApiAmount  :
             # kill thread and print the results
 
             currencyConverter.convertCurrency(

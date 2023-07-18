@@ -30,6 +30,7 @@ def launch(storelist, keyword,sortType,sortAscending,currencyType):
     var_dto.storeList = storelist
     var_dto.sortAscending=eval(sortAscending)
     var_dto.sortType = sortType
+    var_dto.requestedApiAmount = len(var_dto.storeList)
    
     var_dto.currencyType = currencyType
     
@@ -54,4 +55,4 @@ def launch(storelist, keyword,sortType,sortAscending,currencyType):
 
  
 
-    return var_dto.sortedResults
+    return var_dto.sortedResults, var_dto.error, var_dto.emptyApiList

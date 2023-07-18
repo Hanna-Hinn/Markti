@@ -245,14 +245,25 @@ def start_launcher(request):
     sortType = request.query_params.get('sortType')
     sortAscending = request.query_params.get('sortAscending')
     currencyType = request.query_params.get('currencyType')
-
+    empty = []
     # res,
-    res = launcher.launch(storeList, keyword, sortType,
+    res,error,empty= launcher.launch(storeList, keyword, sortType,
                           sortAscending, currencyType)
 
-    serializer = ProductSerializer(res, many=True)
+    response_data = {
+        'error': error,
+        'empty': empty,
+        'results': []  # 'results' key will hold the serialized data from 'res'
+    }
 
-    return Response(serializer.data)
+    # Serialize the 'res' if it's not empty
+    if res:
+        serializer = ProductSerializer(res, many=True)
+        response_data['results'] = serializer.data
+
+    
+
+    return Response(response_data)
 
 
 # API_Dectionary = {

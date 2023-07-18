@@ -38,7 +38,12 @@ def start(var_dto: VariablesDTO):
                 # send the store name and the result to the dataQueue
                 # if the result is not a string (error) then send the result
                 if (type(result) != str):
-                    var_dto.dataQueue.put([store, result])
+                    if (len(result) == 0):
+                        var_dto.emptyApi += 1
+                        var_dto.emptyApiList.append(store)
+                      
+                    else:
+                        var_dto.dataQueue.put([store, result])
                 else:
                     var_dto.dataQueue.put([store, "error"])
 
@@ -51,15 +56,20 @@ def start(var_dto: VariablesDTO):
             var_dto.threads.append(t)
         else:
             # return an error if the function is not in variables.API_Dectionary
+            var_dto.error = f"Error: {storeName} is not in variables.API_Dectionary"
             return f"Error: {storeName} is not in variables.API_Dectionary"
 
-    # set the requestedApiAmount to the length of the function list
-    var_dto.requestedApiAmount = len(var_dto.storeList)
 
     # wait for all the threads to finish
     for t in var_dto.threads:
         t.join()
-        print("\n", "function finished: ", t.name, "\n",
-              "queue size: ", var_dto.dataQueue.qsize())
+    print("requestedApiAmount(before empty check):", var_dto.requestedApiAmount)
+    var_dto.requestedApiAmount = len(var_dto.storeList) - var_dto.emptyApi
+    if var_dto.requestedApiAmount == 0:
+        var_dto.error = "ALL APIS ARE EMPTY"
+ 
+    # set the requestedApiAmount to the length of the function list
+   
+    print("requestedApiAmount(after checking if empty):", var_dto.requestedApiAmount)
 
     print("\n", "watchdog finished")
