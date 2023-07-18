@@ -7,8 +7,7 @@ from .import currencyConverter
 import time
 
 
-
-def     objectifyThread(var_dto: VariablesDTO):
+def objectifyThread(var_dto: VariablesDTO):
     """
     Function 
     This function takes the data from the dataQueue and objectifies it into a Product object
@@ -28,8 +27,7 @@ def     objectifyThread(var_dto: VariablesDTO):
         else:
             # get the store name from the dataQueue sent as [storeName,result]
             data = var_dto.dataQueue.get()
-         
-            
+
             storeName = data[0]
 
             itemList = data[1]
@@ -37,7 +35,7 @@ def     objectifyThread(var_dto: VariablesDTO):
             attributeDict = {
                 "itemId": "product_id",
                 "title": "product_title",
-              
+
                 "galleryURL": "product_image",
                 "viewItemURL": "product_url",
                 "value": "product_price",
@@ -47,20 +45,20 @@ def     objectifyThread(var_dto: VariablesDTO):
                 "asin": "product_id",
                 "current_price": "product_price",
                 "total_reviews": "product_rating",
-              
+
                 "url": "product_url",
                 "amazonChoice": "product_trusted",
-              
+
 
 
                 "thumbnail": "product_image",
                 "product_id": "product_id",
-                
+
                 "original_price": "product_price",
                 "promotion_link": "product_url",
                 "product_main_image_url": "product_image",
                 "product_title": "product_title",
-              
+
                 "goods_sn": "product_id",
                 "goods_img": "product_image",
                 "goods_name": "product_title",
@@ -77,17 +75,15 @@ def     objectifyThread(var_dto: VariablesDTO):
 
                 "evaluate_rate": "product_rating",
                 "store_rating": "product_trusted",
-                
+
 
             }
 
-            #print("Objectifying...")
+            # print("Objectifying...")
             # THIS IS COMPLICATED ASK ME LATER
             try:
-               
-             
                 for item in itemList:
-                 
+
                     # Error in objectifyThread 'Response' object is not iterable fix
                     if type(item) == str:
                         continue
@@ -101,13 +97,12 @@ def     objectifyThread(var_dto: VariablesDTO):
                             setattr(product, "product_store", storeName)
                             path = "http://127.0.0.1:8000/static/images/" + storeName + ".png"
                             setattr(product, "product_store_image", path)
-                    
 
                     # Append the Product object to the queue
                     var_dto.informationList.append(product)
 
             except Exception as e:
-                print("Error in objectifyThread", e)
+                print("Error in objectify Thread", e)
 
             var_dto.nubmerOfObjectified += 1  # this adds one to the number of objectified
             var_dto.informationQueue.put(var_dto.informationList)
@@ -132,7 +127,6 @@ def myMainThread(var_dto: VariablesDTO):
         None
     """
 
-    
     x = 1
     while True:
 
@@ -142,23 +136,18 @@ def myMainThread(var_dto: VariablesDTO):
         # wait for the informationQueue to have at least one item in it.
         if var_dto.informationQueue.empty():
             pass
-            #print("Waiting for informationQueue to have at least one item in it.")
+            # print("Waiting for informationQueue to have at least one item in it.")
         else:
             var_dto.sortedResults = []
             # sort the results
             var_dto.results = var_dto.informationQueue.get()
 
             # check if the var_dto.error is true
-           
-
 
             if var_dto.results != []:
 
-               
-
                 x += 1
-           
-       
+
                 # sort the results according to the price
                 # why is this important? because the price is the only thing that is the same for all the apis
                 for result in var_dto.results:
@@ -169,21 +158,18 @@ def myMainThread(var_dto: VariablesDTO):
                         result.product_price = float(result.product_price)
                 # sort the results
                 # add dummy results to the sortedResults list
-               
-                
-                var_dto.sortedResults = var_dto.sortedResults  + var_dto.results
-               
-                var_dto.sortedResults=  sorter.checkSortType(var_dto.sortType, var_dto.sortedResults,var_dto.sortAscending)
 
+                var_dto.sortedResults = var_dto.sortedResults + var_dto.results
 
-                
-        
-           
-                var_dto.numberOfSorted +=1
-        
-        if var_dto.numberOfSorted == var_dto.requestedApiAmount and var_dto.requestedApiAmount !=0:
-            #kill thread and print the results 
-           
-            currencyConverter.convertCurrency(var_dto.sortedResults,var_dto.currencyType)
-        
+                var_dto.sortedResults = sorter.checkSortType(
+                    var_dto.sortType, var_dto.sortedResults, var_dto.sortAscending)
+
+                var_dto.numberOfSorted += 1
+
+        if var_dto.numberOfSorted == var_dto.requestedApiAmount and var_dto.requestedApiAmount != 0:
+            # kill thread and print the results
+
+            currencyConverter.convertCurrency(
+                var_dto.sortedResults, var_dto.currencyType)
+
             break

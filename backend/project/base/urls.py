@@ -21,5 +21,6 @@ urlpatterns = [
 
     path('start/', views.start_launcher, name="start_launcher"),
     path('page/', views.get_Number_of_Pages_from_list, name="GetPageNumber"),
+    path("aliTest/", views.callApi_Rapid_AliExpress, name="test")
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

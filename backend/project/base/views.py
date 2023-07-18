@@ -292,3 +292,30 @@ def get_Number_of_Pages_from_list(request):
 
     pageNumber = int(request.query_params.get('pageNumber'))
     return Response(pagenationManager.paginate(productList, pageNumber, 20))
+
+
+@api_view(['GET'])
+def callApi_Rapid_AliExpress(request):
+    try:
+        client = TopApiClient("34256468", "d7bf58da23cf6595d9b416323e3de3f4",
+                              top_gateway_url='http://api.taobao.com/router/rest', verify_ssl=False)
+
+        request_dict = {
+            "app_signature": "Marekti",
+            "keywords": "laptop",
+            "page_no": "1",
+            "target_currency": "USD",
+            "target_language": "en",
+            "tracking_id": "Marketi",
+        }
+
+        file_param_dict = {}
+        response = client.execute(
+            "aliexpress.affiliate.product.query", request_dict, file_param_dict)
+        products = response.get('resp_result').get('result').get('products')
+        serializer = AliExpressProductSerializer(products, many=True)
+        return Response(serializer.data)
+
+    except TopException as e:
+        print(e)
+        return Response("Error")
