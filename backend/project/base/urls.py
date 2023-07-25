@@ -9,6 +9,8 @@ urlpatterns = [
     path('search/', views.search, name="search"),
 
     path('tickets', views.getTickets, name="tickets"),
+    path('reviews', views.getReviewTickets, name="reviews"),
+    path('top-reviews', views.getTopReviews, name="top-reviews"),
     path('tickets/create', views.createTicket, name="createTicket"),
     path('tickets/<int:pk>', views.getTicket, name="ticket"),
     path('tickets/<str:modify>/<int:pk>',

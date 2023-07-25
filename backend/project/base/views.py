@@ -67,6 +67,18 @@ def getTickets(request):
     serializer = TicketSerializer(tickets, many=True)
     return Response(serializer.data)
 
+@api_view(['GET'])
+def getReviewTickets(request):
+    tickets = Ticket.objects.filter(type="Review")
+    serializer = TicketSerializer(tickets, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def getTopReviews(request):
+    tickets = Ticket.objects.filter(type="Review").order_by('rating')[0:4]
+    serializer = TicketSerializer(tickets,many=True)
+    return Response(serializer.data)
+
 
 @api_view(['GET'])
 def getTicket(request, pk):
