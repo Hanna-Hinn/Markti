@@ -29,6 +29,9 @@ class Product(models.Model):
     store = models.ForeignKey(Store, on_delete=models.SET_NULL, null=True)
     discount = models.CharField(max_length=200, null=True, blank=True)
     productURL = models.CharField(max_length=200, null=True, blank=True)
+    DisplayFields = ['productName','storeProductID','productPrice','rating','numReviews','category','brand','store','discount','productURL']
+    SearchFields = ['productName','storeProductID','productPrice','rating','category','brand','store']
+    FilterFields = ['storeProductID','category','brand','store']
 
     def __str__(self):
         return self.productName
@@ -51,6 +54,10 @@ class API(models.Model):
     includeSDK = models.BooleanField(default=False)
     description = models.TextField(null=True, blank=True)
 
+    DisplayFields = ['store','name','mainURL','includeSDK']
+    SearchFields = ['store','name']
+    FilterFields = ['store','mainURL','includeSDK']
+
     def __str__(self):
         return self.name
 
@@ -68,6 +75,9 @@ class APIMethods(models.Model):
     auth = models.JSONField(null=True, blank=True)
     body = models.JSONField(null=True, blank=True)
     mainAPI = models.ForeignKey(API, on_delete=models.SET_NULL, null=True)
+    DisplayFields = ['name','url','method','mainAPI']
+    SearchFields = ['name','url','method','mainAPI']
+    FilterFields = ['url','method','mainAPI']
 
     def __str__(self):
         return "API : " + str(self.mainAPI) + "// Method : " + str(self.name)

@@ -6,11 +6,8 @@ from django.urls import reverse
 from django.utils.safestring import mark_safe
 
 # Register your models here.
-admin.site.register(Product)
 admin.site.register(Store)
 admin.site.register(Review)
-admin.site.register(API)
-admin.site.register(APIMethods)
 
 
 @admin.register(Ticket)
@@ -19,6 +16,23 @@ class TicketAdmin(admin.ModelAdmin):
     search_fields=Ticket.SearchFields
     list_filter=Ticket.FilterFields
 
+@admin.register(APIMethods)
+class APIMethodsAdmin(admin.ModelAdmin):
+    list_display=APIMethods.DisplayFields
+    search_fields=APIMethods.SearchFields
+    list_filter=APIMethods.FilterFields
+
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    list_display=Product.DisplayFields
+    search_fields=Product.SearchFields
+    list_filter=Product.FilterFields
+
+@admin.register(API)
+class APIAdmin(admin.ModelAdmin):
+    list_display=API.DisplayFields
+    search_fields=API.SearchFields
+    list_filter=API.FilterFields
 
 @admin.register(LogEntry)
 class LogEntryAdmin(admin.ModelAdmin):
