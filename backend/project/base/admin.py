@@ -1,5 +1,9 @@
 from django.contrib import admin
 from .models import *
+from django.contrib.admin.models import LogEntry, DELETION
+from django.utils.html import escape
+from django.urls import reverse
+from django.utils.safestring import mark_safe
 
 # Register your models here.
 admin.site.register(Product)
@@ -7,13 +11,14 @@ admin.site.register(Store)
 admin.site.register(Review)
 admin.site.register(API)
 admin.site.register(APIMethods)
-admin.site.register(Ticket)
 
 
-from django.contrib.admin.models import LogEntry, DELETION
-from django.utils.html import escape
-from django.urls import reverse
-from django.utils.safestring import mark_safe
+@admin.register(Ticket)
+class TicketAdmin(admin.ModelAdmin):
+    list_display=Ticket.DisplayFields
+    search_fields=Ticket.SearchFields
+    list_filter=Ticket.FilterFields
+
 
 @admin.register(LogEntry)
 class LogEntryAdmin(admin.ModelAdmin):

@@ -81,6 +81,8 @@ class Ticket(models.Model):
     createdAt = models.DateTimeField(auto_now_add=True)
     userCreated = models.CharField(max_length=200, null=True, blank=True)
     status = models.CharField(max_length=200, null=True, blank=True)
-
+    DisplayFields = ['id','type','rating','description','createdAt','userCreated','status']
+    SearchFields = ['id','type','userCreated','status']
+    FilterFields = ['type','userCreated','status']
     def __str__(self):
         return self.name
