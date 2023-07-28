@@ -6,6 +6,7 @@
 
 import requests
 from rest_framework.response import Response
+import concurrent.futures
 
 #######################################
 # Data Imports#
@@ -58,55 +59,77 @@ def callApi_Ebay(keyword):
         print("ERROR IN CALL_EBAY FUNCTION IN STORES_API", e)
         
 
+###########################################################################################################################################
+
+def get_response(request_dict):
+    client = TopApiClient(appkey="34256468", app_sercet="d7bf58da23cf6595d9b416323e3de3f4",
+                          top_gateway_url='http://api.taobao.com/router/rest', verify_ssl=False)
+
+    file_param_dict = {}
+
+    response = client.execute(
+        "aliexpress.affiliate.product.query", request_dict, file_param_dict)
+    if response is not None:
+        resp_result = response.get('resp_result')
+        if resp_result is not None:
+            result = resp_result.get('result')
+            if result is not None:
+                products = result.get('products', [])
+                updated_products = []
+                for product in products:
+                    # if evaluate_rate dose not exist, add it and set it to 0
+                    if 'evaluate_rate' not in product:
+                        product['evaluate_rate'] = 0
+                    # Check if 'evaluate_rate' exists and remove the '%' symbol
+                    elif 'evaluate_rate' in product:
+                        product['evaluate_rate'] = product['evaluate_rate'].replace('%', '')
+
+                    updated_products.append(product)
+                return updated_products
+    return []
+
+def request_more_products(request_count, keyword):
+    # file_param_dict = {}
+    products = []
+    page_no = 1
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        futures = []
+        for x in range(request_count):
+            request_dict = {
+                "app_signature": "Marekti",
+                "keywords": keyword,
+                "page_no": page_no,
+                "target_currency": "USD",
+                "target_language": "en",
+                "tracking_id": "Marketi",
+            }
+            futures.append(
+                executor.submit(get_response,request_dict))
+            page_no += 1
+        for future in concurrent.futures.as_completed(futures):
+            products.extend(future.result())
+    return products
 
 
 def callApi_AliExpress(keyword):
     try:
-        client = TopApiClient(appkey=secrets.ALIEXPRESS_APP_KEY, app_sercet=secrets.ALIEXPRESS_API_KEY,
-                              top_gateway_url='http://api.taobao.com/router/rest', verify_ssl=False)
-
-        request_dict = {
-            "app_signature": "Marekti",
-            "keywords": keyword,
-            "page_no": "1",
-            "target_currency": "USD",
-            "target_language": "en",
-            "tracking_id": "Marketi",
-        }
-
-        file_param_dict = {}
-        response = client.execute(
-            "aliexpress.affiliate.product.query", request_dict, file_param_dict)
-
-        # Check if the response is None
-        if response is not None:
-            resp_result = response.get('resp_result')
-            if resp_result is not None:
-                result = resp_result.get('result')
-                if result is not None:
-                    products = result.get('products', [])
-                    updated_products = []
-
-                    for product in products:
-                        # if evaluate_rate dose not exist, add it and set it to 0
-                        if 'evaluate_rate' not in product:
-                            product['evaluate_rate'] = 0
-                        # Check if 'evaluate_rate' exists and remove the '%' symbol
-                        elif 'evaluate_rate' in product:
-                            product['evaluate_rate'] = product['evaluate_rate'].replace('%', '')
-
-                        updated_products.append(product)
-
-                    serializer = AliExpressProductSerializer(updated_products, many=True)
-                    return serializer.data
-        # If response is None or any required attribute is missing, return an empty list
-        return []
+        products = request_more_products(5,keyword)
+        if(len(products) > 0):
+            serializer = AliExpressProductSerializer(products, many=True)
+            return serializer.data
+        else:
+            return []
+        
+        
 
     except TopException as e:
         print("test", e)
         # return Response("Error")
 
-   
+
+
+
+#################################################################################################################################3
 
 def callApi_Rapid_AmazonApi(keyword):
     try:
@@ -139,7 +162,8 @@ def callApi_Rapid_SheinAPI(keyword):
             "keywords": keyword,
             "language": "en",
             "country": "US",
-            "currency": "USD"
+            "currency": "USD",
+            "limit": "100",
         }
 
         headers = {
