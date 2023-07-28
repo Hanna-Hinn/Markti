@@ -15,7 +15,7 @@ from . import secrets
 # Class Imports#
 
 from .serializer import *
-from .stores_api import call_Ebay
+
 #######################################
 # Api Imports#
 
@@ -37,10 +37,28 @@ from ebaysdk.finding import Connection as Finding
 
 
 def callApi_Ebay(keyword):
+    api = Finding(appid= secrets.EBAY_API_KEY, config_file=None)
+    api_request = {'keywords': keyword}
+    
+    try:
+        response = api.execute('findItemsAdvanced', api_request)
+        json_response = response.dict()
+        products = json_response.get('searchResult').get('item')
+        
+        # check if the response code is 200
+        if statusCheck(response):
+            return statusCheck(response)
+        
+        try:
+            serializer = EbayProductSerializer(products, many=True)
+            return serializer.data 
+        except Exception as e:
+            print("Error in serializer", e) 
+    except ConnectionError as e:
+        print("ERROR IN CALL_EBAY FUNCTION IN STORES_API", e)
+        
 
-    products = call_Ebay(keyword)
 
-    return products
 
 
 def callApi_Rapid_AliExpress(keyword):
@@ -68,6 +86,7 @@ def callApi_Rapid_AliExpress(keyword):
                 result = resp_result.get('result')
                 if result is not None:
                     products = result.get('products', [])
+                    print(response)
                     serializer = AliExpressProductSerializer(products, many=True)
                     return serializer.data
 
@@ -101,23 +120,48 @@ def callApi_Rapid_AmazonApi(keyword):
         return e
 
 
+
 def callApi_Rapid_SheinAPI(keyword):
     try:
         url = "https://unofficial-shein.p.rapidapi.com/products/search"
 
-        querystring = {"keywords": keyword, "language": "en",
-                       "country": "US", "currency": "USD"}
+        querystring = {
+            "keywords": keyword,
+            "language": "en",
+            "country": "US",
+            "currency": "USD"
+        }
 
         headers = {
-            'X-RapidAPI-Key': secrets.RAPID_API_KEY,
+            'X-RapidAPI-Key': secrets.RAPID_API_KEY,  # Make sure secrets.RAPID_API_KEY is defined
             'X-RapidAPI-Host': 'unofficial-shein.p.rapidapi.com'
         }
 
-        response = requests.request(
-            "GET", url, headers=headers, params=querystring)
-        products = response.json().get('info').get("products")
+        response = requests.request("GET", url, headers=headers, params=querystring)
+        response_data = response.json()
+
+        # Check if 'info' and 'products' exist in the response data
+        info = response_data.get('info')
+        if not info or 'products' not in info:
+            return []  # Return an empty list if the required data is not present
+
+        products = info.get("products")
+
+        # Generate the URL for each product
+        for product in products:
+            product['generatedURL'] = "https://us.shein.com/" +str(product['goods_url_name']).replace(" ", "-") + "-p-" + str(product['goods_id']) + ".html"
+
+        
         serializer = SheinRapidProductSerializer(products, many=True)
         return serializer.data
+
+    except requests.exceptions.RequestException as e:
+        print("Request Exception:", e)
+        return []
+    except Exception as e:
+        print("Error:", e)
+        return []
+
 
     except Exception as e:
         return e
@@ -175,3 +219,10 @@ API_Dectionary = {
 
 
 ############################################################################################################
+
+def statusCheck(response):
+     print(response.status_code)
+     if response.status_code != 200:
+            print("Error: " + str(response.status_code))
+
+            return "Error: " + str(response.status_code)

@@ -66,19 +66,24 @@ def objectifyThread(var_dto: VariablesDTO):
                 "product_main_image_url": "product_image",
                 "product_title": "product_title",
 
-                "goods_sn": "product_id",
+
+                #shien
+                "goods_id": "product_id",
                 "goods_img": "product_image",
-                "goods_name": "product_title",
+                "goods_url_name": "product_title",
+                "generatedURL": "product_url",
                 "usdAmountWithSymbol": "product_price",
-                "comment_num": "product_rating",
-                "description": "product_description",
-                "product_description": "product_description",
+                "comment_rank_average": "product_rating",
+               
+
+              
                 "product_page_url": "product_url",
                 "product_price": "product_price",
                 "product_rating": "product_rating",
                 "product_title": "product_title",
                 "product_url": "product_url",
                 "product_image": "product_image",
+
 
                 "evaluate_rate": "product_rating",
                 "store_rating": "product_trusted",

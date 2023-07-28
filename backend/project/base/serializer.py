@@ -114,15 +114,16 @@ class AmazonRapidProductSerializer(serializers.Serializer):
 
 
 class SheinRapidProductSerializer(serializers.Serializer):
-    goods_sn = serializers.CharField(max_length=50)
+    goods_id= serializers.CharField(max_length=50)
     goods_img = serializers.CharField(max_length=200)
-    goods_name = serializers.CharField(max_length=100)
+    goods_url_name = serializers.CharField(max_length=100)
     usdAmountWithSymbol = serializers.SerializerMethodField()
-    comment_num = serializers.IntegerField()
     comment_rank_average = serializers.CharField(max_length=50)
-    rating = serializers.CharField(max_length=50)
-    price = serializers.CharField(max_length=50)
-    # description = serializers.CharField(max_length=250)
+    generatedURL = serializers.CharField(max_length=300)
+    
+
+
+
 
     def get_usdAmountWithSymbol(self, obj):
         return obj['retailPrice']['usdAmountWithSymbol']
