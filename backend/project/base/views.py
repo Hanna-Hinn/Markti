@@ -43,14 +43,9 @@ def getRoutes(request):
 def search(request):
     search = request.query_params.get('keyword')
     products = callApi_Rapid_AmazonApi(search)
-   # products = call_Ebay(search)
-    # serialized_data = RealTimeProductSerializer(data = products, many=True)
-    # serialized_data.is_valid(raise_exception=True)
-    # deserialized_data = ProductSerializer(data=serialized_data.validated_data, many=True)
-    # deserialized_data.is_valid(raise_exception=True)
-
     return Response(products)
 
+################################################################################33
 
 @api_view(['POST'])
 def createTicket(request):
@@ -107,6 +102,7 @@ def modifyTicket(request, modify, pk):
     except Ticket.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
+##############################################################################3
 
 @api_view(['GET'])
 def getAPIs(request):
@@ -240,8 +236,17 @@ def productCountFromSubCategory(request, subcategory):
     productCount = Product.objects.filter(subCategory=subcategory).count()
     return Response(productCount)
 
-###############################
+#########################################################################################
 
+@api_view(['GET'])
+def getStores(request):
+    stores = Store.objects.all()
+    serializer = StoreSerializer(stores, many=True)
+    for store in serializer.data:
+        store['image'] = "http://127.0.0.1:8000/static/images"+store['image']
+    return Response(serializer.data)
+
+#########################################################################################33
 
 @api_view(['Get'])
 def start_launcher(request):
@@ -342,3 +347,5 @@ def callApi_Rapid_AliExpress(request):
     except TopException as e:
         print(e)
         return Response("Error")
+
+

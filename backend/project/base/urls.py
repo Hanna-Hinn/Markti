@@ -4,7 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('', views.getRoutes, name="routes"),
+
 
     path('search/', views.search, name="search"),
 
@@ -15,6 +15,7 @@ urlpatterns = [
     path('tickets/<int:pk>', views.getTicket, name="ticket"),
     path('tickets/<str:modify>/<int:pk>',
          views.modifyTicket, name="modifyTicket"),
+    
 
     path('apis', views.getAPIs, name="apis"),
     path('apis/create', views.createAPI, name="createAPI"),
@@ -23,6 +24,7 @@ urlpatterns = [
 
     path('start/', views.start_launcher, name="start_launcher"),
     path('page/', views.get_Number_of_Pages_from_list, name="GetPageNumber"),
-    path("aliTest/", views.callApi_Rapid_AliExpress, name="test")
+
+    path('stores', views.getStores, name="listStores"),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
