@@ -34,7 +34,7 @@ def start(var_dto: VariablesDTO):
                 # run the function and store the result
                 print("keyword:", var_dto.keyword, "\n")
                 result = func(var_dto.keyword)
-
+               # print("result:", result, "\n")
                 # send the store name and the result to the dataQueue
                 # if the result is not a string (error) then send the result
                 if (type(result) != str):

@@ -60,8 +60,7 @@ def callApi_Ebay(keyword):
 
 
 
-
-def callApi_Rapid_AliExpress(keyword):
+def callApi_AliExpress(keyword):
     try:
         client = TopApiClient(appkey=secrets.ALIEXPRESS_APP_KEY, app_sercet=secrets.ALIEXPRESS_API_KEY,
                               top_gateway_url='http://api.taobao.com/router/rest', verify_ssl=False)
@@ -86,16 +85,27 @@ def callApi_Rapid_AliExpress(keyword):
                 result = resp_result.get('result')
                 if result is not None:
                     products = result.get('products', [])
-    
-                    serializer = AliExpressProductSerializer(products, many=True)
-                    return serializer.data
+                    updated_products = []
 
+                    for product in products:
+                        # if evaluate_rate dose not exist, add it and set it to 0
+                        if 'evaluate_rate' not in product:
+                            product['evaluate_rate'] = 0
+                        # Check if 'evaluate_rate' exists and remove the '%' symbol
+                        elif 'evaluate_rate' in product:
+                            product['evaluate_rate'] = product['evaluate_rate'].replace('%', '')
+
+                        updated_products.append(product)
+
+                    serializer = AliExpressProductSerializer(updated_products, many=True)
+                    return serializer.data
         # If response is None or any required attribute is missing, return an empty list
         return []
 
     except TopException as e:
         print("test", e)
         # return Response("Error")
+
    
 
 def callApi_Rapid_AmazonApi(keyword):
@@ -220,7 +230,7 @@ def callApi_FakeStore():
 
 API_Dectionary = {
     "Amazon":        callApi_Rapid_AmazonApi,
-    "AliExpress":     callApi_Rapid_AliExpress,
+    "AliExpress":     callApi_AliExpress,
     "Ebay":           callApi_Ebay,
     "FakeStore":      callApi_FakeStore,
     "Shein":          callApi_Rapid_SheinAPI,

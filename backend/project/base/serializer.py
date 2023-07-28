@@ -57,7 +57,7 @@ class TicketSerializer(serializers.ModelSerializer):
 
 class AliExpressProductSerializer(serializers.Serializer):
     product_id = serializers.IntegerField()
-    # evaluate_rate = serializers.CharField(max_length=200)
+    evaluate_rate = serializers.CharField(max_length=200, required=False)
     first_level_category_name = serializers.CharField(max_length=100)
     original_price = serializers.CharField(max_length=100)
     product_detail_url = serializers.CharField(max_length=300)

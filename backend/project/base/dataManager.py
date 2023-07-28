@@ -60,7 +60,7 @@ def objectifyThread(var_dto: VariablesDTO):
 
                 "thumbnail": "product_image",
                 "product_id": "product_id",
-
+                
                 "original_price": "product_price",
                 "promotion_link": "product_url",
                 "product_main_image_url": "product_image",
@@ -76,16 +76,15 @@ def objectifyThread(var_dto: VariablesDTO):
                 "comment_rank_average": "product_rating",
                
 
-              
+                # aliexpress
                 "product_page_url": "product_url",
                 "product_price": "product_price",
                 "product_rating": "product_rating",
                 "product_title": "product_title",
                 "product_url": "product_url",
                 "product_image": "product_image",
-
-
                 "evaluate_rate": "product_rating",
+
                 "store_rating": "product_trusted",
 
 
