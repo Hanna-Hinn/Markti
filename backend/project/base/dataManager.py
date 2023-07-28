@@ -173,8 +173,8 @@ def myMainThread(var_dto: VariablesDTO):
                     if result.product_price == None:  # if the price is None then set it to 0
                         result.product_price = 0
                     else:
-                        # convert the price to a float
-                        result.product_price = float(result.product_price)
+                        # convert the price to a float and remove $
+                        result.product_price = float(str(result.product_price).replace("$", ""))
                 # sort the results
                 # add dummy results to the sortedResults list
 

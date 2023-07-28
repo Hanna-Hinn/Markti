@@ -17,7 +17,7 @@ def start(var_dto: VariablesDTO):
 
                     # Send the store name and the result to the dataQueue
                     # If the result is not a string (error), then send the result
-                    print("result:", result, "\n")
+                   # print("result:", result, "\n")
                     if (type(result) != str):
                         if (len(result) == 0):
                             var_dto.emptyApi += 1
