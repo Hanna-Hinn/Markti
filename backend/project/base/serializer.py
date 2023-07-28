@@ -65,6 +65,11 @@ class AliExpressProductSerializer(serializers.Serializer):
     product_title = serializers.CharField(max_length=100)
     promotion_link = serializers.CharField(max_length=300)
 
+class IkeaProductSerializer(serializers.Serializer):
+    id= serializers.CharField(max_length=50)
+    #current_price = serializers.SerializerMethodField()
+    image = serializers.CharField(max_length=200)
+    url= serializers.CharField(max_length=200)
 
 class EbayProductSerializer(serializers.Serializer):
     itemId = serializers.IntegerField()
@@ -120,7 +125,7 @@ class SheinRapidProductSerializer(serializers.Serializer):
     usdAmountWithSymbol = serializers.SerializerMethodField()
     comment_rank_average = serializers.CharField(max_length=50)
     generatedURL = serializers.CharField(max_length=300)
-    
+
 
 
 

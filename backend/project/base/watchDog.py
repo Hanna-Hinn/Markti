@@ -17,6 +17,7 @@ def start(var_dto: VariablesDTO):
 
                     # Send the store name and the result to the dataQueue
                     # If the result is not a string (error), then send the result
+                    print("result:", result, "\n")
                     if (type(result) != str):
                         if (len(result) == 0):
                             var_dto.emptyApi += 1
@@ -27,8 +28,8 @@ def start(var_dto: VariablesDTO):
                         var_dto.dataQueue.put([store, "error"])
 
                 except Exception as e:
-                    var_dto.error = f"Error: {str(e)}"
-                    return f"Error: {str(e)}"
+                    var_dto.error = f"Error: {str(e)}" + " in " + store +"thread"
+                    return f"Error in threads: {str(e)}"
 
             # Start a thread for each store name
             t = th.Thread(target=myThread, args=(storeName,))

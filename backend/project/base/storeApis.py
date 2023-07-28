@@ -86,7 +86,7 @@ def callApi_Rapid_AliExpress(keyword):
                 result = resp_result.get('result')
                 if result is not None:
                     products = result.get('products', [])
-                    print(response)
+    
                     serializer = AliExpressProductSerializer(products, many=True)
                     return serializer.data
 
@@ -166,28 +166,37 @@ def callApi_Rapid_SheinAPI(keyword):
     except Exception as e:
         return e
 
-
-def callApi_Rapid_RealTime(keyword):
+def callApi_Rapid_Ikea(keyword):
     try:
-        url = "https://real-time-product-search.p.rapidapi.com/search"
+        url = "https://ikea.p.rapidapi.com/products/search"
 
-        querystring = {"q": keyword, "country": "us", "language": "en"}
-
-        headers = {
-            'X-RapidAPI-Key': "5d35771659msh1de8eff53abd5afp14756fjsn875eab81aa56",
-            'X-RapidAPI-Host': 'real-time-product-search.p.rapidapi.com'
+        querystring = {
+            "query": keyword,
+            "countryCode": 'us',
+            "languageCode": 'en'
         }
 
-        response = requests.request(
-            "GET", url, headers=headers, params=querystring)
-        products = response.json().get('data')
-        serializer = RealTimeProductSerializer(products, many=True)
+        headers = {
+            'X-RapidAPI-Key': secrets.RAPID_API_KEY,  # Make sure secrets.RAPID_API_KEY is defined
+            'X-RapidAPI-Host': 'unofficial-shein.p.rapidapi.com'
+        }
 
-        return serializer.data
+        response = requests.get(url, headers=headers, params=querystring)
+        
+        # Check the status code to see if the API call was successful
+        if response.status_code == 200:
+            # Process the response here and return the relevant data
+            products = response.json()  # Assuming the API returns JSON data
+            serializer = IkeaProductSerializer(products, many=True)
+            return "response"
+        else:
+            # If the API call was not successful, you might want to handle the error
+            response.raise_for_status()
+            return response
 
     except Exception as e:
+        print("Error:", e , "in" , "callApi_Rapid_Ikea")
         return e
-
 
 def callApi_FakeStore():
     response = requests.get('https://fakestoreapi.com/products?limit=5')
@@ -214,7 +223,8 @@ API_Dectionary = {
     "AliExpress":     callApi_Rapid_AliExpress,
     "Ebay":           callApi_Ebay,
     "FakeStore":      callApi_FakeStore,
-    "Shein":          callApi_Rapid_SheinAPI
+    "Shein":          callApi_Rapid_SheinAPI,
+    "Ikea":           callApi_Rapid_Ikea,
 }
 
 
