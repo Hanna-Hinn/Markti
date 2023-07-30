@@ -29,7 +29,8 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
-    'marketi-ps-caab34e05b6a.herokuapp.com/'
+    'marketi-ps-caab34e05b6a.herokuapp.com/',
+    'guoguoblog.herokuapp.com'
 ]
 
 
