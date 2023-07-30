@@ -9,7 +9,7 @@ const listReviews = () => async (dispatch) => {
   try {
     dispatch({ type: REVIEW_LIST_REQUEST });
     const { data } = await axios.get(
-      `http://marketi-ps-caab34e05b6a.herokuapp.com/api/top-reviews`
+      `https://marketi-ps-caab34e05b6a.herokuapp.com/api/top-reviews`
     );
 
     dispatch({
