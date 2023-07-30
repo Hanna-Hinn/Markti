@@ -1,0 +1,2 @@
+export const FILTER_REQUEST = "FILTER_REQUEST";
+export const FILTER_SUCCESS = "FILTER_SUCCESS";

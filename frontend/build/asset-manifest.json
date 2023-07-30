@@ -1,0 +1,28 @@
+{
+  "files": {
+    "main.css": "/static/css/main.82928800.chunk.css",
+    "main.js": "/static/js/main.ae58dfde.chunk.js",
+    "main.js.map": "/static/js/main.ae58dfde.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.0205d738.js",
+    "runtime-main.js.map": "/static/js/runtime-main.0205d738.js.map",
+    "static/js/2.583b43c1.chunk.js": "/static/js/2.583b43c1.chunk.js",
+    "static/js/2.583b43c1.chunk.js.map": "/static/js/2.583b43c1.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/main.82928800.chunk.css.map": "/static/css/main.82928800.chunk.css.map",
+    "static/js/2.583b43c1.chunk.js.LICENSE.txt": "/static/js/2.583b43c1.chunk.js.LICENSE.txt",
+    "static/media/avatar.5b3a47a6.png": "/static/media/avatar.5b3a47a6.png",
+    "static/media/bg-contactUs.103559a9.jpg": "/static/media/bg-contactUs.103559a9.jpg",
+    "static/media/bg-landing-two.18c9f485.jpeg": "/static/media/bg-landing-two.18c9f485.jpeg",
+    "static/media/fadi-picture.74b8a417.jpg": "/static/media/fadi-picture.74b8a417.jpg",
+    "static/media/hanna-picture.6c75cc7e.jpg": "/static/media/hanna-picture.6c75cc7e.jpg",
+    "static/media/noResults.7ae7aee9.png": "/static/media/noResults.7ae7aee9.png",
+    "static/media/sajed-picture.390471ed.jpg": "/static/media/sajed-picture.390471ed.jpg",
+    "static/media/sketch.003cda06.jpeg": "/static/media/sketch.003cda06.jpeg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.0205d738.js",
+    "static/js/2.583b43c1.chunk.js",
+    "static/css/main.82928800.chunk.css",
+    "static/js/main.ae58dfde.chunk.js"
+  ]
+}
