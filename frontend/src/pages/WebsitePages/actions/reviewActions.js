@@ -8,7 +8,9 @@ import {
 const listReviews = () => async (dispatch) => {
   try {
     dispatch({ type: REVIEW_LIST_REQUEST });
-    const { data } = await axios.get(`http://127.0.0.1:8000/api/top-reviews`);
+    const { data } = await axios.get(
+      `http://marketi-ps-caab34e05b6a.herokuapp.com/api/top-reviews`
+    );
 
     dispatch({
       type: REVIEW_LIST_SUCCESS,

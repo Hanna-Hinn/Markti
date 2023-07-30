@@ -8,7 +8,7 @@ import {
 const listStores = () => async (dispatch) => {
   try {
     dispatch({ type: STORES_LIST_REQUEST });
-    const { data } = await axios.get(`http://127.0.0.1:8000/api/stores`);
+    const { data } = await axios.get(`http://marketi-ps-caab34e05b6a.herokuapp.com/api/stores`);
 
     dispatch({
       type: STORES_LIST_SUCCESS,
