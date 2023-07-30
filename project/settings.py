@@ -103,7 +103,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'Marketi',
         'USER': 'Hanna',
-        'PASSWORD': '#Hannahinn%100',
+        'PASSWORD': os.environ.get('DB_PASS'),
         'HOST' : 'marketi-identifier.c0q8s9watnea.us-east-1.rds.amazonaws.com',
         'PORT' : '5432'
     }

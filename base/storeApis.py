@@ -7,6 +7,7 @@
 import requests
 from rest_framework.response import Response
 import concurrent.futures
+import os
 
 #######################################
 # Data Imports#
@@ -38,7 +39,7 @@ from ebaysdk.finding import Connection as Finding
 
 
 def callApi_Ebay(keyword):
-    api = Finding(appid= secrets.EBAY_API_KEY, config_file=None)
+    api = Finding(appid= os.environ.get('EBAY_API_KEY'), config_file=None)
     api_request = {'keywords': keyword}
     
     try:
@@ -62,7 +63,7 @@ def callApi_Ebay(keyword):
 ###########################################################################################################################################
 
 def get_response(request_dict):
-    client = TopApiClient(appkey="34256468", app_sercet="d7bf58da23cf6595d9b416323e3de3f4",
+    client = TopApiClient(appkey=os.environ.get('ALIEXPRESS_APP_KEY'), app_sercet=os.environ.get('ALIEXPRESS_API_KEY'),
                           top_gateway_url='http://api.taobao.com/router/rest', verify_ssl=False)
 
     file_param_dict = {}
@@ -139,7 +140,7 @@ def callApi_Rapid_AmazonApi(keyword):
         querystring = {"query": keyword}
 
         headers = {
-            "X-RapidAPI-Key": secrets.RAPID_API_KEY,
+            "X-RapidAPI-Key": os.environ.get('RAPID_API_KEY'),
             "X-RapidAPI-Host": "amazon23.p.rapidapi.com"
         }
 
@@ -167,7 +168,7 @@ def callApi_Rapid_SheinAPI(keyword):
         }
 
         headers = {
-            'X-RapidAPI-Key': secrets.RAPID_API_KEY,  # Make sure secrets.RAPID_API_KEY is defined
+            'X-RapidAPI-Key': os.environ.get('RAPID_API_KEY'),  # Make sure secrets.RAPID_API_KEY is defined
             'X-RapidAPI-Host': 'unofficial-shein.p.rapidapi.com'
         }
 
@@ -211,7 +212,7 @@ def callApi_Rapid_Ikea(keyword):
         }
 
         headers = {
-            'X-RapidAPI-Key': secrets.RAPID_API_KEY,  # Make sure secrets.RAPID_API_KEY is defined
+            'X-RapidAPI-Key': os.environ.get('RAPID_API_KEY'),  # Make sure secrets.RAPID_API_KEY is defined
             'X-RapidAPI-Host': 'unofficial-shein.p.rapidapi.com'
         }
 
