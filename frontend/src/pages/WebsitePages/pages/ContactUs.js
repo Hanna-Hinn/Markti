@@ -45,6 +45,11 @@ function getLabelText(value) {
   return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
 }
 
+function getCSRFToken() {
+  const csrfCookie = document.cookie.match(/(^|;) ?csrftoken=([^;]*)(;|$)/);
+  return csrfCookie ? csrfCookie[2] : null;
+}
+
 function ContactUs() {
   const [type, setType] = useState("FeedBack");
   const [ratingValue, setRatingValue] = useState(0);
@@ -54,6 +59,7 @@ function ContactUs() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState({ title: true, description: true, email: true });
   const [responseCheck, setResponseCheck] = useState({ check: false, message: "error" });
+  const csrfToken = getCSRFToken();
 
   const handleChange = (event) => {
     setType(event.target.value);
@@ -72,15 +78,23 @@ function ContactUs() {
       email !== undefined
     ) {
       axios
-        .post("https://marketi-ps-caab34e05b6a.herokuapp.com/api/tickets/create", {
-          name: title,
-          type,
-          rating: ratingValue,
-          description,
-          createdAt: new Date(),
-          userCreated: email,
-          status: "open",
-        })
+        .post(
+          "https://marketi-ps-caab34e05b6a.herokuapp.com/api/tickets/create",
+          {
+            name: title,
+            type,
+            rating: ratingValue,
+            description,
+            createdAt: new Date(),
+            userCreated: email,
+            status: "open",
+          },
+          {
+            headers: {
+              "X-CSRFToken": csrfToken,
+            },
+          }
+        )
         .then((response) => {
           setResponseCheck({ ...responseCheck, check: true });
           if (response.status === 201) {

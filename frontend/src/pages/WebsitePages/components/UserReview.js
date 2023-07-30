@@ -9,12 +9,18 @@ import Rating from "@mui/material/Rating";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 
+function getCSRFToken() {
+  const csrfCookie = document.cookie.match(/(^|;) ?csrftoken=([^;]*)(;|$)/);
+  return csrfCookie ? csrfCookie[2] : null;
+}
+
 function UserReview() {
   const [open, setOpen] = useState(true);
   const [ratingValue, setRatingValue] = useState(0);
   const [emailValue, setEmailValue] = useState("");
   const [descriptionValue, setDescriptionValue] = useState("");
   const [responseCheck, setResponseCheck] = useState({ check: false, message: "error" });
+  const csrfToken = getCSRFToken();
 
   const ratingOnChangeHandle = (event, newValue) => {
     setRatingValue(newValue);
@@ -40,15 +46,23 @@ function UserReview() {
       descriptionValue !== null
     ) {
       axios
-        .post("http://127.0.0.1:8000/api/tickets/create", {
-          name: "Reviewer",
-          type: "Review",
-          rating: ratingValue,
-          description: descriptionValue,
-          createdAt: new Date(),
-          userCreated: emailValue,
-          status: "open",
-        })
+        .post(
+          "https://marketi-ps-caab34e05b6a.herokuapp.com/api/tickets/create",
+          {
+            name: "Reviewer",
+            type: "Review",
+            rating: ratingValue,
+            description: descriptionValue,
+            createdAt: new Date(),
+            userCreated: emailValue,
+            status: "open",
+          },
+          {
+            headers: {
+              "X-CSRFToken": csrfToken,
+            },
+          }
+        )
         .then((response) => {
           setResponseCheck({ ...responseCheck, check: true });
           if (response.status === 201) {
