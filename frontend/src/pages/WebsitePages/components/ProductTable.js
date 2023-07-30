@@ -47,7 +47,7 @@ export default function ProductTable({ rows }) {
                   </Typography>
                 </TableCell>
                 <TableCell align="right">
-                  <Typography variant="h6">{row.product_price}$</Typography>
+                  <Typography variant="h6">{row.product_price}</Typography>
                 </TableCell>
                 <TableCell align="right">
                   {row.product_rating && (

@@ -61,6 +61,43 @@ function DisplaySearchProducts({ searchWord }) {
     "Rating ⬆-⬇",
   ];
   const [displaySort, setDisplaySort] = useState("Price ⬇-⬆");
+  const [displayCurrency, setDisplayCurrency] = useState("USD");
+  const curriences = [
+    "EUR",
+    "USD",
+    "JPY",
+    "BGN",
+    "CZK",
+    "DKK",
+    "GBP",
+    "HUF",
+    "PLN",
+    "RON",
+    "SEK",
+    "CHF",
+    "ISK",
+    "NOK",
+    "HRK",
+    "RUB",
+    "TRY",
+    "AUD",
+    "BRL",
+    "CAD",
+    "CNY",
+    "HKD",
+    "IDR",
+    "IDR",
+    "ILS",
+    "INR",
+    "KRW",
+    "MXN",
+    "MYR",
+    "NZD",
+    "PHP",
+    "SGD",
+    "THB",
+    "ZAR",
+  ];
 
   const pageHandleChange = (event, value) => {
     setCurrentPage(value);
@@ -95,9 +132,9 @@ function DisplaySearchProducts({ searchWord }) {
   useEffect(() => {
     setFilteredData([]);
     setCurrentProducts([]);
-    dispatch(listProducts(keyword, sort));
+    dispatch(listProducts(keyword, sort, displayCurrency));
     setFilteredData(products);
-  }, [dispatch, sort, keyword]);
+  }, [dispatch, sort, keyword, displayCurrency]);
 
   useEffect(() => {
     setFilteredData([]);
@@ -151,6 +188,10 @@ function DisplaySearchProducts({ searchWord }) {
     setDisplaySort(event.target.value);
   };
 
+  const handleCurrencyChange = (event) => {
+    setDisplayCurrency(event.target.value);
+  };
+
   return (
     <>
       <UserReview />
@@ -193,6 +234,26 @@ function DisplaySearchProducts({ searchWord }) {
                     sx={{ height: "50px", fontSize: "small", background: "none" }}
                   >
                     {items.map((item) => (
+                      <MenuItem key={item} value={item}>
+                        {item}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+
+                <FormControl variant="filled" sx={{ marginTop: 5, width: "15%" }}>
+                  <InputLabel id="demo-simple-select-helper-label" size="small">
+                    Select Currency
+                  </InputLabel>
+                  <Select
+                    id="sortSelectBar"
+                    // label={title}
+                    value={displayCurrency}
+                    onChange={handleCurrencyChange}
+                    disableUnderline
+                    sx={{ height: "50px", fontSize: "small", background: "none" }}
+                  >
+                    {curriences.map((item) => (
                       <MenuItem key={item} value={item}>
                         {item}
                       </MenuItem>
