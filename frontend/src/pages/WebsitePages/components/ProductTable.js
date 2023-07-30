@@ -14,7 +14,20 @@ import Box from "@mui/material/Box";
 import "./ProductTable.css";
 import img from "../../../assets/images/noResults.png";
 
-export default function ProductTable({ rows }) {
+export default function ProductTable({ rows, displayCurrency }) {
+  const currencySymbol = () => {
+    if (displayCurrency === "USD") {
+      return "$";
+    }
+    if (displayCurrency === "ILS") {
+      return "₪";
+    }
+    if (displayCurrency === "EUR") {
+      return "€";
+    }
+    return "$";
+  };
+
   if (rows.length > 0) {
     return (
       <TableContainer component={Paper}>
@@ -47,7 +60,10 @@ export default function ProductTable({ rows }) {
                   </Typography>
                 </TableCell>
                 <TableCell align="right">
-                  <Typography variant="h6">{row.product_price}</Typography>
+                  <Typography variant="h6">
+                    {row.product_price}
+                    {currencySymbol()}
+                  </Typography>
                 </TableCell>
                 <TableCell align="right">
                   {row.product_rating && (
@@ -120,6 +136,11 @@ export default function ProductTable({ rows }) {
   );
 }
 
+ProductTable.defaultProps = {
+  displayCurrency: "USD",
+};
+
 ProductTable.propTypes = {
   rows: PropTypes.arrayOf(PropTypes.object).isRequired,
+  displayCurrency: PropTypes.string,
 };

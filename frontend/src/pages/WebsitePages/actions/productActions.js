@@ -14,6 +14,12 @@ const listProducts = (keyword, sort, displayCurrency) => async (dispatch) => {
 
     const max = Math.max(...data.results.map((item) => item.product_price));
 
+    data.results.forEach((product) => {
+      if (product.product_rating > 5) {
+        product.product_rating = Math.round(product.product_rating / 20); // eslint-disable-line no-param-reassign
+      }
+    });
+
     dispatch({
       type: PRODUCT_LIST_SUCCESS,
       payload: data.results,

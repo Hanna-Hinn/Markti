@@ -39,7 +39,7 @@ function NavHead({ color, position, includeSearchBar, searchValue }) {
         <Grid container flexDirection="row" alignItems="space-between">
           <MKTypography
             component={Link}
-            href="/"
+            href="#/"
             variant="button"
             color={color}
             fontWeight="regular"
@@ -58,7 +58,7 @@ function NavHead({ color, position, includeSearchBar, searchValue }) {
             {openNav && (
               <List sx={{ color: "white" }}>
                 <ListItem disablePadding>
-                  <ListItemButton component="a" href="/">
+                  <ListItemButton component="a" href="#/">
                     <ListItemIcon>
                       <HomeIcon />
                     </ListItemIcon>
@@ -66,7 +66,7 @@ function NavHead({ color, position, includeSearchBar, searchValue }) {
                   </ListItemButton>
                 </ListItem>
                 <ListItem disablePadding>
-                  <ListItemButton component="a" href="/about-us">
+                  <ListItemButton component="a" href="#/about-us">
                     <ListItemIcon>
                       <InfoIcon />
                     </ListItemIcon>
@@ -74,7 +74,7 @@ function NavHead({ color, position, includeSearchBar, searchValue }) {
                   </ListItemButton>
                 </ListItem>
                 <ListItem disablePadding>
-                  <ListItemButton component="a" href="/contact-us">
+                  <ListItemButton component="a" href="#/contact-us">
                     <ListItemIcon>
                       <ContactPageIcon />
                     </ListItemIcon>
@@ -105,7 +105,7 @@ function NavHead({ color, position, includeSearchBar, searchValue }) {
             <MKBox component="li">
               <MKTypography
                 component={Link}
-                href="/"
+                href="#/"
                 variant="button"
                 color={color}
                 fontWeight="regular"
@@ -118,7 +118,7 @@ function NavHead({ color, position, includeSearchBar, searchValue }) {
             <MKBox component="li">
               <MKTypography
                 component={Link}
-                href="/about-us"
+                href="#/about-us"
                 variant="button"
                 color={color}
                 fontWeight="regular"
@@ -130,7 +130,7 @@ function NavHead({ color, position, includeSearchBar, searchValue }) {
             <MKBox component="li">
               <MKTypography
                 component={Link}
-                href="contact-us"
+                href="#/contact-us"
                 variant="button"
                 color={color}
                 fontWeight="regular"

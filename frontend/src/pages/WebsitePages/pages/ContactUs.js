@@ -72,7 +72,7 @@ function ContactUs() {
       email !== undefined
     ) {
       axios
-        .post("https://marketi-ps-caab34e05b6a.herokuapp.com/api/top-reviews/api/tickets/create", {
+        .post("https://marketi-ps-caab34e05b6a.herokuapp.com/api/tickets/create", {
           name: title,
           type,
           rating: ratingValue,

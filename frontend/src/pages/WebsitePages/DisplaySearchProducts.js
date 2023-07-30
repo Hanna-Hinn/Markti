@@ -48,7 +48,7 @@ function DisplaySearchProducts({ searchWord }) {
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const [filterState, setFilterState] = useState({
     rating: [],
-    stores: [],
+    stores: {},
     price: [0, maxPrice],
   });
   const [filteredData, setFilteredData] = useState([]);
@@ -62,42 +62,7 @@ function DisplaySearchProducts({ searchWord }) {
   ];
   const [displaySort, setDisplaySort] = useState("Price ⬇-⬆");
   const [displayCurrency, setDisplayCurrency] = useState("USD");
-  const curriences = [
-    "EUR",
-    "USD",
-    "JPY",
-    "BGN",
-    "CZK",
-    "DKK",
-    "GBP",
-    "HUF",
-    "PLN",
-    "RON",
-    "SEK",
-    "CHF",
-    "ISK",
-    "NOK",
-    "HRK",
-    "RUB",
-    "TRY",
-    "AUD",
-    "BRL",
-    "CAD",
-    "CNY",
-    "HKD",
-    "IDR",
-    "IDR",
-    "ILS",
-    "INR",
-    "KRW",
-    "MXN",
-    "MYR",
-    "NZD",
-    "PHP",
-    "SGD",
-    "THB",
-    "ZAR",
-  ];
+  const curriences = ["EUR", "USD", "ILS"];
 
   const pageHandleChange = (event, value) => {
     setCurrentPage(value);
@@ -106,26 +71,64 @@ function DisplaySearchProducts({ searchWord }) {
 
   const applyFilters = () => {
     setCurrentProducts([]);
-    if (filterState.rating.length > 0 && filterState.stores.length > 0) {
-      const result = products.filter(
+    // filterState --> 3 Arrays
+    // filterState.rating --> Max 4 elements --> Trusted, NotTrusted, Above4, Under4
+    // filterState.store --> Max 4 elements --> Amazon, Ebay, AliExpress, Ebay
+    // filterState.price --> Max 2 elements --> Max , Min
+    // if (filterState.rating.length > 0 && filterState.stores.length > 0) {
+    //   const result = products.filter(
+    //     (product) =>
+    //       filterState.stores.some((value) => value === product.product_store) &&
+    //       product.product_price >= filterState.price[0] &&
+    //       product.product_price <= filterState.price[1]
+    //   );
+    // filterState.rating.forEach((ratingType) => {
+    //   if ((ratingType = "Trusted")) {
+    //     results = result.filter((product) => product.product_trusted);
+    //   }
+    //   if ((ratingType = "NotTrusted")) {
+    //     result = result.filter((product) => !product.product_trusted);
+    //   }
+    //   if ((ratingType = "Above4")) {
+    //     result = result.filter((product) => product.product_rating >= 4);
+    //   }
+    //   if ((ratingType = "Under4")) {
+    //     result = result.filter((product) => product.product_rating < 4);
+    //   }
+    // });
+    //   return result;
+    // }
+
+    let result = products;
+
+    if (filterState.stores.length >= 1) {
+      result = result.filter(
         (product) =>
-          filterState.rating.some((value) => value === product.product_rating) &&
           filterState.stores.some((value) => value === product.product_store) &&
           product.product_price >= filterState.price[0] &&
           product.product_price <= filterState.price[1]
       );
-      return result;
     }
-    if (filterState.rating.length === 0 && filterState.stores.length >= 1) {
-      const result = products.filter(
-        (product) =>
-          filterState.stores.some((value) => value === product.product_store) &&
-          product.product_price >= filterState.price[0] &&
-          product.product_price <= filterState.price[1]
-      );
-      return result;
+
+    if (filterState.rating.length >= 1) {
+      filterState.rating.forEach((ratingType) => {
+        console.log(ratingType, result);
+        if (ratingType === "Trusted") {
+          result = result.filter((product) => product.product_trusted === true);
+        }
+        if (ratingType === "NotTrusted") {
+          result = result.filter((product) => product.product_trusted === false);
+        }
+        if (ratingType === "Above4") {
+          result = result.filter((product) => product.product_rating >= 4);
+        }
+        if (ratingType === "Under4") {
+          result = result.filter((product) => product.product_rating < 4);
+        }
+        console.log(ratingType, result);
+      });
     }
-    const result = products;
+
     return result;
   };
 
@@ -283,7 +286,9 @@ function DisplaySearchProducts({ searchWord }) {
           )}
           {loading && <SkeletonTable sx={{ marginTop: "5px" }} />}
 
-          {!error && !loading && <ProductTable rows={currentProducts} />}
+          {!error && !loading && (
+            <ProductTable rows={currentProducts} displayCurrency={displayCurrency} />
+          )}
           {/* {!error && !loading && !filteredProducts && <ProductTable rows={products} />} */}
         </Stack>
 

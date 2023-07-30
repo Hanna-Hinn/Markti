@@ -24,6 +24,8 @@ function FilterButton({ setFilterState, maxPriceValue, applyFilters }) {
     // under4: false,
     Trusted: false,
     NotTrusted: false,
+    Above4: false,
+    Under4: false,
   });
 
   const [storeState, setStoreState] = useState({
@@ -104,7 +106,7 @@ function FilterButton({ setFilterState, maxPriceValue, applyFilters }) {
 
   // const { Amazon, AliExpress, Ebay, Shein } = storeState;
   // const { Above4, under4, Trusted, NotTrusted } = ratingState;
-  const { Trusted, NotTrusted } = ratingState;
+  const { Trusted, NotTrusted, Above4, Under4 } = ratingState;
 
   const storeError = Object.keys(storeState).filter((v) => v).length < 1;
 
@@ -208,7 +210,7 @@ function FilterButton({ setFilterState, maxPriceValue, applyFilters }) {
             <FormControl component="fieldset" sx={{ m: 3 }} variant="standard">
               <FormLabel component="legend">Rating</FormLabel>
               <FormGroup>
-                {/* <FormControlLabel
+                <FormControlLabel
                   control={
                     <Checkbox checked={Above4} onChange={handleRatingChange} name="Above4" />
                   }
@@ -216,10 +218,10 @@ function FilterButton({ setFilterState, maxPriceValue, applyFilters }) {
                 />
                 <FormControlLabel
                   control={
-                    <Checkbox checked={under4} onChange={handleRatingChange} name="under4" />
+                    <Checkbox checked={Under4} onChange={handleRatingChange} name="Under4" />
                   }
                   label="4⬇"
-                /> */}
+                />
                 <FormControlLabel
                   control={
                     <Checkbox checked={Trusted} onChange={handleRatingChange} name="Trusted" />
