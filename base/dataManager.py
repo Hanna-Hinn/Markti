@@ -107,8 +107,11 @@ def objectifyThread(var_dto: VariablesDTO):
                         if attributeResult:
                             setattr(product, attributeResult, str(value))
                             setattr(product, "product_store", storeName)
-                            path = "http://127.0.0.1:8000/static/images/" + storeName + ".png"
+                            path = "https://marketi-ps-caab34e05b6a.herokuapp.com/static/images/" + storeName + ".png"
                             setattr(product, "product_store_image", path)
+                            product_image = product_image.replace('http://', 'https://')
+                            setattr(product, 'product_image', )
+                        
 
                     # Append the Product object to the queue
                     var_dto.informationList.append(product)
