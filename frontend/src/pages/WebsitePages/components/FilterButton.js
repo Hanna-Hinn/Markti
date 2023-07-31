@@ -20,10 +20,8 @@ function FilterButton({ setFilterState, maxPriceValue, applyFilters }) {
   const { stores } = storeList;
   const minDistance = 10;
   const [ratingState, setRatingState] = useState({
-    // Above4: false,
-    // under4: false,
-    // Trusted: false,
-    // NotTrusted: false,
+    Trusted: false,
+    NotTrusted: false,
     Above4: false,
     Under4: false,
   });
@@ -105,8 +103,8 @@ function FilterButton({ setFilterState, maxPriceValue, applyFilters }) {
   }, [maxPriceValue]);
 
   // const { Amazon, AliExpress, Ebay, Shein } = storeState;
-  // const { Above4, under4, Trusted, NotTrusted } = ratingState;
-  const { Above4, Under4 } = ratingState;
+  const { Above4, Under4, Trusted, NotTrusted } = ratingState;
+  // const { Above4, Under4 } = ratingState;
 
   const storeError = Object.keys(storeState).filter((v) => v).length < 1;
 
@@ -212,18 +210,6 @@ function FilterButton({ setFilterState, maxPriceValue, applyFilters }) {
               <FormGroup>
                 <FormControlLabel
                   control={
-                    <Checkbox checked={Above4} onChange={handleRatingChange} name="Above4" />
-                  }
-                  label="4⬆"
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox checked={Under4} onChange={handleRatingChange} name="Under4" />
-                  }
-                  label="4⬇"
-                />
-                {/* <FormControlLabel
-                  control={
                     <Checkbox checked={Trusted} onChange={handleRatingChange} name="Trusted" />
                   }
                   label="Trusted"
@@ -237,7 +223,19 @@ function FilterButton({ setFilterState, maxPriceValue, applyFilters }) {
                     />
                   }
                   label="Not Trusted"
-                /> */}
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox checked={Above4} onChange={handleRatingChange} name="Above4" />
+                  }
+                  label="Above 4"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox checked={Under4} onChange={handleRatingChange} name="Under4" />
+                  }
+                  label="Under 4"
+                />
               </FormGroup>
             </FormControl>
           </Box>

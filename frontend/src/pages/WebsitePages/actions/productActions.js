@@ -8,7 +8,6 @@ import {
 const listProducts = (keyword, sort, displayCurrency) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST });
-    console.log(keyword);
     if (keyword === "" || keyword === null || keyword === undefined) {
       dispatch({
         type: PRODUCT_LIST_SUCCESS,

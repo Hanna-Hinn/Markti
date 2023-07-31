@@ -111,22 +111,23 @@ function DisplaySearchProducts({ searchWord }) {
     }
 
     if (filterState.rating.length >= 1) {
+      // con: when its filter it will filter the data is the oppsite to the other
+      const rateResult = [];
       filterState.rating.forEach((ratingType) => {
-        console.log(ratingType, result);
-        // if (ratingType === "Trusted") {
-        //   result = result.filter((product) => product.product_trusted === true);
-        // }
-        // if (ratingType === "NotTrusted") {
-        //   result = result.filter((product) => product.product_trusted === false);
-        // }
+        if (ratingType === "Trusted") {
+          rateResult.push(...result.filter((product) => product.product_trusted === "true"));
+        }
+        if (ratingType === "NotTrusted") {
+          rateResult.push(...result.filter((product) => product.product_trusted === "false"));
+        }
         if (ratingType === "Above4") {
-          result = result.filter((product) => product.product_rating >= 4);
+          rateResult.push(...result.filter((product) => product.product_rating >= 4));
         }
         if (ratingType === "Under4") {
-          result = result.filter((product) => product.product_rating < 4);
+          rateResult.push(...result.filter((product) => product.product_rating < 4));
         }
-        console.log(ratingType, result);
       });
+      return rateResult;
     }
 
     return result;
