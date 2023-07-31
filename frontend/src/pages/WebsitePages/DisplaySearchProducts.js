@@ -113,12 +113,12 @@ function DisplaySearchProducts({ searchWord }) {
     if (filterState.rating.length >= 1) {
       filterState.rating.forEach((ratingType) => {
         console.log(ratingType, result);
-        if (ratingType === "Trusted") {
-          result = result.filter((product) => product.product_trusted === true);
-        }
-        if (ratingType === "NotTrusted") {
-          result = result.filter((product) => product.product_trusted === false);
-        }
+        // if (ratingType === "Trusted") {
+        //   result = result.filter((product) => product.product_trusted === true);
+        // }
+        // if (ratingType === "NotTrusted") {
+        //   result = result.filter((product) => product.product_trusted === false);
+        // }
         if (ratingType === "Above4") {
           result = result.filter((product) => product.product_rating >= 4);
         }

@@ -22,8 +22,8 @@ function FilterButton({ setFilterState, maxPriceValue, applyFilters }) {
   const [ratingState, setRatingState] = useState({
     // Above4: false,
     // under4: false,
-    Trusted: false,
-    NotTrusted: false,
+    // Trusted: false,
+    // NotTrusted: false,
     Above4: false,
     Under4: false,
   });
@@ -106,7 +106,7 @@ function FilterButton({ setFilterState, maxPriceValue, applyFilters }) {
 
   // const { Amazon, AliExpress, Ebay, Shein } = storeState;
   // const { Above4, under4, Trusted, NotTrusted } = ratingState;
-  const { Trusted, NotTrusted, Above4, Under4 } = ratingState;
+  const { Above4, Under4 } = ratingState;
 
   const storeError = Object.keys(storeState).filter((v) => v).length < 1;
 
@@ -222,7 +222,7 @@ function FilterButton({ setFilterState, maxPriceValue, applyFilters }) {
                   }
                   label="4⬇"
                 />
-                <FormControlLabel
+                {/* <FormControlLabel
                   control={
                     <Checkbox checked={Trusted} onChange={handleRatingChange} name="Trusted" />
                   }
@@ -237,7 +237,7 @@ function FilterButton({ setFilterState, maxPriceValue, applyFilters }) {
                     />
                   }
                   label="Not Trusted"
-                />
+                /> */}
               </FormGroup>
             </FormControl>
           </Box>

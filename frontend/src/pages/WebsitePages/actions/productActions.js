@@ -8,25 +8,36 @@ import {
 const listProducts = (keyword, sort, displayCurrency) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST });
-    const { data } = await axios.get(
-      `https://marketi-ps-caab34e05b6a.herokuapp.com/api/start/?sortType=${sort.type}&keyword=${keyword}&storeList=Amazon,AliExpress,Ebay,Shein&sortAscending=${sort.asceOrDesc}&currencyType=${displayCurrency}`
-    );
+    console.log(keyword);
+    if (keyword === "" || keyword === null || keyword === undefined) {
+      dispatch({
+        type: PRODUCT_LIST_SUCCESS,
+        payload: [],
+        maxPrice: 100,
+        apiError: "",
+        apiEmpty: ["Amazon", "AliExpress", "Ebay", "Shein"],
+      });
+    } else {
+      const { data } = await axios.get(
+        `https://marketi-ps-caab34e05b6a.herokuapp.com/api/start/?sortType=${sort.type}&keyword=${keyword}&storeList=Amazon,AliExpress,Ebay,Shein&sortAscending=${sort.asceOrDesc}&currencyType=${displayCurrency}`
+      );
 
-    const max = Math.max(...data.results.map((item) => item.product_price));
+      const max = Math.max(...data.results.map((item) => item.product_price));
 
-    data.results.forEach((product) => {
-      if (product.product_rating > 5) {
-        product.product_rating = Math.round(product.product_rating / 20); // eslint-disable-line no-param-reassign
-      }
-    });
+      data.results.forEach((product) => {
+        if (product.product_rating > 5) {
+          product.product_rating = Math.round(product.product_rating / 20); // eslint-disable-line no-param-reassign
+        }
+      });
 
-    dispatch({
-      type: PRODUCT_LIST_SUCCESS,
-      payload: data.results,
-      maxPrice: max,
-      apiError: data.error,
-      apiEmpty: data.empty,
-    });
+      dispatch({
+        type: PRODUCT_LIST_SUCCESS,
+        payload: data.results,
+        maxPrice: max,
+        apiError: data.error,
+        apiEmpty: data.empty,
+      });
+    }
   } catch (error) {
     dispatch({
       type: PRODUCT_LIST_FAIL,
