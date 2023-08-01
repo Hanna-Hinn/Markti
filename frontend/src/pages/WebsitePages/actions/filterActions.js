@@ -19,13 +19,6 @@ const filterList = (products, filterState) => async (dispatch) => {
     );
   }
 
-  // if (filterState.price && filterState.price.length === 2) {
-  //   setData(products.filter((product) => product.product_price >= filterState.price[0]));
-  //   setData(products.filter((product) => product.product_price <= filterState.price[1]));
-  // }
-
-  console.log("filter Data", data);
-
   dispatch({
     type: FILTER_SUCCESS,
     payload: data,

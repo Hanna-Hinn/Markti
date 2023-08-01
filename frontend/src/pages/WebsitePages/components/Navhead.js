@@ -39,7 +39,7 @@ function NavHead({ color, position, includeSearchBar, searchValue }) {
         <Grid container flexDirection="row" alignItems="space-between">
           <MKTypography
             component={Link}
-            href="#/"
+            href="#/home"
             variant="button"
             color={color}
             fontWeight="regular"
@@ -58,7 +58,7 @@ function NavHead({ color, position, includeSearchBar, searchValue }) {
             {openNav && (
               <List sx={{ color: "white" }}>
                 <ListItem disablePadding>
-                  <ListItemButton component="a" href="#/">
+                  <ListItemButton component="a" href="#/home">
                     <ListItemIcon>
                       <HomeIcon />
                     </ListItemIcon>
@@ -105,7 +105,7 @@ function NavHead({ color, position, includeSearchBar, searchValue }) {
             <MKBox component="li">
               <MKTypography
                 component={Link}
-                href="#/"
+                href="#/home"
                 variant="button"
                 color={color}
                 fontWeight="regular"

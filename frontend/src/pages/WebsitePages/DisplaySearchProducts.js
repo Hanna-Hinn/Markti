@@ -71,33 +71,6 @@ function DisplaySearchProducts({ searchWord }) {
 
   const applyFilters = () => {
     setCurrentProducts([]);
-    // filterState --> 3 Arrays
-    // filterState.rating --> Max 4 elements --> Trusted, NotTrusted, Above4, Under4
-    // filterState.store --> Max 4 elements --> Amazon, Ebay, AliExpress, Ebay
-    // filterState.price --> Max 2 elements --> Max , Min
-    // if (filterState.rating.length > 0 && filterState.stores.length > 0) {
-    //   const result = products.filter(
-    //     (product) =>
-    //       filterState.stores.some((value) => value === product.product_store) &&
-    //       product.product_price >= filterState.price[0] &&
-    //       product.product_price <= filterState.price[1]
-    //   );
-    // filterState.rating.forEach((ratingType) => {
-    //   if ((ratingType = "Trusted")) {
-    //     results = result.filter((product) => product.product_trusted);
-    //   }
-    //   if ((ratingType = "NotTrusted")) {
-    //     result = result.filter((product) => !product.product_trusted);
-    //   }
-    //   if ((ratingType = "Above4")) {
-    //     result = result.filter((product) => product.product_rating >= 4);
-    //   }
-    //   if ((ratingType = "Under4")) {
-    //     result = result.filter((product) => product.product_rating < 4);
-    //   }
-    // });
-    //   return result;
-    // }
 
     let result = products;
 
@@ -111,7 +84,6 @@ function DisplaySearchProducts({ searchWord }) {
     }
 
     if (filterState.rating.length >= 1) {
-      // con: when its filter it will filter the data is the oppsite to the other
       const rateResult = [];
       filterState.rating.forEach((ratingType) => {
         if (ratingType === "Trusted") {
@@ -211,20 +183,6 @@ function DisplaySearchProducts({ searchWord }) {
           >
             {!loading && (
               <>
-                {/* <SortSelectBar
-                  title="Sort"
-                  value={sort.type}
-                  handleChange={handleChange}
-                  items={[
-                    "Price ⬆-⬇",
-                    "Price ⬇-⬆",
-                    "Alphabetical A-Z",
-                    "Alphabetical Z-A",
-                    "Rating ⬇-⬆",
-                    "Rating ⬆-⬇",
-                  ]}
-                /> */}
-
                 <FormControl variant="filled" sx={{ marginTop: 5, width: "15%" }}>
                   <InputLabel id="demo-simple-select-helper-label" size="small">
                     Sort

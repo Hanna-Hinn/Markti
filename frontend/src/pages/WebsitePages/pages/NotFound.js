@@ -1,12 +1,14 @@
+import { Box } from "@mui/material";
 import footerRoutes from "../../../footer.routes";
 import MKBox from "../../../components/MKBox";
 import DefaultFooter from "../../../examples/Footers/DefaultFooter";
-import "./NotFound.css";
+// import "./NotFound.css";
+import gif from "../../../assets/images/404 FINALCUT FIX.gif";
 
 function NotFound() {
   return (
     <>
-      <div className="main">
+      {/* <div className="main">
         <div>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 355">
             <g id="ocean">
@@ -350,7 +352,8 @@ function NotFound() {
             </g>
           </svg>
         </div>
-      </div>
+      </div> */}
+      <Box component="img" src={gif} alt="Page Not Found" />
       <MKBox pt={6} px={1} mt={6}>
         <DefaultFooter content={footerRoutes} />
       </MKBox>

@@ -16,7 +16,7 @@ export default {
   brand: {
     name: "Marketi",
     image: logoCT,
-    route: "/",
+    route: "/home",
   },
   socials: [
     {
@@ -40,7 +40,7 @@ export default {
     {
       name: "company",
       items: [
-        { name: "home", href: "#/" },
+        { name: "home", href: "#/home" },
         { name: "about us", href: "#/about-us" },
       ],
     },
