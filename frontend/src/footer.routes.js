@@ -40,7 +40,7 @@ export default {
     {
       name: "company",
       items: [
-        { name: "home", href: "#/home" },
+        { name: "home", href: "#/" },
         { name: "about us", href: "#/about-us" },
       ],
     },

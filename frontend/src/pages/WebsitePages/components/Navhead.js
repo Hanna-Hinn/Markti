@@ -39,7 +39,7 @@ function NavHead({ color, position, includeSearchBar, searchValue }) {
         <Grid container flexDirection="row" alignItems="space-between">
           <MKTypography
             component={Link}
-            href="#/home"
+            href="#/"
             variant="button"
             color={color}
             fontWeight="regular"

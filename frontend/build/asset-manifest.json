@@ -1,29 +1,29 @@
 {
   "files": {
-    "main.css": "/home/static/css/main.00a757a8.chunk.css",
-    "main.js": "/home/static/js/main.5857e1ac.chunk.js",
-    "main.js.map": "/home/static/js/main.5857e1ac.chunk.js.map",
-    "runtime-main.js": "/home/static/js/runtime-main.7ea4cf93.js",
-    "runtime-main.js.map": "/home/static/js/runtime-main.7ea4cf93.js.map",
-    "static/js/2.ea3ee66d.chunk.js": "/home/static/js/2.ea3ee66d.chunk.js",
-    "static/js/2.ea3ee66d.chunk.js.map": "/home/static/js/2.ea3ee66d.chunk.js.map",
-    "index.html": "/home/index.html",
-    "static/css/main.00a757a8.chunk.css.map": "/home/static/css/main.00a757a8.chunk.css.map",
-    "static/js/2.ea3ee66d.chunk.js.LICENSE.txt": "/home/static/js/2.ea3ee66d.chunk.js.LICENSE.txt",
-    "static/media/404 FINALCUT FIX.c1965460.gif": "/home/static/media/404 FINALCUT FIX.c1965460.gif",
-    "static/media/avatar.5b3a47a6.png": "/home/static/media/avatar.5b3a47a6.png",
-    "static/media/bg-contactUs.103559a9.jpg": "/home/static/media/bg-contactUs.103559a9.jpg",
-    "static/media/bg-landing-two.18c9f485.jpeg": "/home/static/media/bg-landing-two.18c9f485.jpeg",
-    "static/media/fadi-picture.74b8a417.jpg": "/home/static/media/fadi-picture.74b8a417.jpg",
-    "static/media/hanna-picture.6c75cc7e.jpg": "/home/static/media/hanna-picture.6c75cc7e.jpg",
-    "static/media/noResults.7ae7aee9.png": "/home/static/media/noResults.7ae7aee9.png",
-    "static/media/sajed-picture.390471ed.jpg": "/home/static/media/sajed-picture.390471ed.jpg",
-    "static/media/sketch.003cda06.jpeg": "/home/static/media/sketch.003cda06.jpeg"
+    "main.css": "/static/css/main.00a757a8.chunk.css",
+    "main.js": "/static/js/main.8d50994b.chunk.js",
+    "main.js.map": "/static/js/main.8d50994b.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.0205d738.js",
+    "runtime-main.js.map": "/static/js/runtime-main.0205d738.js.map",
+    "static/js/2.ea3ee66d.chunk.js": "/static/js/2.ea3ee66d.chunk.js",
+    "static/js/2.ea3ee66d.chunk.js.map": "/static/js/2.ea3ee66d.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/main.00a757a8.chunk.css.map": "/static/css/main.00a757a8.chunk.css.map",
+    "static/js/2.ea3ee66d.chunk.js.LICENSE.txt": "/static/js/2.ea3ee66d.chunk.js.LICENSE.txt",
+    "static/media/404 FINALCUT FIX.c1965460.gif": "/static/media/404 FINALCUT FIX.c1965460.gif",
+    "static/media/avatar.5b3a47a6.png": "/static/media/avatar.5b3a47a6.png",
+    "static/media/bg-contactUs.103559a9.jpg": "/static/media/bg-contactUs.103559a9.jpg",
+    "static/media/bg-landing-two.18c9f485.jpeg": "/static/media/bg-landing-two.18c9f485.jpeg",
+    "static/media/fadi-picture.74b8a417.jpg": "/static/media/fadi-picture.74b8a417.jpg",
+    "static/media/hanna-picture.6c75cc7e.jpg": "/static/media/hanna-picture.6c75cc7e.jpg",
+    "static/media/noResults.7ae7aee9.png": "/static/media/noResults.7ae7aee9.png",
+    "static/media/sajed-picture.390471ed.jpg": "/static/media/sajed-picture.390471ed.jpg",
+    "static/media/sketch.003cda06.jpeg": "/static/media/sketch.003cda06.jpeg"
   },
   "entrypoints": [
-    "static/js/runtime-main.7ea4cf93.js",
+    "static/js/runtime-main.0205d738.js",
     "static/js/2.ea3ee66d.chunk.js",
     "static/css/main.00a757a8.chunk.css",
-    "static/js/main.5857e1ac.chunk.js"
+    "static/js/main.8d50994b.chunk.js"
   ]
 }

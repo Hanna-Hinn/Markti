@@ -31,7 +31,7 @@ export default function App() {
         <CssBaseline />
         <Routes>
           <Route
-            path="/home"
+            path="/"
             element={
               <Provider store={store}>
                 <MainPage setSearchWord={setSearchWord} />
