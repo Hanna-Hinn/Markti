@@ -4,6 +4,16 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
+/*
+  Select Bar that responsible for sorting.
+
+  params: 1.) title --> Changes the value of label
+          2.) value --> Changes the value of the select.
+          3.) handleChange --> Event listener function that changes the value state of the component.
+          4.) items --> list or array of items that the user selects from.
+
+*/
+
 function SortSelectBar({ title, value, handleChange, items }) {
   return (
     <FormControl variant="filled" sx={{ marginTop: 5, width: "15%" }}>
@@ -12,7 +22,6 @@ function SortSelectBar({ title, value, handleChange, items }) {
       </InputLabel>
       <Select
         id="sortSelectBar"
-        // label={title}
         value={value}
         onChange={handleChange}
         disableUnderline

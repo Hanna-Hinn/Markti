@@ -1,3 +1,11 @@
+/*
+    Fetching a list of stores from the backend.
+    props: none
+    returns : 3 cases 
+      1.) Request : will dispatch that the request is still in progress
+      2.) Success : it will return payload containing Array containing the stores.
+      2.) Failure : it will return payload containing error and error message.
+*/
 import axios from "axios";
 import {
   STORES_LIST_REQUEST,

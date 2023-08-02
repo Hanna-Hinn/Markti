@@ -8,7 +8,12 @@ import Stack from "@mui/material/Stack";
 import MKBox from "../../../components/MKBox";
 import MKTypography from "../../../components/MKTypography";
 
-function FeaturesOne() {
+/*
+  This Component Shows Marketing Information regarding the website
+  At the Main Page Component.
+*/
+
+function Features() {
   return (
     <MKBox component="section" py={{ xs: 3, md: 12 }}>
       <Container>
@@ -124,4 +129,4 @@ function FeaturesOne() {
   );
 }
 
-export default FeaturesOne;
+export default Features;

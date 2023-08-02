@@ -8,6 +8,14 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import Typography from "@mui/material/Typography";
 import listStores from "../actions/listStoresActions";
 
+/*
+  This component will display a store and a check or error icon in Chip
+  helping the user see which stores returned products.
+  
+  props:
+    1.) emptyApis (Array of String): list of the stores that did not return products
+*/
+
 function ApiErrorMessage({ emptyApis }) {
   const [storeListCheck, setStoreListCheck] = useState([]);
   const dispatch = useDispatch();

@@ -13,6 +13,10 @@ import listReviews from "../actions/reviewActions";
 // Images
 import img from "../../../assets/images/avatar.png";
 
+/*
+  Dynamic User Review Presentation component in the main page.
+*/
+
 function UserReviewPresentation() {
   const dispatch = useDispatch();
   const reviewList = useSelector((state) => state.reviewList);

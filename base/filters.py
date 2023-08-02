@@ -1,4 +1,5 @@
 
+
 def filterTrusted(productList):
     """Filter the list of products to only include trusted products"""
     return productList,productList.filter(product_rating =True)

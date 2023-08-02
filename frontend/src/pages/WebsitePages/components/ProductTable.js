@@ -14,6 +14,15 @@ import Box from "@mui/material/Box";
 import "./ProductTable.css";
 import img from "../../../assets/images/noResults.png";
 
+/*
+  Table that will display the products for the users
+
+  params: 
+    1.) rows (array) --> contains list of products
+    2.) displayCurrency (string) --> specifies the currency that will be displayed for the user.
+
+*/
+
 export default function ProductTable({ rows, displayCurrency }) {
   const currencySymbol = () => {
     if (displayCurrency === "USD") {

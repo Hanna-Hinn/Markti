@@ -1,3 +1,12 @@
+/*
+    Fetching a list of reviews from the backend.
+    props: none
+    returns : 3 cases 
+      1.) Request : will dispatch that the request is still in progress
+      2.) Success : it will return payload containing Array containing the reviews.
+      2.) Failure : it will return payload containing error and error message.
+*/
+
 import axios from "axios";
 import {
   REVIEW_LIST_REQUEST,

@@ -1,12 +1,7 @@
 class Product:
 
  
-    def __init__(self,
-                 product_trusted=None,
-
-                 
-                 
-                  product_description=None,product_id=None, product_title=None, product_category=None, product_image=None, product_url=None, product_price=None, product_rating=None, product_store=None, product_storeImage=None):
+    def __init__(self,product_trusted=None,product_description=None,product_id=None, product_title=None, product_category=None, product_image=None, product_url=None, product_price=None, product_rating=None, product_store=None, product_storeImage=None):
         self.product_id = product_id
         self.product_title = product_title
         self.product_category = product_category

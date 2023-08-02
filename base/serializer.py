@@ -2,6 +2,11 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import *
 
+"""
+    This class is responsible for converting objects into data types understandable by javascript and front-end frameworks. 
+    Serializers also provide deserialization, allowing parsed data to be converted back into complex types, after first validating the incoming data.
+    
+"""
 
 class StoreSerializer(serializers.ModelSerializer):
     class Meta:

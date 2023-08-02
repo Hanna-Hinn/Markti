@@ -1,6 +1,10 @@
 import Stack from "@mui/material/Stack";
 import Skeleton from "@mui/material/Skeleton";
 
+/**
+    Skeleton Table Appears while fetching data.
+ */
+
 function SkeletonTable() {
   return (
     <Stack spacing={1} sx={{ width: "100%" }}>

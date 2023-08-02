@@ -12,7 +12,15 @@ import FormHelperText from "@mui/material/FormHelperText";
 import Slider from "@mui/material/Slider";
 import listStores from "../actions/listStoresActions";
 
-// import TextField from "@mui/material/TextField";
+/*
+  This is the Filter Button component
+
+  props: 
+    1.) setFilterSate (function) --> function that is responsible for changing the value of filterState.
+    2.) maxPriceValue (number) --> Maximum price value
+    4.) applyFilters (function) --> function that is responsible for validating and applying filters to the data.
+
+*/
 
 function FilterButton({ setFilterState, maxPriceValue, applyFilters }) {
   const dispatch = useDispatch();
@@ -26,20 +34,14 @@ function FilterButton({ setFilterState, maxPriceValue, applyFilters }) {
     Under4: false,
   });
 
-  const [storeState, setStoreState] = useState({
-    // Amazon: true,
-    // AliExpress: true,
-    // Ebay: true,
-  });
+  // Sets the selected stores
+  const [storeState, setStoreState] = useState({});
 
   useEffect(() => {
     dispatch(listStores());
   }, [dispatch]);
 
   const [priceState, setPriceState] = useState([0, maxPriceValue]);
-  // const [priceError, setPriceError] = useState(false);
-  // const [minPrice, setMinPrice] = useState(0);
-  // const [maxPrice, setMaxPrice] = useState(maxPriceValue);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -75,36 +77,11 @@ function FilterButton({ setFilterState, maxPriceValue, applyFilters }) {
     }
   };
 
-  // const handleMinPriceChange = (event) => {
-  //   const { value } = event.target;
-
-  //   console.log("MIN", value);
-  //   if (event.value >= 0) {
-  //     setPriceError(false);
-  //     setMinPrice(value);
-  //   } else {
-  //     setPriceError(true);
-  //   }
-  //   console.log("MIN value", minPrice);
-  // };
-
-  // const handleMaxPriceChange = (event) => {
-  //   console.log("MAX", event.value);
-  //   if (event.value >= 0) {
-  //     setPriceError(false);
-  //     setMaxPrice(event.value);
-  //   } else {
-  //     setPriceError(true);
-  //   }
-  // };
-
   useEffect(() => {
     setPriceState([0, maxPriceValue]);
   }, [maxPriceValue]);
 
-  // const { Amazon, AliExpress, Ebay, Shein } = storeState;
   const { Above4, Under4, Trusted, NotTrusted } = ratingState;
-  // const { Above4, Under4 } = ratingState;
 
   const storeError = Object.keys(storeState).filter((v) => v).length < 1;
 
@@ -185,20 +162,6 @@ function FilterButton({ setFilterState, maxPriceValue, applyFilters }) {
                       label={item.name}
                     />
                   ))}
-                {/* <FormControlLabel
-                  control={<Checkbox checked={Amazon} onChange={handleStoreChange} name="Amazon" />}
-                  label="Amazon"
-                />
-                <FormControlLabel
-                  control={<Checkbox checked={Ebay} onChange={handleStoreChange} name="Ebay" />}
-                  label="Ebay"
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox checked={AliExpress} onChange={handleStoreChange} name="AliExpress" />
-                  }
-                  label="AliExpress"
-                /> */}
               </FormGroup>
               <FormHelperText>Please Pick AtLeast One!</FormHelperText>
             </FormControl>
@@ -257,29 +220,7 @@ function FilterButton({ setFilterState, maxPriceValue, applyFilters }) {
                 min={0}
                 max={maxPriceValue}
               />
-              {/* <Box
-                component="span"
-                sx={{ display: "flex", m: 3, width: "100%", justifyContent: "space-between" }}
-              >
-                <TextField
-                  error={priceError}
-                  value={minPrice}
-                  onChange={handleMinPriceChange}
-                  sx={{
-                    width: "fit-content",
-                    height: 50,
-                  }}
-                />
-                <TextField
-                  error={priceError}
-                  value={maxPrice}
-                  onChange={handleMaxPriceChange}
-                  sx={{
-                    width: "fit-content",
-                    height: 50,
-                  }}
-                />
-              </Box> */}
+
               {`Price from ${priceState[0]} to ${priceState[1]}`}
             </FormControl>
           </Box>

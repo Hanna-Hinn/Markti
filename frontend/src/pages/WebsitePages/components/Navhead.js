@@ -16,6 +16,16 @@ import MKButton from "../../../components/MKButton";
 import MKTypography from "../../../components/MKTypography";
 import SearchBar from "./SearchBar";
 
+/*
+  Header Navigation Component
+
+  props: 
+    1.) color (string): changes the text color based on the background colors.
+    2.) position (string): changes the position type either absolute or relative.
+    3.) includeSearchBar (bool): display or not display the search bar in the navigation
+    4.) searchValue (string) : Fills the search bar with the searched value if exists.
+*/
+
 function NavHead({ color, position, includeSearchBar, searchValue }) {
   const [openNav, setOpenNav] = useState(false);
 

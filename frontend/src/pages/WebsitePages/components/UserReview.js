@@ -9,6 +9,11 @@ import Rating from "@mui/material/Rating";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 
+/*
+  User Review Form component
+*/
+
+// This function validate the CRSF generated token from the backend.
 function getCSRFToken() {
   const csrfCookie = document.cookie.match(/(^|;) ?csrftoken=([^;]*)(;|$)/);
   return csrfCookie ? csrfCookie[2] : null;

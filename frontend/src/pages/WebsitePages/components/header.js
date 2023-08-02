@@ -1,5 +1,3 @@
-// @mui material components
-// import PropTypes from "prop-types";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 
@@ -11,7 +9,9 @@ import MKTypography from "../../../components/MKTypography";
 import NavHead from "./Navhead";
 import SearchBar from "./SearchBar";
 
-// Images
+/*
+  Header Component
+*/
 
 function Header() {
   return (
@@ -57,7 +57,3 @@ function Header() {
 }
 
 export default Header;
-
-// Header.propTypes = {
-//   setSearchWord: PropTypes.func.isRequired,
-// };

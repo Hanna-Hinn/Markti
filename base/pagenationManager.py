@@ -1,6 +1,7 @@
 from . import storeApis
 
 
+
 def get_total_pages(sortedList,page_size=10):
     """
     Function :

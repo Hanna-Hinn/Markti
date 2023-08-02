@@ -14,6 +14,10 @@ import Select from "@mui/material/Select";
 import { Typography } from "@mui/material";
 import Slider from "@mui/material/Slider";
 
+/*
+  Another Filtering component but this one is a dialog in case we wanna change the filters to dialog
+*/
+
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {

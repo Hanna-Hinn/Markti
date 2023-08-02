@@ -1,9 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-# Create your models here.
 
+"""
+    models.py:
+        A model is the single, definitive source of information about your data. 
+        It contains the essential fields and behaviors of the data you're 
+        storing. Generally, each model maps to a single database table.
+"""
 
+# Store Model
 class Store(models.Model):
     name = models.CharField(max_length=200, null=False, blank=False)
     image = models.ImageField(null=True, blank=True)
@@ -12,7 +18,7 @@ class Store(models.Model):
     def __str__(self):
         return self.name
 
-
+# Product Model
 class Product(models.Model):
     productName = models.CharField(max_length=200, null=False, blank=False)
     storeProductID = models.CharField(max_length=200, null=True, blank=True)
@@ -36,7 +42,7 @@ class Product(models.Model):
     def __str__(self):
         return self.productName
 
-
+# Review Model
 class Review(models.Model):
     rating = models.IntegerField(null=True, blank=True, default=0)
     numReviews = models.IntegerField(null=True, blank=True, default=0)
@@ -46,7 +52,7 @@ class Review(models.Model):
     def __str__(self):
         return "Product : " + str(self.product) + "// Rating : " + str(self.rating)
 
-
+# API Model
 class API(models.Model):
     store = models.ForeignKey(Store, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=200, null=False, blank=False)
@@ -65,7 +71,7 @@ class API(models.Model):
     def methods(self):
         return APIMethods.objects.get(mainAPI=self)
 
-
+# API Methods Model
 class APIMethods(models.Model):
     name = models.CharField(max_length=200, null=False, blank=False)
     url = models.URLField(max_length=200, null=False, blank=False)
@@ -83,6 +89,7 @@ class APIMethods(models.Model):
         return "API : " + str(self.mainAPI) + "// Method : " + str(self.name)
 
 
+# Ticket Model
 class Ticket(models.Model):
     name = models.CharField(max_length=200, null=True, blank=True)
     type = models.CharField(max_length=200, null=True, blank=True)

@@ -3,6 +3,12 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 
+/**
+ *
+ *  This is an example advertisement Card
+ *
+ */
+
 function AdCard() {
   return (
     <Card

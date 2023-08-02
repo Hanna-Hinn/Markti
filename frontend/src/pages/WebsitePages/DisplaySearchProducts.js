@@ -19,7 +19,6 @@ import MKBox from "../../components/MKBox";
 import DefaultFooter from "../../examples/Footers/DefaultFooter";
 import NavHead from "./components/Navhead";
 import AdCard from "./components/AdCard";
-// import SortSelectBar from "./components/sortSelectBar";
 import PaginationComp from "./components/PaginationComp";
 import ProductTable from "./components/ProductTable";
 import FilterButton from "./components/FilterButton";
@@ -28,7 +27,13 @@ import SkeletonTable from "./components/skeletonTable";
 import UserReview from "./components/UserReview";
 import ApiErrorMessage from "./components/ApiErrorMessage";
 
-// import filterList from "./actions/filterActions";
+/*
+  Display Search Products Page
+
+  This page will search products and Display them in Table.
+
+  params: 1.) searchWord --> the requested search word.
+*/
 
 function DisplaySearchProducts({ searchWord }) {
   const location = useLocation();
@@ -36,9 +41,7 @@ function DisplaySearchProducts({ searchWord }) {
   const keyword = searchParams.get("keyword" || "");
   const dispatch = useDispatch();
   const productList = useSelector((state) => state.productList);
-  // const filteredList = useSelector((state) => state.filteredProducts);
   const { error, loading, products, maxPrice, apiEmpty } = productList;
-  // const { filteredProducts } = filteredList;
   const [sort, setSort] = useState({ type: "price", asceOrDesc: "True" });
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(10);
@@ -248,7 +251,6 @@ function DisplaySearchProducts({ searchWord }) {
           {!error && !loading && (
             <ProductTable rows={currentProducts} displayCurrency={displayCurrency} />
           )}
-          {/* {!error && !loading && !filteredProducts && <ProductTable rows={products} />} */}
         </Stack>
 
         <AdCard />

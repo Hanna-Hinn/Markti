@@ -9,10 +9,7 @@ from rest_framework.response import Response
 import concurrent.futures
 import os
 
-#######################################
-# Data Imports#
 
-# from . import secrets
 #######################################
 # Class Imports#
 
@@ -37,7 +34,7 @@ from ebaysdk.finding import Connection as Finding
 # ----------------------------
 ###########################
 
-
+# Ebay Call Method
 def callApi_Ebay(keyword):
     api = Finding(appid= os.environ.get('EBAY_API_KEY'), config_file=None)
     api_request = {'keywords': keyword}
@@ -61,6 +58,7 @@ def callApi_Ebay(keyword):
         
 
 ###########################################################################################################################################
+# AliExpress Call API Methods:
 
 def get_response(request_dict):
     client = TopApiClient(appkey=os.environ.get('ALIEXPRESS_APP_KEY'), app_sercet=os.environ.get('ALIEXPRESS_API_KEY'),
@@ -129,8 +127,9 @@ def callApi_AliExpress(keyword):
 
 
 
-
-#################################################################################################################################3
+###########################################################################################################################################
+# Amazon Call Ebay but from RapidAPI 
+# API Provider link: https://rapidapi.com/restyler/api/amazon23/
 
 def callApi_Rapid_AmazonApi(keyword):
     try:
@@ -154,7 +153,9 @@ def callApi_Rapid_AmazonApi(keyword):
         return e
 
 
-
+###########################################################################################################################################
+# Shein Call API
+# Provider Link: https://rapidapi.com/apidojo/api/unofficial-shein/
 def callApi_Rapid_SheinAPI(keyword):
     try:
         url = "https://unofficial-shein.p.rapidapi.com/products/search"
@@ -201,6 +202,9 @@ def callApi_Rapid_SheinAPI(keyword):
     except Exception as e:
         return e
 
+###########################################################################################################################################
+# Ikea call API:
+
 def callApi_Rapid_Ikea(keyword):
     try:
         url = "https://ikea.p.rapidapi.com/products/search"
@@ -233,6 +237,9 @@ def callApi_Rapid_Ikea(keyword):
         print("Error:", e , "in" , "callApi_Rapid_Ikea")
         return e
 
+###########################################################################################################################################
+# Fake Store API:
+# (added for testing new features)
 def callApi_FakeStore():
     response = requests.get('https://fakestoreapi.com/products?limit=5')
     if response.status_code == 200:

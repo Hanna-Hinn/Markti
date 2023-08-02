@@ -6,6 +6,14 @@ import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import SearchIcon from "@mui/icons-material/Search";
 
+/*
+  Search Bar Component
+
+  params: 
+    1.) color : specifies the text color based on the background
+    2.) keyword : fills the search bar with the searched value if exists.
+*/
+
 function SearchBar({ color, keyword }) {
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState({ keyword });

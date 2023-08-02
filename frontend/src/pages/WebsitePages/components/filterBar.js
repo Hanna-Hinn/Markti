@@ -6,6 +6,17 @@ import Select from "@mui/material/Select";
 import ListItemText from "@mui/material/ListItemText";
 import Checkbox from "@mui/material/Checkbox";
 
+/*
+  This is a Select Component
+
+  props: 
+    1.) title : specifies the label text of the select
+    2.) selectedStores: specifies the selected item of the items.
+    3.) handleChange: event listener function that will change the value of the selectStores if the user selects another value.
+    4.) items: list of items that will be displayed for the user to select from.
+
+*/
+
 function FilterBar({ title, selectedStores, handleChange, items }) {
   return (
     <FormControl variant="filled">
