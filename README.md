@@ -52,11 +52,11 @@ Here's a sequence diagram to show how the system will work.  
 ![Alt Sequence Diagram](https://i.ibb.co/8gQXWDQ/Untitled-Diagram-drawio.png)  
   
 If you want to host, do the following commands:  
-> cd ./forntend/ (if you're not in the frontend directory)  
-> npm run build  
-> cd .. (back to the main directory)  
-> python manage.py collectstatic  
-This should set up the static files for hosting.  
+> cd ./forntend/ (if you're not in the frontend directory)  
+> npm run build  
+> cd .. (back to the main directory)  
+> python manage.py collectstatic  
+This should set up the static files for hosting.  
 
 ## Contributing
 If you want to contribute, just make an issue, then add a pull request, and I will review it as soon as possible.
