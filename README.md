@@ -9,7 +9,7 @@ desire from the store offering the best deal.
 Host Link: [Marketi](https://marketi-ps-caab34e05b6a.herokuapp.com/)  
 
 Associated With:     
-* [Fadi Tarazi](https://www.linkedin.com/in/fadi-tarazi-952966247/)(Backend Developer)
+* [Fadi Tarazi](https://www.linkedin.com/in/fadi-tarazi-952966247/) (Backend Developer)  
 * [Sajed AbdAlkareem](https://www.linkedin.com/in/sajed-abdalkareem-4b579b24a/)
 
 ## Table of Contents
@@ -66,7 +66,7 @@ This project is licensed under the MIT License - see the LICENSE.md file for det
 
 ## Acknowledgements  
 We would like to express our gratitude to the following individuals and projects for their contributions and support to this project:  
-- [Fadi Tarazi](https://www.linkedin.com/in/fadi-tarazi-952966247/)(Backend Developer) - Thank You because without you this would have not happened
+- [Fadi Tarazi](https://www.linkedin.com/in/fadi-tarazi-952966247/) (Backend Developer) - Thank You because without you this would have not happened
 - [Creative Tim](https://www.creative-tim.com/product/material-kit-react) - For the amazing library of Material Kit 2  
 - [Awesome Font](https://fontawesome.com/) - For the Amazing fonts they make.  
 - [Material UI](https://mui.com/) - For the variety of UI components they provide in react.  
