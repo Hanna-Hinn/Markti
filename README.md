@@ -67,7 +67,6 @@ This project is licensed under the MIT License - see the LICENSE.md file for det
 ## Acknowledgements  
 We would like to express our gratitude to the following individuals and projects for their contributions and support to this project:  
 - [Fadi Tarazi](https://www.linkedin.com/in/fadi-tarazi-952966247/) - Thank You my partner because without you this would have not happened
-- [Yousef Mahmood](https://www.linkedin.com/in/yousef-mahmood-806758226/) - For being the first real user on the website and breaking it in the first 5 mins :)
 - [Creative Tim](https://www.creative-tim.com/product/material-kit-react) - For the amazing library of Material Kit 2  
 - [Awesome Font](https://fontawesome.com/) - For the Amazing fonts they make.  
 - [Material UI](https://mui.com/) - For the variety of UI components they provide in react.  
