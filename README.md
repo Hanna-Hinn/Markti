@@ -6,7 +6,8 @@ comprehensive list of search results, showing the price and product details from
 well as a rating system that highlights the best deals. Users can then purchase the item they
 desire from the store offering the best deal.
 
-Host Link: [Marketi](https://marketi-ps-caab34e05b6a.herokuapp.com/)  
+Host Link: [Marketi](https://marketi-ps-caab34e05b6a.herokuapp.com/)  **Curenttly not available  
+Video Link: [Marketi](https://www.youtube.com/watch?v=HvgqEZ222ac)
 
 Associated With:     
 * [Fadi Tarazi](https://www.linkedin.com/in/fadi-tarazi-952966247/) (Backend Developer)  
